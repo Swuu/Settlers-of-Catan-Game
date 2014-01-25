@@ -1,0 +1,189 @@
+/*WARNING: Be careful when modifiying this file on Dropbox!! If more than one person is modifiying it at a time and you
+ * both save, then there is a chance for data loss and we all lose!*/
+import java.awt.*;
+import java.util.ArrayList;
+import objectdraw.*;
+
+public class Player implements CatanController
+{
+	private int player;
+	public String playerName;
+	private int victoryPoints;
+	private int numClay;
+	private int numLumber;
+	private int numOre;
+	private int numSheep;
+	private int numWheat;
+	private int numKnight;
+	private int numBonusPoint;
+	private int numMonopoly;
+	private int numRoadBuilding;
+	private int numYearOfPlenty;
+	private int totalCards;
+	private DrawingCanvas canvas;
+	private ArrayList <ResourceCard> hand;
+ 	public static boolean displayingResourceCards;
+ 
+	public Player(int currentPlayer, String currentPlayerName, DrawingCanvas aCanvas)
+	{
+		player = currentPlayer;
+		playerName = currentPlayerName;
+		canvas = aCanvas;
+		victoryPoints = 0;
+	}
+ 
+	public void addCard(int cardNumber)
+	{
+		if (cardNumber == 1)
+ 		{
+			numClay++;
+		}
+		else if (cardNumber == 2)
+		{
+			numLumber++;
+		}
+		else if (cardNumber == 3)
+		{
+			numOre++;
+		}
+		else if (cardNumber == 4)
+		{
+			numSheep++;
+		}
+		else if (cardNumber == 5)
+		{
+			numWheat++;
+		}
+		displayResourceHand();
+	}
+ 	
+ 	public void addDevelopmentCard()
+	{
+		int dCardNumber = (int)(Math.random()*25);
+		if (dCardNumber < 14)
+ 		{
+			numKnight++;
+		}
+		else if (dCardNumber < 19)
+		{
+			numBonusPoint++;
+		}
+		else if (dCardNumber < 21)
+		{
+			numMonopoly++;
+		}
+		else if (dCardNumber < 23)
+		{
+			numRoadBuilding++;
+		}
+		else if (dCardNumber < 25)
+		{
+			numYearOfPlenty++;
+		}
+		//displayDevelopmentHand();
+	}
+ 	
+	public void buyItem(Item item)
+	{
+		if (numClay >= item.priceClay && numLumber >= item.priceLumber && numOre >= item.priceOre && numSheep >= item.priceSheep && numWheat >= item.priceWheat)
+		{
+			numClay -= item.priceClay;
+			numLumber -= item.priceLumber;
+			numOre -= item.priceOre;
+			numSheep -= item.priceSheep;
+			numWheat -= item.priceWheat;
+		}
+		else
+		{
+			System.out.println("You've not enough minerals");
+		}
+		displayResourceHand();
+	}
+	
+	public void buyDevelopmentCard()
+	{
+		Item item = DCARD;
+		if (numClay >= item.priceClay && numLumber >= item.priceLumber && numOre >= item.priceOre && numSheep >= item.priceSheep && numWheat >= item.priceWheat)
+		{
+			numClay -= item.priceClay;
+			numLumber -= item.priceLumber;
+			numOre -= item.priceOre;
+			numSheep -= item.priceSheep;
+			numWheat -= item.priceWheat;
+			addDevelopmentCard();
+		}
+		else
+		{
+			System.out.println("You've not enough minerals");
+		}
+		//displayResourceHand();
+	}
+ 
+	public void displayResourceHand()
+	{
+		canvas.clear();
+		int x = 10;
+		int y = 30;
+		for(int i = 0; i < numClay; i++)
+		{
+			new ResourceCard( 1, canvas).displayCard(new Location( x, y));
+			x+=110;
+		}
+		for(int i = 0; i < numLumber; i++)
+		{
+			new ResourceCard( 2, canvas).displayCard(new Location( x, y));
+			x+=110;
+		}
+		for(int i = 0; i < numOre; i++)
+		{
+			new ResourceCard( 3, canvas).displayCard(new Location( x, y));
+			x+=110;
+		}
+		for(int i = 0; i < numSheep; i++)
+		{
+			new ResourceCard( 4, canvas).displayCard(new Location( x, y));
+			x+=110;
+		}
+		for(int i = 0; i < numWheat; i++)
+		{
+			new ResourceCard( 5, canvas).displayCard(new Location( x, y));
+			x+=110;
+		}
+		displayingResourceCards = true;
+		
+	}
+	
+	public void displayDevelopmentHand()
+	{
+		canvas.clear();
+		int x = 10;
+		int y = 30;
+		for(int i = 0; i < numKnight; i++)
+		{
+			new DevelopmentCard( 1, canvas).displayCard(new Location( x, y));
+			x+=110;
+		}
+		for(int i = 0; i < numBonusPoint; i++)
+		{
+			new DevelopmentCard( 2, canvas).displayCard(new Location( x, y));
+			x+=110;
+		}
+		for(int i = 0; i < numMonopoly; i++)
+		{
+			new DevelopmentCard( 3, canvas).displayCard(new Location( x, y));
+			x+=110;
+		}
+		for(int i = 0; i < numRoadBuilding; i++)
+		{
+			new DevelopmentCard( 4, canvas).displayCard(new Location( x, y));
+			x+=110;
+		}
+		for(int i = 0; i < numYearOfPlenty; i++)
+		{
+			new DevelopmentCard( 5, canvas).displayCard(new Location( x, y));
+			x+=110;
+		}
+			//new Hexagon(80, 80);
+		displayingResourceCards = false;
+	}
+}
