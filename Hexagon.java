@@ -10,57 +10,57 @@ public class Hexagon extends WindowController{
 	//private DrawingCanvas canvas;
 	
 	public static final int SEVEN = 7;
-    public static int[] xs;
-    public static int[] ys;
+    private int[] xs;
+    private int[] ys;
     public int hexValue;
+    //define the length of side of polygon
+    double length = Math.sqrt(3)*32;
 	
 	//constuctor that will be called
 	public Hexagon(int a, int b, int type, DrawingCanvas canvas){
         
         hexValue = type;
-		//define the length of side of polygon
-		double x = Math.sqrt(3)*32;
 		//start points
-		int a1 = a; //a is x axis
-		int b1 = b; //b is y axis
+		int a0 = a; //a is x axis
+		int b0 = b; //b is y axis
 		
 		 //connect the dot points
-		int a2 = (int)(a +((Math.sqrt(3.0)/2.0)*x));
-		int b2 = (int)(b-(x/2.0));
-		int a3 = (int)(a + (Math.sqrt(3.0)*x));
-		int b3 = b1;
-		int a4 = (int)(a + (Math.sqrt(3.0)*x));
-		int b4 = (int)(b + x);
-		int a5 = (int)(a + ((Math.sqrt(3.0)/2.0)*x));
-		int b5 = (int)(b4 + (x/2.0));
-		int a6 = a1;
-		int b6 = b4;
+		int a1 = (int)(a + ((Math.sqrt(3.0)/2.0)*length));
+		int b1 = (int)(b - (length/2.0));
+        
+		int a2 = (int)(a + (Math.sqrt(3.0)*length));
+		int b2 = b0;
+        
+		int a3 = (int)(a + (Math.sqrt(3.0)*length));
+		int b3 = (int)(b + length);
+        
+		int a4 = (int)(a + ((Math.sqrt(3.0)/2.0)*length));
+		int b4 = (int)(b3 + (length/2.0));
+        
+		int a5 = a0;
+		int b5 = b3;
 		
 		//end and start points
-		int a7 = a1;
-		int b7 = b1;
 		
 		//puts points in array to send to constructor
 		xs = new int[7];
 		ys = new int[7];
 		
-		//create w variable so code looks orderly
-		int w = -1;
-		xs[1+w] = a1;
-		xs[2+w] = a2;
-		xs[3+w] = a3;
-		xs[4+w] = a4;
-		xs[5+w] = a5;
-		xs[6+w] = a6;
-		xs[7+w] = a7;
+		xs[0] = a0;
+		xs[1] = a1;
+		xs[2] = a2;
+		xs[3] = a3;
+		xs[4] = a4;
+		xs[5] = a5;
+        xs[6] = a0;
 		
-		ys[1+w] = b1;
-		ys[2+w] = b2;
-		ys[3+w] = b3;
-		ys[4+w] = b4;
-		ys[5+w] = b5;
-		ys[6+w] = b6;
-		ys[7+w] = b7;
+		ys[0] = b0;
+		ys[1] = b1;
+		ys[2] = b2;
+		ys[3] = b3;
+		ys[4] = b4;
+		ys[5] = b5;
+        ys[6] = b0;
 		
 		for (int i = 0; i < 6; i++)
         {
@@ -93,12 +93,11 @@ public class Hexagon extends WindowController{
             aLine.setColor(hexColor);
         }
 		//calls actual constructor
+        System.out.println("x0 = " + xs[0]);
+        System.out.println("y0 = " + ys[0]);
 		polygon = new Polygon(xs,ys,SEVEN);
+        System.out.println("TEST: " + xs[0] + "||" + xs[5]);
 	}
-
-	/*public static void main(String[] args){
-		new Hexagon(50,250).startController(500,500);
-	}*/
     
     public boolean contains(double x, double y)
     {
@@ -107,11 +106,25 @@ public class Hexagon extends WindowController{
     
     public int jumpBackX()
     {
-        return (int)(Math.sqrt(1.5)x - this.xs[5]);
+        
+        int initX = (int)((double)xs[0] - (Math.sqrt(1.5)*length));
+        System.out.println(xs[5]);
+        return initX;
     }
     
     public int jumpBackY()
     {
-        return (int)(0.5x + this.xs[5]);
+        System.out.println(this.ys[5]);
+        return (int)(0.5*length + ys[5]);
+    }
+    
+    public int getXCoord()
+    {
+        return xs[2];
+    }
+    
+    public int getYCoord()
+    {
+        return ys[2];
     }
 }
