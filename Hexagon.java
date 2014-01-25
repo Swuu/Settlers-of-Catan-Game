@@ -107,11 +107,12 @@ public class Hexagon extends WindowController{
     
     public int jumpBackX()
     {
-        (int)(a +((Math.sqrt(3.0)/2.0)*x))
+        a2 = (int)(a +((Math.sqrt(3.0)/2.0)*x))
+        return
     }
     
     public int jumpBackY()
     {
-        
+        int b2 = (int)(b-(x/2.0));
     }
 }
