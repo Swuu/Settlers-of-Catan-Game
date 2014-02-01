@@ -115,8 +115,8 @@ public class OpenTrade implements ActionListener, Runnable
                                             JTA_height, JTA_width);
             RIGHT_MES[index] = new JTextArea(resName[index] + tradeLog,
                                             JTA_height, JTA_width);
-            LEFT_DELTA[index] = new JTextArea("0", JTA_height, JTA_width);
-            RIGHT_DELTA[index] = new JTextArea("0", JTA_height, JTA_width);
+            LEFT_DELTA[index] = new JTextArea(" 0", JTA_height, JTA_width);
+            RIGHT_DELTA[index] = new JTextArea(" 0", JTA_height, JTA_width);
             
             LEFT_MES[index].setEditable(false);
             RIGHT_MES[index].setEditable(false);
@@ -130,8 +130,10 @@ public class OpenTrade implements ActionListener, Runnable
         }
         listsAux1.add(ctrAux1, BorderLayout.WEST);
         listsAux1.add(ctrAux3, BorderLayout.EAST);
+        listsAux1.add(new JLabel(" "), BorderLayout.CENTER);
         listsAux2.add(ctrAux2, BorderLayout.WEST);
         listsAux2.add(ctrAux4, BorderLayout.EAST);
+        listsAux2.add(new JLabel(" "), BorderLayout.CENTER);
         
         JP_CENTER.add(TradSymbol, BorderLayout.CENTER);
         JP_CENTER.add(listsAux1, BorderLayout.WEST);
@@ -224,6 +226,9 @@ public class OpenTrade implements ActionListener, Runnable
         buttonSheep.addActionListener(this);
         buttonWheat.addActionListener(this);
         plusTrade1.addActionListener(this);
+        minusTrade1.addActionListener(this);
+        plusTrade2.addActionListener(this);
+        minusTrade2.addActionListener(this);
         
         theFrame.pack();
         theFrame.setVisible(true);
@@ -249,6 +254,7 @@ public class OpenTrade implements ActionListener, Runnable
                 plusTrade2.setEnabled(true);
                 minusTrade2.setEnabled(true);
                 
+                finishTrade.setText("Exchange");
                 playerQty.setText(" ");
             }
         }
@@ -313,17 +319,64 @@ public class OpenTrade implements ActionListener, Runnable
         /* *** PLUS & MINUS FUNCTIONALITY *** */
         if (evt.getSource() == plusTrade1)
         {
-            int delta;
-            
             if (playerOneNewRes[curRes] > 0)
             {
+                int delta;
                 playerOneNewRes[curRes]--;
                 delta = playerOneResources[curRes] - playerOneNewRes[curRes];
-                LEFT_DELTA[curRes].setText("" + delta);
+                LEFT_DELTA[curRes].setText(" " + delta);
             }
             else
                 JOptionPane.showMessageDialog(theFrame,
                         "You don't have enough resources", "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+                
+        }
+        
+        if (evt.getSource() == minusTrade1)
+        {
+            if (playerOneNewRes[curRes] < playerOneResources[curRes])
+            {
+                int delta;
+                playerOneNewRes[curRes]++;
+                delta = playerOneResources[curRes] - playerOneNewRes[curRes];
+                LEFT_DELTA[curRes].setText(" " + delta);
+            }
+            else
+                JOptionPane.showMessageDialog(theFrame,
+                        "You have already emptied your offer", "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+                
+        }
+        
+        if (evt.getSource() == plusTrade2)
+        {
+            if (playerTwoNewRes[curRes] > 0)
+            {
+                int delta;
+                playerTwoNewRes[curRes]--;
+                delta = playerTwoResources[curRes] - playerTwoNewRes[curRes];
+                RIGHT_DELTA[curRes].setText(" " + delta);
+            }
+            else
+                JOptionPane.showMessageDialog(theFrame,
+                        "You don't have enough resources", "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+                
+        }
+        
+        if (evt.getSource() == minusTrade2)
+        {
+            if (playerTwoNewRes[curRes] < playerTwoResources[curRes])
+            {
+                int delta;
+                playerTwoNewRes[curRes]++;
+                delta = playerTwoResources[curRes] - playerTwoNewRes[curRes];
+                RIGHT_DELTA[curRes].setText(" " + delta);
+            }
+            else
+                JOptionPane.showMessageDialog(theFrame,
+                        "You have already emptied your offer", "Warning",
                         JOptionPane.WARNING_MESSAGE);
                 
         }
