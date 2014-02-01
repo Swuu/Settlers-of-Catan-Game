@@ -9,7 +9,7 @@ public class HexagonMap extends WindowController
     
     public HexagonMap(DrawingCanvas canvas)
     {
-        hexagonArray[0] = new Hexagon(120, 40, 0, canvas);
+        hexagonArray[0] = new Hexagon(150, 50, 0, canvas);
         hexagonArray[1] = new Hexagon(hexagonArray[0].getXCoord() + 2,hexagonArray[0].getYCoord(), 1, canvas);
         hexagonArray[2] = new Hexagon(hexagonArray[1].getXCoord() + 2,hexagonArray[1].getYCoord(), 2, canvas);
         

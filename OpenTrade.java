@@ -2,15 +2,6 @@
 
 /* Opens a new "child" window for trading in CatanGame */
 
-/* *** CODE OF EACH RESOURCE: ***
-            ******
-            0 = Clay
-            1 = Lumber
-            2 = Ore
-            3 = Sheep
-            4 = Wheat
-*/
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -26,62 +17,37 @@ public class OpenTrade implements ActionListener, Runnable
                     plusTrade1, minusTrade1, plusTrade2, minusTrade2;
     /* PANELS */
     private JPanel JP_NORTH, JP_SOUTH, JP_WEST, JP_EAST, JP_CENTER;
-    private JTextArea LEFT_MES, RIGHT_MES;
-    private JTextArea[] LEFT_DELTA = new JTextArea[5];
-    private JTextArea[] RIGHT_DELTA = new JTextArea[5];
+    private static JTextArea LEFT, RIGHT;
     private JLabel playerQty;
     
     /* Qty of each resource of trading players */
-    /*
     private int playerOneClay, playerOneLumber, playerOneOre,
                 playerOneSheep, playerOneWheat;
     private int playerTwoClay, playerTwoLumber, playerTwoOre,
                 playerTwoSheep, playerTwoWheat;
-    */            
-    private int[] playerOneResources = new int[5];
-    private int[] playerTwoResources = new int[5];
-                
-    private int[] playerOneNewRes = new int[5];
-    private int[] playerTwoNewRes = new int[5];
     
-/*  private String[] resName = {"Clay", "Lumber", "Ore", "Sheep", "Wheat"}; */
-    private String tradeLog = "Clay to trade: \n" + "Lumber to trade: \n" +
-                                "Ore to trade: \n" + "Sheep to trade: \n" +
-                                "Wheat to trade: \n";
     private int step = 0; /* stage of trading */
-    private int curRes; /* which resource to trade */
-    private Player playerOne, playerTwo;
     
-    
-    /* CONSTRUCTOR */
     public OpenTrade(Player one, Player two)
     {
-        playerOne = one;
-        playerTwo = two;
+        playerOneClay = one.getClay();
+        playerOneLumber = one.getLumber();
+        playerOneOre = one.getOre();
+        playerOneSheep = one.getSheep();
+        playerOneWheat = one.getWheat();
         
-        playerOneResources[0] = one.getClay();
-        playerOneResources[1] = one.getLumber();
-        playerOneResources[2] = one.getOre();
-        playerOneResources[3] = one.getSheep();
-        playerOneResources[4] = one.getWheat();
+        playerTwoClay = two.getClay();
+        playerTwoLumber = two.getLumber();
+        playerTwoOre = two.getOre();
+        playerTwoSheep = two.getSheep();
+        playerTwoWheat = two.getWheat();
         
-        playerTwoResources[0] = two.getClay();
-        playerTwoResources[1] = two.getLumber();
-        playerTwoResources[2] = two.getOre();
-        playerTwoResources[3] = two.getSheep();
-        playerTwoResources[4] = two.getWheat();
-        
-        for (int index = 0; index < 5; index++)
-        {
-            playerOneNewRes[index] = playerOneResources[index];
-            playerTwoNewRes[index] = playerTwoResources[index];
-        }
+        System.out.println("Player One -> Wheat -> " + playerOneWheat);
     }
     
-    /* INTERFACE BUILD */
     public void run()
     {
-        int JTA_width = 10; /* JTextArea width */
+        int JTA_width = 15; /* JTextArea width */
         int JTA_height = 6; /* ... height */
     
         theFrame = new JFrame("Trade Dialog");
@@ -90,48 +56,24 @@ public class OpenTrade implements ActionListener, Runnable
         main = theFrame.getContentPane();
         main.setLayout(new BorderLayout());
         
-    /* *** CENTER *** */
+        /* CENTER */
         JLabel TradSymbol = new JLabel("≤∆≥");
         TradSymbol.setHorizontalAlignment(SwingConstants.CENTER);
 
         JP_CENTER = new JPanel();
-        JPanel ctrAux1 = new JPanel();
-        JPanel ctrAux2 = new JPanel();
-        JPanel ctrAux3 = new JPanel();
-        JPanel ctrAux4 = new JPanel();
-        
         JP_CENTER.setLayout(new BorderLayout());
-        ctrAux1.setLayout(new BorderLayout());
-        ctrAux2.setLayout(new BorderLayout());
-        ctrAux3.setLayout(new GridLayout(5,1));
-        ctrAux4.setLayout(new GridLayout(5,1));
+        LEFT = new JTextArea(JTA_height, JTA_width);
+        RIGHT = new JTextArea(JTA_height, JTA_width);
+        LEFT.setEditable(false);
+        RIGHT.setEditable(false);
         
-        LEFT_MES = new JTextArea(tradeLog, JTA_height, JTA_width);
-        RIGHT_MES = new JTextArea(tradeLog, JTA_height, JTA_width);
-        LEFT_MES.setEditable(false);
-        RIGHT_MES.setEditable(false);
-        ctrAux1.add(LEFT_MES, BorderLayout.WEST);
-        ctrAux2.add(RIGHT_MES, BorderLayout.WEST);
-        
-        for (int index = 0; index < 5; index++)
-        {
-            LEFT_DELTA[index] = new JTextArea("0", 0, 2);
-            RIGHT_DELTA[index] = new JTextArea("0", 0, 2);
-            
-            LEFT_DELTA[index].setEditable(false);
-            RIGHT_DELTA[index].setEditable(false);
-            ctrAux3.add(LEFT_DELTA[index]);
-            ctrAux4.add(RIGHT_DELTA[index]);
-        }
-        ctrAux1.add(ctrAux3, BorderLayout.EAST);
-        ctrAux2.add(ctrAux4, BorderLayout.EAST);
         JP_CENTER.add(TradSymbol, BorderLayout.CENTER);
-        JP_CENTER.add(ctrAux1, BorderLayout.WEST);
-        JP_CENTER.add(ctrAux2, BorderLayout.EAST);
+        JP_CENTER.add(LEFT, BorderLayout.WEST);
+        JP_CENTER.add(RIGHT, BorderLayout.EAST);
         
         main.add(JP_CENTER, BorderLayout.CENTER);
         
-    /* *** TOP *** */
+        /* TOP */
         JP_NORTH = new JPanel();
         JPanel topAux1 = new JPanel();
         JPanel topAux2 = new JPanel();
@@ -141,7 +83,6 @@ public class OpenTrade implements ActionListener, Runnable
         topAux2.setLayout(new GridLayout(1, 1));
         
         playerQty = new JLabel("  ");
-        playerQty.setHorizontalAlignment(SwingConstants.CENTER);
         buttonClay = new JButton ("Clay");
         buttonLumber = new JButton ("Lumber");
         buttonOre = new JButton ("Ore");
@@ -161,11 +102,11 @@ public class OpenTrade implements ActionListener, Runnable
         
         main.add(JP_NORTH, BorderLayout.NORTH);
         
-    /* BOTTOM */
+        /* BOTTOM */
         JP_SOUTH = new JPanel();
         JP_SOUTH.setLayout(new FlowLayout());
         
-        finishTrade = new JButton ("Offer");
+        finishTrade = new JButton ("Exchange");
         cancelTrade = new JButton ("Cancel");
         
         JP_SOUTH.add(finishTrade);
@@ -173,7 +114,7 @@ public class OpenTrade implements ActionListener, Runnable
         
         main.add(JP_SOUTH, BorderLayout.SOUTH);
         
-    /* LEFT */
+        /* LEFT */
         JP_WEST = new JPanel();
         JP_WEST.setLayout(new GridLayout(4, 1));
         
@@ -188,15 +129,12 @@ public class OpenTrade implements ActionListener, Runnable
         
         main.add(JP_WEST, BorderLayout.WEST);
         
-    /* RIGHT */
+        /* RIGHT */
         JP_EAST = new JPanel();
         JP_EAST.setLayout(new GridLayout(4, 1));
         
         plusTrade2 = new JButton("+");
         minusTrade2 = new JButton("-");
-        
-        plusTrade2.setEnabled(false);
-        minusTrade2.setEnabled(false);
         
         JP_EAST.add(aux);
         JP_EAST.add(plusTrade2);
@@ -207,113 +145,43 @@ public class OpenTrade implements ActionListener, Runnable
         
         /* actionListener activation */
         cancelTrade.addActionListener(this);
-        finishTrade.addActionListener(this);
-        buttonClay.addActionListener(this);
-        buttonLumber.addActionListener(this);
-        buttonOre.addActionListener(this);
-        buttonSheep.addActionListener(this);
-        buttonWheat.addActionListener(this);
-        plusTrade1.addActionListener(this);
         
         theFrame.pack();
         theFrame.setVisible(true);
     }
-
-
+    /* MAIN */
+    /*public static void main(String[] args)
+    {
+        DrawingCanvas tempo = new DrawingCanvas();
+        Player one = new Player(1, "asd", tempo, LEFT);
+        Player two = new Player(2, "dsa", tempo, RIGHT);
+        
+        OpenTrade asd = new OpenTrade(one, two);
+        SwingUtilities.invokeLater(asd);
+    }
+    */
     /* actionPerformed */
     public void actionPerformed(ActionEvent evt)
     {
         if (evt.getSource() == cancelTrade)
             theFrame.dispose();
             
-        if (evt.getSource() == finishTrade)
-        {
-            if (step == 0)
-            {
-                JOptionPane.showMessageDialog(theFrame,
-                        "Please call '" + playerTwo.getName() + 
-                        "' to the computer");
-                step = 1;
-                plusTrade1.setEnabled(false);
-                minusTrade1.setEnabled(false);
-                plusTrade2.setEnabled(true);
-                minusTrade2.setEnabled(true);
-            }
-        }
-            else
         if (evt.getSource() == buttonClay)
         {
-            if (step == 0)
-                playerQty.setText("Clay available: " + playerOneResources[0]);
-            else
-                playerQty.setText("Clay available: " + playerTwoResources[0]);
-            curRes = 0;
-            /* buttonClay.setFocusable(true); */
+            playerQty.setText("" + playerOneClay);
+            buttonClay.setFocusable(true);
         }
-        
-        
-        /* *** RESOURCE BUTTONS *** */    
+            
         if (evt.getSource() == buttonLumber)
-        {
-            if (step == 0)
-                playerQty.setText("Lumber available: " +
-                                    playerOneResources[1]);
-            else
-                playerQty.setText("Lumber available: " +
-                                    playerOneResources[1]);
-            curRes = 1;
-        }
+        {}
 
         if (evt.getSource() == buttonOre)
-        {
-            if (step == 0)
-                playerQty.setText("Ore available: " +
-                                    playerOneResources[2]);
-            else
-                playerQty.setText("Ore available: " +
-                                    playerTwoResources[2]);
-            curRes = 2;
-        }
+        {}
 
         if (evt.getSource() == buttonSheep)
-        {
-            if (step == 0)
-                playerQty.setText("Sheep available: " +
-                                    playerOneResources[3]);
-            else
-                playerQty.setText("Sheep available: " +
-                                    playerTwoResources[3]);
-            curRes = 3;
-        }
+        {}
 
         if (evt.getSource() == buttonWheat)
-        {
-            if (step == 0)
-                playerQty.setText("Wheat available: " + 
-                                    playerOneResources[4]);
-            else
-                playerQty.setText("Wheat available: " + 
-                                    playerTwoResources[4]);
-            curRes = 4;
-        }
-        
-        
-        /* *** PLUS & MINUS FUNCTIONALITY *** */
-        if (evt.getSource() == plusTrade1)
-        {
-            int delta;
-            
-            if (playerOneNewRes[curRes] > 0)
-            {
-                playerOneNewRes[curRes]--;
-                delta = playerOneResources[curRes] - playerOneNewRes[curRes];
-                LEFT_DELTA[curRes].setText("" + delta);
-            }
-            else
-                JOptionPane.showMessageDialog(theFrame,
-                        "You don't have enough resources", "Warning",
-                        JOptionPane.WARNING_MESSAGE);
-                
-        }
+        {}
     }
 }

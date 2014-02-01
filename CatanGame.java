@@ -1,3 +1,5 @@
+/*WARNING: Be careful when modifiying this file on Dropbox!! If more than one person is modifiying it at a time and you both save, then there is a chance for data loss and we all lose! Make sure to save a local copy first!*/
+ 
 import objectdraw.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -137,24 +139,11 @@ public class CatanGame extends WindowController implements ActionListener, Catan
 			{
 				buttonOne.setText(playerOne.playerName);
 				buttonTwo.setText(playerTwo.playerName);
-				buttonThree.setText(playerThree.playerName);				
+				buttonThree.setText(playerThree.playerName);
 				if (names.size() == 4)
 					buttonFour.setText(playerFour.playerName);
 				else
-				{
 					buttonFour.setText("");
-				    buttonFour.setEnabled(false);
-				}
-					
-				if (currentTurn == 0)
-				    buttonOne.setEnabled(false);
-				else if (currentTurn == 1)
-				    buttonTwo.setEnabled(false);
-				else if (currentTurn == 2)
-				    buttonThree.setEnabled(false);
-				else if (currentTurn == 3)
-				    buttonFour.setEnabled(false);
-				
 				buttonFive.setText("Back");
 				menu = 2;
 			}
@@ -172,8 +161,6 @@ public class CatanGame extends WindowController implements ActionListener, Catan
 				currentPlayer.displayResourceHand(canvas2);
 			}
 		}
-		
-		/* a list of items to buy */
 		else if (menu == 1)
 		{
 			if (evt.getSource() == buttonOne)
@@ -229,34 +216,24 @@ public class CatanGame extends WindowController implements ActionListener, Catan
 			}
 			returnToMainMenu();
 		}
-		
-		/* after clicking on "trade"
-		    a list of players to trade with */
 		else if (menu == 2)
 		{
 			if (evt.getSource() == buttonOne)
 			{
-			    OpenTrade tradewindow = new OpenTrade(currentPlayer,
-			                                            playerOne);
+			    OpenTrade tradewindow = new OpenTrade(playerOne, playerTwo);
 			    SwingUtilities.invokeLater(tradewindow);
 			}
 			else if (evt.getSource() == buttonTwo)
 			{
-			    OpenTrade tradewindow = new OpenTrade(currentPlayer,
-			                                            playerTwo);
-			    SwingUtilities.invokeLater(tradewindow);
+			
 			}
 			else if (evt.getSource() == buttonThree)
 			{
-			    OpenTrade tradewindow = new OpenTrade(currentPlayer,
-			                                            playerThree);
-			    SwingUtilities.invokeLater(tradewindow);
+			
 			}
 			else if (evt.getSource() == buttonFour)
 			{
-			    OpenTrade tradewindow = new OpenTrade(currentPlayer,
-			                                            playerFour);
-			    SwingUtilities.invokeLater(tradewindow);
+			
 			}
 			returnToMainMenu();
 		}
@@ -270,11 +247,6 @@ public class CatanGame extends WindowController implements ActionListener, Catan
 		buttonFour.setText("Trade Resources");
 		buttonFive.setText("Finish Turn");
 		menu = 0;
-		
-		buttonOne.setEnabled(true);
-		buttonTwo.setEnabled(true);
-		buttonThree.setEnabled(true);
-		buttonFour.setEnabled(true);
  	}
  	
 	public static void main(String[] args)

@@ -4,7 +4,7 @@ import java.awt.Polygon;
 import java.awt.Graphics;
 
 
-public class Hexagon{
+public class Hexagon extends WindowController{
 	
     Polygon polygon;
 	//private DrawingCanvas canvas;
@@ -15,7 +15,7 @@ public class Hexagon{
     private Line[] lineArray = new Line[6];
     public int hexValue;
     //define the length of side of polygon
-    public final double LENGTH = 64;
+    double length = Math.sqrt(3)*32;
 	
 	//constuctor that will be called
 	public Hexagon(double a, double b, int type, DrawingCanvas canvas){
@@ -26,17 +26,17 @@ public class Hexagon{
 		double b0 = b; //b is y axis
 		
 		 //connect the dot points
-		double a1 = (a + ((Math.sqrt(3.0)/2.0)*LENGTH));
-		double b1 = (b - (LENGTH/2.0));
+		double a1 = (a + ((Math.sqrt(3.0)/2.0)*length));
+		double b1 = (b - (length/2.0));
         
-		double a2 = (a + (Math.sqrt(3.0)*LENGTH));
+		double a2 = (a + (Math.sqrt(3.0)*length));
 		double b2 = b0;
         
-		double a3 = (a + (Math.sqrt(3.0)*LENGTH));
-		double b3 = (b + LENGTH);
+		double a3 = (a + (Math.sqrt(3.0)*length));
+		double b3 = (b + length);
         
-		double a4 = (a + ((Math.sqrt(3.0)/2.0)*LENGTH));
-		double b4 = (b3 + (LENGTH/2.0));
+		double a4 = (a + ((Math.sqrt(3.0)/2.0)*length));
+		double b4 = (b3 + (length/2.0));
         
 		double a5 = a0;
 		double b5 = b3;
@@ -119,13 +119,13 @@ public class Hexagon{
     public double jumpBackX()
     {
         
-        double initX = ((double)xs[0] - (Math.sqrt(3.0)/2.0*LENGTH));
+        double initX = ((double)xs[0] - (Math.sqrt(3.0)/2.0*length));
         return initX;
     }
     
     public double jumpBackY()
     {
-        return (0.5*LENGTH + ys[5]);
+        return (0.5*length + ys[5]);
     }
     
     public double getXCoord()
