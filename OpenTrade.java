@@ -26,7 +26,9 @@ public class OpenTrade implements ActionListener, Runnable
                     plusTrade1, minusTrade1, plusTrade2, minusTrade2;
     /* PANELS */
     private JPanel JP_NORTH, JP_SOUTH, JP_WEST, JP_EAST, JP_CENTER;
-    private JTextArea LEFT, RIGHT;
+    private JTextArea LEFT_MES, RIGHT_MES;
+    private JTextArea[] LEFT_DELTA = new JTextArea[5];
+    private JTextArea[] RIGHT_DELTA = new JTextArea[5];
     private JLabel playerQty;
     
     /* Qty of each resource of trading players */
@@ -42,6 +44,10 @@ public class OpenTrade implements ActionListener, Runnable
     private int[] playerOneNewRes = new int[5];
     private int[] playerTwoNewRes = new int[5];
     
+/*  private String[] resName = {"Clay", "Lumber", "Ore", "Sheep", "Wheat"}; */
+    private String tradeLog = "Clay to trade: \n" + "Lumber to trade: \n" +
+                                "Ore to trade: \n" + "Sheep to trade: \n" +
+                                "Wheat to trade: \n";
     private int step = 0; /* stage of trading */
     private int curRes; /* which resource to trade */
     private Player playerOne, playerTwo;
@@ -75,7 +81,7 @@ public class OpenTrade implements ActionListener, Runnable
     /* INTERFACE BUILD */
     public void run()
     {
-        int JTA_width = 15; /* JTextArea width */
+        int JTA_width = 10; /* JTextArea width */
         int JTA_height = 6; /* ... height */
     
         theFrame = new JFrame("Trade Dialog");
@@ -84,24 +90,48 @@ public class OpenTrade implements ActionListener, Runnable
         main = theFrame.getContentPane();
         main.setLayout(new BorderLayout());
         
-        /* CENTER */
+    /* *** CENTER *** */
         JLabel TradSymbol = new JLabel("≤∆≥");
         TradSymbol.setHorizontalAlignment(SwingConstants.CENTER);
 
         JP_CENTER = new JPanel();
-        JP_CENTER.setLayout(new BorderLayout());
-        LEFT = new JTextArea(JTA_height, JTA_width);
-        RIGHT = new JTextArea(JTA_height, JTA_width);
-        LEFT.setEditable(false);
-        RIGHT.setEditable(false);
+        JPanel ctrAux1 = new JPanel();
+        JPanel ctrAux2 = new JPanel();
+        JPanel ctrAux3 = new JPanel();
+        JPanel ctrAux4 = new JPanel();
         
+        JP_CENTER.setLayout(new BorderLayout());
+        ctrAux1.setLayout(new BorderLayout());
+        ctrAux2.setLayout(new BorderLayout());
+        ctrAux3.setLayout(new GridLayout(5,1));
+        ctrAux4.setLayout(new GridLayout(5,1));
+        
+        LEFT_MES = new JTextArea(tradeLog, JTA_height, JTA_width);
+        RIGHT_MES = new JTextArea(tradeLog, JTA_height, JTA_width);
+        LEFT_MES.setEditable(false);
+        RIGHT_MES.setEditable(false);
+        ctrAux1.add(LEFT_MES, BorderLayout.WEST);
+        ctrAux2.add(RIGHT_MES, BorderLayout.WEST);
+        
+        for (int index = 0; index < 5; index++)
+        {
+            LEFT_DELTA[index] = new JTextArea("0", 0, 2);
+            RIGHT_DELTA[index] = new JTextArea("0", 0, 2);
+            
+            LEFT_DELTA[index].setEditable(false);
+            RIGHT_DELTA[index].setEditable(false);
+            ctrAux3.add(LEFT_DELTA[index]);
+            ctrAux4.add(RIGHT_DELTA[index]);
+        }
+        ctrAux1.add(ctrAux3, BorderLayout.EAST);
+        ctrAux2.add(ctrAux4, BorderLayout.EAST);
         JP_CENTER.add(TradSymbol, BorderLayout.CENTER);
-        JP_CENTER.add(LEFT, BorderLayout.WEST);
-        JP_CENTER.add(RIGHT, BorderLayout.EAST);
+        JP_CENTER.add(ctrAux1, BorderLayout.WEST);
+        JP_CENTER.add(ctrAux2, BorderLayout.EAST);
         
         main.add(JP_CENTER, BorderLayout.CENTER);
         
-        /* TOP */
+    /* *** TOP *** */
         JP_NORTH = new JPanel();
         JPanel topAux1 = new JPanel();
         JPanel topAux2 = new JPanel();
@@ -131,7 +161,7 @@ public class OpenTrade implements ActionListener, Runnable
         
         main.add(JP_NORTH, BorderLayout.NORTH);
         
-        /* BOTTOM */
+    /* BOTTOM */
         JP_SOUTH = new JPanel();
         JP_SOUTH.setLayout(new FlowLayout());
         
@@ -143,7 +173,7 @@ public class OpenTrade implements ActionListener, Runnable
         
         main.add(JP_SOUTH, BorderLayout.SOUTH);
         
-        /* LEFT */
+    /* LEFT */
         JP_WEST = new JPanel();
         JP_WEST.setLayout(new GridLayout(4, 1));
         
@@ -158,7 +188,7 @@ public class OpenTrade implements ActionListener, Runnable
         
         main.add(JP_WEST, BorderLayout.WEST);
         
-        /* RIGHT */
+    /* RIGHT */
         JP_EAST = new JPanel();
         JP_EAST.setLayout(new GridLayout(4, 1));
         
@@ -183,21 +213,13 @@ public class OpenTrade implements ActionListener, Runnable
         buttonOre.addActionListener(this);
         buttonSheep.addActionListener(this);
         buttonWheat.addActionListener(this);
+        plusTrade1.addActionListener(this);
         
         theFrame.pack();
         theFrame.setVisible(true);
     }
-    /* MAIN */
-    /*public static void main(String[] args)
-    {
-        DrawingCanvas tempo = new DrawingCanvas();
-        Player one = new Player(1, "asd", tempo, LEFT);
-        Player two = new Player(2, "dsa", tempo, RIGHT);
-        
-        OpenTrade asd = new OpenTrade(one, two);
-        SwingUtilities.invokeLater(asd);
-    }
-    */
+
+
     /* actionPerformed */
     public void actionPerformed(ActionEvent evt)
     {
@@ -279,6 +301,19 @@ public class OpenTrade implements ActionListener, Runnable
         /* *** PLUS & MINUS FUNCTIONALITY *** */
         if (evt.getSource() == plusTrade1)
         {
+            int delta;
+            
+            if (playerOneNewRes[curRes] > 0)
+            {
+                playerOneNewRes[curRes]--;
+                delta = playerOneResources[curRes] - playerOneNewRes[curRes];
+                LEFT_DELTA[curRes].setText("" + delta);
+            }
+            else
+                JOptionPane.showMessageDialog(theFrame,
+                        "You don't have enough resources", "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+                
         }
     }
 }
