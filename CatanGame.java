@@ -13,7 +13,6 @@ import javax.swing.JTextArea;
 
 public class CatanGame extends WindowController implements ActionListener, CatanController, Runnable
 {
- 	private static Player[] playerList;
     private static Player playerOne;
  	private static Player playerTwo;
  	private static Player playerThree;
@@ -221,7 +220,8 @@ public class CatanGame extends WindowController implements ActionListener, Catan
 		{
 			if (evt.getSource() == buttonOne)
 			{
-			
+			    OpenTrade tradewindow = new OpenTrade(playerOne, playerTwo);
+			    SwingUtilities.invokeLater(tradewindow);
 			}
 			else if (evt.getSource() == buttonTwo)
 			{
@@ -237,7 +237,7 @@ public class CatanGame extends WindowController implements ActionListener, Catan
 			}
 			returnToMainMenu();
 		}
-    	}
+    }
  	
  	public static void returnToMainMenu()
  	{

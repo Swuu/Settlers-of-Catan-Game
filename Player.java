@@ -199,4 +199,25 @@ public class Player implements CatanController
 			//new Hexagon(80, 80);
 		displayingResourceCards = false;
 	}
+	
+	/* for trading purposes:
+	    1) gives current quantities of resources
+	    2) updates after a successful trade
+	*/
+	
+	public int getClay() { return numClay; }
+	public int getLumber() { return numLumber; }
+	public int getOre() { return numOre; }
+	public int getSheep() { return numSheep; }
+    public int getWheat() { return numWheat; }
+    
+    public void updateResources(int qtyClay, int qtyLumber, int qtyOre,
+                                int qtySheep, int qtyWheat)
+    {
+        numClay = qtyClay;
+        numLumber = qtyLumber;
+        numOre = qtyOre;
+        numSheep = qtySheep;
+        numWheat = qtyWheat;
+    }
 }
