@@ -1,5 +1,3 @@
-/*WARNING: Be careful when modifiying this file on Dropbox!! If more than one person is modifiying it at a time and you both save, then there is a chance for data loss and we all lose! Make sure to save a local copy first!*/
- 
 import objectdraw.*;
 import java.awt.*;
 import java.awt.event.*;

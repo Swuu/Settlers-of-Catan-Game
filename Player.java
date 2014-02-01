@@ -102,6 +102,7 @@ public class Player implements CatanController
 			System.out.println("You've not enough minerals");
 			info.append("You've not enough minerals\n");
 		}
+        totalCards = numClay + numLumber + numOre + numSheep + numWheat;
 		displayResourceHand(canvas2);
 	}
 	
