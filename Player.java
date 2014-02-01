@@ -129,13 +129,13 @@ public class Player implements CatanController
 	{
 		displayCanvas.clear();
 		int x = 10;
-		int y = 30;
+		int y = 10;
         int increment;
         if (totalCards <= 7)
             increment = 110;
         else
         {
-            increment  = 770/totalCards;
+            increment  = 670/totalCards;
         }
 		for(int i = 0; i < numClay; i++)
 		{

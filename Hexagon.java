@@ -12,12 +12,13 @@ public class Hexagon extends WindowController{
 	public static final int SEVEN = 7;
     private double[] xs;
     private double[] ys;
-    public double hexValue;
+    private Line[] lineArray = new Line[6];
+    public int hexValue;
     //define the length of side of polygon
     double length = Math.sqrt(3)*32;
 	
 	//constuctor that will be called
-	public Hexagon(double a, double b, double type, DrawingCanvas canvas){
+	public Hexagon(double a, double b, int type, DrawingCanvas canvas){
         
         hexValue = type;
 		//start points
@@ -64,7 +65,7 @@ public class Hexagon extends WindowController{
 		
 		for (int i = 0; i < 6; i++)
         {
-            Line aLine = new Line(xs[i], ys[i], xs[i+1], ys[i+1], canvas);
+            lineArray[i] = new Line(xs[i], ys[i], xs[i+1], ys[i+1], canvas);
             Color hexColor;
             if (hexValue == 1)
             {
@@ -90,21 +91,35 @@ public class Hexagon extends WindowController{
             {
                 hexColor = new Color(0, 0, 0);
             }
-            aLine.setColor(hexColor);
+            lineArray[i].setColor(hexColor);
+        }
+        
+        int[] intxs = new int[7];
+        int[] intys = new int[7];
+        
+        for (int i = 0; i < 7; i++)
+        {
+            intxs[i] = (int)xs[i];
+            intys[i] = (int)ys[i];
         }
 		//calls actual constructor
-		//polygon = new Polygon(xs,ys,SEVEN);
+		polygon = new Polygon(intxs, intys,SEVEN);
 	}
     
-    /*public boolean contains(double x, double y)
+    public boolean contains(double x, double y)
     {
         return polygon.contains(x, y);
-    }*/
+    }
+    
+    public boolean contains(Location c)
+    {
+        return polygon.contains(c.getX(), c.getY());
+    }
     
     public double jumpBackX()
     {
         
-        double initX = ((double)xs[0] - (Math.sqrt(1.5)*length));
+        double initX = ((double)xs[0] - (Math.sqrt(3.0)/2.0*length));
         return initX;
     }
     
@@ -121,5 +136,39 @@ public class Hexagon extends WindowController{
     public double getYCoord()
     {
         return ys[2];
+    }
+    
+    public void setValue(int aType)
+    {
+        this.hexValue = aType;
+        Color hexColor;
+        for (int i = 0; i < 6; i ++)
+        {
+            if (hexValue == 1)
+            {
+                hexColor = new Color(210, 105, 30);
+            }
+            else if (hexValue == 2)
+            {
+                hexColor = new Color(0, 100, 0);
+            }
+            else if (hexValue == 3)
+            {
+                hexColor = new Color(105, 105, 105);
+            }
+            else if (hexValue == 4)
+            {
+                hexColor = new Color(220, 220, 220);
+            }
+            else if (hexValue == 5)
+            {
+                hexColor = new Color(255, 215, 0);
+            }
+            else
+            {
+                hexColor = new Color(0, 0, 0);
+            }
+            lineArray[i].setColor(hexColor);
+        }
     }
 }

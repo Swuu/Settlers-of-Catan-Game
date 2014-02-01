@@ -13,10 +13,12 @@ import javax.swing.JTextArea;
 
 public class CatanGame extends WindowController implements ActionListener, CatanController, Runnable
 {
- 	private static Player playerOne;
+ 	private static Player[] playerList;
+    private static Player playerOne;
  	private static Player playerTwo;
  	private static Player playerThree;
  	private static Player playerFour;
+    private static HexagonMap gameBoard;
  	private static Player currentPlayer;
  	private static int currentTurn;
  	private static int menu;
@@ -32,9 +34,10 @@ public class CatanGame extends WindowController implements ActionListener, Catan
  
 	public void run()
 	{
-		canvas= new JDrawingCanvas(3000,200);
-		canvas2 = new JDrawingCanvas(3000, 100);
-		JTextArea info = new JTextArea(5, 300);
+		canvas= new JDrawingCanvas(1000,500);
+		canvas2 = new JDrawingCanvas(800, 100);
+        gameBoard = new HexagonMap(canvas);
+		JTextArea info = new JTextArea(5, 5);
 		info.setEditable(false);
 		playerList = new ArrayList<Player>();
   		playerOne = new Player(1, names.get(0), canvas, info);
@@ -99,7 +102,7 @@ public class CatanGame extends WindowController implements ActionListener, Catan
 	{
 		if (menu == 0)
 		{
-        		if (evt.getSource() == buttonOne)
+        	if (evt.getSource() == buttonOne)
 			{
 				currentPlayer.addCard((int)(Math.random()*5 + 1));
 				if (currentPlayer.displayingResourceCards == true)
