@@ -48,7 +48,7 @@ public class OpenTrade implements ActionListener, Runnable
     private String[] resName = {"Clay", "Lumber", "Ore", "Sheep", "Wheat"};
     private String tradeLog = " to trade: \n";
     private int step = 0; /* stage of trading */
-    private int curRes; /* which resource to trade */
+    private int curRes = -1; /* which resource to trade */
     private Player playerOne, playerTwo;
     
     
@@ -246,16 +246,51 @@ public class OpenTrade implements ActionListener, Runnable
             if (step == 0)
             {
                 JOptionPane.showMessageDialog(theFrame,
-                        "Please call '" + playerTwo.getName() + 
-                        "' to the computer");
+                        "Please call \"" + playerTwo.getName() + 
+                        "\" to the computer", "", JOptionPane.WARNING_MESSAGE);
                 step = 1;
                 plusTrade1.setEnabled(false);
                 minusTrade1.setEnabled(false);
                 plusTrade2.setEnabled(true);
                 minusTrade2.setEnabled(true);
                 
-                finishTrade.setText("Exchange");
                 playerQty.setText(" ");
+            }
+            else if (step == 1)
+            {
+                JOptionPane.showMessageDialog(theFrame,
+                        "Please call \"" + playerOne.getName() + 
+                        "\" to the computer\n to review your offer",
+                        "", JOptionPane.WARNING_MESSAGE);
+                playerQty.setText(" ");
+                step = 2;
+                curRes = -1;
+                plusTrade2.setEnabled(false);
+                minusTrade2.setEnabled(false);
+                finishTrade.setText("Exchange");
+            }
+            else if (step == 2)
+            {
+                int success = JOptionPane.YES_NO_OPTION;
+                int dialog = JOptionPane.showConfirmDialog(theFrame,
+                    "Are you sure you want to proceed?",
+                    "Warning", success, JOptionPane.QUESTION_MESSAGE);
+                if (success == 0)
+                {
+                    playerOne.updateResources(playerOneNewRes[0],
+                                              playerOneNewRes[1],
+                                              playerOneNewRes[2],
+                                              playerOneNewRes[3],
+                                              playerOneNewRes[4] );
+                                              
+                    playerTwo.updateResources(playerOneNewRes[0],
+                                              playerOneNewRes[1],
+                                              playerOneNewRes[2],
+                                              playerOneNewRes[3],
+                                              playerOneNewRes[4] );
+                    theFrame.dispose();
+                }
+                    
             }
         }
             else
@@ -319,66 +354,95 @@ public class OpenTrade implements ActionListener, Runnable
         /* *** PLUS & MINUS FUNCTIONALITY *** */
         if (evt.getSource() == plusTrade1)
         {
-            if (playerOneNewRes[curRes] > 0)
+            if (curRes >= 0)
             {
-                int delta;
-                playerOneNewRes[curRes]--;
-                delta = playerOneResources[curRes] - playerOneNewRes[curRes];
-                LEFT_DELTA[curRes].setText(" " + delta);
+                if (playerOneNewRes[curRes] > 0)
+                {
+                    int delta;
+                    playerOneNewRes[curRes]--;
+                    delta = playerOneResources[curRes] -
+                            playerOneNewRes[curRes];
+                    LEFT_DELTA[curRes].setText(" " + delta);
+                }
+                else
+                    JOptionPane.showMessageDialog(theFrame,
+                            "You don't have enough resources", "Warning",
+                            JOptionPane.WARNING_MESSAGE);
             }
             else
                 JOptionPane.showMessageDialog(theFrame,
-                        "You don't have enough resources", "Warning",
-                        JOptionPane.WARNING_MESSAGE);
-                
+                            "Please select a resource first", "Error",
+                            JOptionPane.ERROR_MESSAGE);
         }
+        
         
         if (evt.getSource() == minusTrade1)
         {
-            if (playerOneNewRes[curRes] < playerOneResources[curRes])
+            if (curRes >= 0)
             {
-                int delta;
-                playerOneNewRes[curRes]++;
-                delta = playerOneResources[curRes] - playerOneNewRes[curRes];
-                LEFT_DELTA[curRes].setText(" " + delta);
+                if (playerOneNewRes[curRes] < playerOneResources[curRes])
+                {
+                    int delta;
+                    playerOneNewRes[curRes]++;
+                    delta = playerOneResources[curRes] -
+                            playerOneNewRes[curRes];
+                    LEFT_DELTA[curRes].setText(" " + delta);
+                }
+                else
+                    JOptionPane.showMessageDialog(theFrame,
+                            "You have already emptied your offer", "Warning",
+                            JOptionPane.WARNING_MESSAGE);
             }
             else
                 JOptionPane.showMessageDialog(theFrame,
-                        "You have already emptied your offer", "Warning",
-                        JOptionPane.WARNING_MESSAGE);
-                
+                            "Please select a resource first", "Error",
+                            JOptionPane.ERROR_MESSAGE);
         }
         
         if (evt.getSource() == plusTrade2)
         {
-            if (playerTwoNewRes[curRes] > 0)
+            if (curRes >= 0)
             {
-                int delta;
-                playerTwoNewRes[curRes]--;
-                delta = playerTwoResources[curRes] - playerTwoNewRes[curRes];
-                RIGHT_DELTA[curRes].setText(" " + delta);
+                if (playerTwoNewRes[curRes] > 0)
+                {
+                    int delta;
+                    playerTwoNewRes[curRes]--;
+                    delta = playerTwoResources[curRes] -
+                            playerTwoNewRes[curRes];
+                    RIGHT_DELTA[curRes].setText(" " + delta);
+                }
+                else
+                    JOptionPane.showMessageDialog(theFrame,
+                            "You don't have enough resources", "Warning",
+                            JOptionPane.WARNING_MESSAGE);
             }
             else
                 JOptionPane.showMessageDialog(theFrame,
-                        "You don't have enough resources", "Warning",
-                        JOptionPane.WARNING_MESSAGE);
-                
+                            "Please select a resource first", "Error",
+                            JOptionPane.ERROR_MESSAGE);
         }
         
         if (evt.getSource() == minusTrade2)
         {
-            if (playerTwoNewRes[curRes] < playerTwoResources[curRes])
+            if (curRes >= 0)
             {
-                int delta;
-                playerTwoNewRes[curRes]++;
-                delta = playerTwoResources[curRes] - playerTwoNewRes[curRes];
-                RIGHT_DELTA[curRes].setText(" " + delta);
+                if (playerTwoNewRes[curRes] < playerTwoResources[curRes])
+                {
+                    int delta;
+                    playerTwoNewRes[curRes]++;
+                    delta = playerTwoResources[curRes] -
+                            playerTwoNewRes[curRes];
+                    RIGHT_DELTA[curRes].setText(" " + delta);
+                }
+                else
+                    JOptionPane.showMessageDialog(theFrame,
+                            "You have already emptied your offer", "Warning",
+                            JOptionPane.WARNING_MESSAGE);
             }
             else
                 JOptionPane.showMessageDialog(theFrame,
-                        "You have already emptied your offer", "Warning",
-                        JOptionPane.WARNING_MESSAGE);
-                
+                            "Please select a resource first", "Error",
+                            JOptionPane.ERROR_MESSAGE);
         }
     }
 }
