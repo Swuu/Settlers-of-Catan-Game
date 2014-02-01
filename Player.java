@@ -221,4 +221,9 @@ public class Player implements CatanController
         numSheep = qtySheep;
         numWheat = qtyWheat;
     }
+    
+    public String getName()
+    {
+        return playerName;
+    }
 }
