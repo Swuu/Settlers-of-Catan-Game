@@ -4,7 +4,8 @@ import java.awt.Polygon;
 import java.awt.Graphics;
 
 
-public class Hexagon{
+public class Hexagon
+{
 	
     Polygon polygon;
 	//private DrawingCanvas canvas;
@@ -18,7 +19,8 @@ public class Hexagon{
     public final double LENGTH = 64;
 	
 	//constuctor that will be called
-	public Hexagon(double a, double b, int type, DrawingCanvas canvas){
+	public Hexagon(double a, double b, int type, DrawingCanvas canvas)
+    {
         
         hexValue = type;
 		//start points
