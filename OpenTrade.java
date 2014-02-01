@@ -65,7 +65,7 @@ public class OpenTrade implements ActionListener, Runnable
         playerTwoResources[3] = two.getSheep();
         playerTwoResources[4] = two.getWheat();
         
-        for (int index = 0; index < 5; i++)
+        for (int index = 0; index < 5; index++)
         {
             playerOneNewRes[index] = playerOneResources[index];
             playerTwoNewRes[index] = playerTwoResources[index];
@@ -222,9 +222,9 @@ public class OpenTrade implements ActionListener, Runnable
         if (evt.getSource() == buttonClay)
         {
             if (step == 0)
-                playerQty.setText("Clay available: " + playerOneResources[0]));
+                playerQty.setText("Clay available: " + playerOneResources[0]);
             else
-                playerQty.setText("Clay available: " + playerTwoClay));
+                playerQty.setText("Clay available: " + playerTwoResources[0]);
             curRes = 0;
             /* buttonClay.setFocusable(true); */
         }
