@@ -26,7 +26,8 @@ public class OpenTrade implements ActionListener, Runnable
                     plusTrade1, minusTrade1, plusTrade2, minusTrade2;
     /* PANELS */
     private JPanel JP_NORTH, JP_SOUTH, JP_WEST, JP_EAST, JP_CENTER;
-    private JTextArea LEFT_MES, RIGHT_MES;
+    private JTextArea[] LEFT_MES = new JTextArea[5];
+    private JTextArea[] RIGHT_MES = new JTextArea[5];
     private JTextArea[] LEFT_DELTA = new JTextArea[5];
     private JTextArea[] RIGHT_DELTA = new JTextArea[5];
     private JLabel playerQty;
@@ -44,10 +45,8 @@ public class OpenTrade implements ActionListener, Runnable
     private int[] playerOneNewRes = new int[5];
     private int[] playerTwoNewRes = new int[5];
     
-/*  private String[] resName = {"Clay", "Lumber", "Ore", "Sheep", "Wheat"}; */
-    private String tradeLog = "Clay to trade: \n" + "Lumber to trade: \n" +
-                                "Ore to trade: \n" + "Sheep to trade: \n" +
-                                "Wheat to trade: \n";
+    private String[] resName = {"Clay", "Lumber", "Ore", "Sheep", "Wheat"};
+    private String tradeLog = " to trade: \n";
     private int step = 0; /* stage of trading */
     private int curRes; /* which resource to trade */
     private Player playerOne, playerTwo;
@@ -81,8 +80,8 @@ public class OpenTrade implements ActionListener, Runnable
     /* INTERFACE BUILD */
     public void run()
     {
-        int JTA_width = 10; /* JTextArea width */
-        int JTA_height = 6; /* ... height */
+        int JTA_width = 2; /* JTextArea width */
+        int JTA_height = 1; /* ... height */
     
         theFrame = new JFrame("Trade Dialog");
         theFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -99,35 +98,46 @@ public class OpenTrade implements ActionListener, Runnable
         JPanel ctrAux2 = new JPanel();
         JPanel ctrAux3 = new JPanel();
         JPanel ctrAux4 = new JPanel();
+        JPanel listsAux1 = new JPanel();
+        JPanel listsAux2 = new JPanel();
         
         JP_CENTER.setLayout(new BorderLayout());
-        ctrAux1.setLayout(new BorderLayout());
-        ctrAux2.setLayout(new BorderLayout());
+        ctrAux1.setLayout(new GridLayout(5,1));
+        ctrAux2.setLayout(new GridLayout(5,1));
         ctrAux3.setLayout(new GridLayout(5,1));
         ctrAux4.setLayout(new GridLayout(5,1));
-        
-        LEFT_MES = new JTextArea(tradeLog, JTA_height, JTA_width);
-        RIGHT_MES = new JTextArea(tradeLog, JTA_height, JTA_width);
-        LEFT_MES.setEditable(false);
-        RIGHT_MES.setEditable(false);
-        ctrAux1.add(LEFT_MES, BorderLayout.WEST);
-        ctrAux2.add(RIGHT_MES, BorderLayout.WEST);
+        listsAux1.setLayout(new BorderLayout());
+        listsAux2.setLayout(new BorderLayout());
         
         for (int index = 0; index < 5; index++)
         {
-            LEFT_DELTA[index] = new JTextArea("0", 0, 2);
-            RIGHT_DELTA[index] = new JTextArea("0", 0, 2);
+            LEFT_MES[index] = new JTextArea(resName[index] + tradeLog,
+                                            JTA_height, JTA_width);
+            RIGHT_MES[index] = new JTextArea(resName[index] + tradeLog,
+                                            JTA_height, JTA_width);
+            LEFT_DELTA[index] = new JTextArea("0", JTA_height, JTA_width);
+            RIGHT_DELTA[index] = new JTextArea("0", JTA_height, JTA_width);
             
+            LEFT_MES[index].setEditable(false);
+            RIGHT_MES[index].setEditable(false);
             LEFT_DELTA[index].setEditable(false);
             RIGHT_DELTA[index].setEditable(false);
+            
+            ctrAux1.add(LEFT_MES[index]);
+            ctrAux2.add(RIGHT_MES[index]);
             ctrAux3.add(LEFT_DELTA[index]);
             ctrAux4.add(RIGHT_DELTA[index]);
         }
-        ctrAux1.add(ctrAux3, BorderLayout.EAST);
-        ctrAux2.add(ctrAux4, BorderLayout.EAST);
+        listsAux1.add(ctrAux1, BorderLayout.WEST);
+        listsAux1.add(ctrAux3, BorderLayout.EAST);
+        listsAux2.add(ctrAux2, BorderLayout.WEST);
+        listsAux2.add(ctrAux4, BorderLayout.EAST);
+        
         JP_CENTER.add(TradSymbol, BorderLayout.CENTER);
-        JP_CENTER.add(ctrAux1, BorderLayout.WEST);
-        JP_CENTER.add(ctrAux2, BorderLayout.EAST);
+        JP_CENTER.add(listsAux1, BorderLayout.WEST);
+        JP_CENTER.add(listsAux2, BorderLayout.EAST);
+        
+        
         
         main.add(JP_CENTER, BorderLayout.CENTER);
         
@@ -238,6 +248,8 @@ public class OpenTrade implements ActionListener, Runnable
                 minusTrade1.setEnabled(false);
                 plusTrade2.setEnabled(true);
                 minusTrade2.setEnabled(true);
+                
+                playerQty.setText(" ");
             }
         }
             else
