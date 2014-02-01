@@ -231,7 +231,7 @@ public class CatanGame extends WindowController implements ActionListener, Catan
 		}
 		
 		/* after clicking on "trade"
-		    a list of players to trade with */
+		    a list of players to trade with */ 
 		else if (menu == 2)
 		{
 			if (evt.getSource() == buttonOne)

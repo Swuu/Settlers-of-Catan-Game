@@ -248,7 +248,7 @@ public class OpenTrade implements ActionListener, Runnable
             else
                 playerQty.setText("Clay available: " + playerTwoResources[0]);
             curRes = 0;
-            /* buttonClay.setFocusable(true); */
+            /* buttonClay.setFocusable(true); */ 
         }
         
         
