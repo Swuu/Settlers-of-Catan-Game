@@ -2,6 +2,15 @@
 
 /* Opens a new "child" window for trading in CatanGame */
 
+/* *** CODE OF EACH RESOURCE: ***
+            ******
+            0 = Clay
+            1 = Lumber
+            2 = Ore
+            3 = Sheep
+            4 = Wheat
+*/
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -17,34 +26,53 @@ public class OpenTrade implements ActionListener, Runnable
                     plusTrade1, minusTrade1, plusTrade2, minusTrade2;
     /* PANELS */
     private JPanel JP_NORTH, JP_SOUTH, JP_WEST, JP_EAST, JP_CENTER;
-    private static JTextArea LEFT, RIGHT;
+    private JTextArea LEFT, RIGHT;
     private JLabel playerQty;
     
     /* Qty of each resource of trading players */
+    /*
     private int playerOneClay, playerOneLumber, playerOneOre,
                 playerOneSheep, playerOneWheat;
     private int playerTwoClay, playerTwoLumber, playerTwoOre,
                 playerTwoSheep, playerTwoWheat;
+    */            
+    private int[] playerOneResources = new int[5];
+    private int[] playerTwoResources = new int[5];
+                
+    private int[] playerOneNewRes = new int[5];
+    private int[] playerTwoNewRes = new int[5];
     
     private int step = 0; /* stage of trading */
+    private int curRes; /* which resource to trade */
+    private Player playerOne, playerTwo;
     
+    
+    /* CONSTRUCTOR */
     public OpenTrade(Player one, Player two)
     {
-        playerOneClay = one.getClay();
-        playerOneLumber = one.getLumber();
-        playerOneOre = one.getOre();
-        playerOneSheep = one.getSheep();
-        playerOneWheat = one.getWheat();
+        playerOne = one;
+        playerTwo = two;
         
-        playerTwoClay = two.getClay();
-        playerTwoLumber = two.getLumber();
-        playerTwoOre = two.getOre();
-        playerTwoSheep = two.getSheep();
-        playerTwoWheat = two.getWheat();
+        playerOneResources[0] = one.getClay();
+        playerOneResources[1] = one.getLumber();
+        playerOneResources[2] = one.getOre();
+        playerOneResources[3] = one.getSheep();
+        playerOneResources[4] = one.getWheat();
         
-        System.out.println("Player One -> Wheat -> " + playerOneWheat);
+        playerTwoResources[0] = two.getClay();
+        playerTwoResources[1] = two.getLumber();
+        playerTwoResources[2] = two.getOre();
+        playerTwoResources[3] = two.getSheep();
+        playerTwoResources[4] = two.getWheat();
+        
+        for (int index = 0; index < 5; i++)
+        {
+            playerOneNewRes[index] = playerOneResources[index];
+            playerTwoNewRes[index] = playerTwoResources[index];
+        }
     }
     
+    /* INTERFACE BUILD */
     public void run()
     {
         int JTA_width = 15; /* JTextArea width */
@@ -83,6 +111,7 @@ public class OpenTrade implements ActionListener, Runnable
         topAux2.setLayout(new GridLayout(1, 1));
         
         playerQty = new JLabel("  ");
+        playerQty.setHorizontalAlignment(SwingConstants.CENTER);
         buttonClay = new JButton ("Clay");
         buttonLumber = new JButton ("Lumber");
         buttonOre = new JButton ("Ore");
@@ -106,7 +135,7 @@ public class OpenTrade implements ActionListener, Runnable
         JP_SOUTH = new JPanel();
         JP_SOUTH.setLayout(new FlowLayout());
         
-        finishTrade = new JButton ("Exchange");
+        finishTrade = new JButton ("Offer");
         cancelTrade = new JButton ("Cancel");
         
         JP_SOUTH.add(finishTrade);
@@ -136,6 +165,9 @@ public class OpenTrade implements ActionListener, Runnable
         plusTrade2 = new JButton("+");
         minusTrade2 = new JButton("-");
         
+        plusTrade2.setEnabled(false);
+        minusTrade2.setEnabled(false);
+        
         JP_EAST.add(aux);
         JP_EAST.add(plusTrade2);
         JP_EAST.add(minusTrade2);
@@ -145,6 +177,12 @@ public class OpenTrade implements ActionListener, Runnable
         
         /* actionListener activation */
         cancelTrade.addActionListener(this);
+        finishTrade.addActionListener(this);
+        buttonClay.addActionListener(this);
+        buttonLumber.addActionListener(this);
+        buttonOre.addActionListener(this);
+        buttonSheep.addActionListener(this);
+        buttonWheat.addActionListener(this);
         
         theFrame.pack();
         theFrame.setVisible(true);
@@ -166,22 +204,81 @@ public class OpenTrade implements ActionListener, Runnable
         if (evt.getSource() == cancelTrade)
             theFrame.dispose();
             
+        if (evt.getSource() == finishTrade)
+        {
+            if (step == 0)
+            {
+                JOptionPane.showMessageDialog(theFrame,
+                        "Please call '" + playerTwo.getName() + 
+                        "' to the computer");
+                step = 1;
+                plusTrade1.setEnabled(false);
+                minusTrade1.setEnabled(false);
+                plusTrade2.setEnabled(true);
+                minusTrade2.setEnabled(true);
+            }
+        }
+            else
         if (evt.getSource() == buttonClay)
         {
-            playerQty.setText("" + playerOneClay);
-            buttonClay.setFocusable(true);
+            if (step == 0)
+                playerQty.setText("Clay available: " + playerOneResources[0]));
+            else
+                playerQty.setText("Clay available: " + playerTwoClay));
+            curRes = 0;
+            /* buttonClay.setFocusable(true); */
         }
-            
+        
+        
+        /* *** RESOURCE BUTTONS *** */    
         if (evt.getSource() == buttonLumber)
-        {}
+        {
+            if (step == 0)
+                playerQty.setText("Lumber available: " +
+                                    playerOneResources[1]);
+            else
+                playerQty.setText("Lumber available: " +
+                                    playerOneResources[1]);
+            curRes = 1;
+        }
 
         if (evt.getSource() == buttonOre)
-        {}
+        {
+            if (step == 0)
+                playerQty.setText("Ore available: " +
+                                    playerOneResources[2]);
+            else
+                playerQty.setText("Ore available: " +
+                                    playerTwoResources[2]);
+            curRes = 2;
+        }
 
         if (evt.getSource() == buttonSheep)
-        {}
+        {
+            if (step == 0)
+                playerQty.setText("Sheep available: " +
+                                    playerOneResources[3]);
+            else
+                playerQty.setText("Sheep available: " +
+                                    playerTwoResources[3]);
+            curRes = 3;
+        }
 
         if (evt.getSource() == buttonWheat)
-        {}
+        {
+            if (step == 0)
+                playerQty.setText("Wheat available: " + 
+                                    playerOneResources[4]);
+            else
+                playerQty.setText("Wheat available: " + 
+                                    playerTwoResources[4]);
+            curRes = 4;
+        }
+        
+        
+        /* *** PLUS & MINUS FUNCTIONALITY *** */
+        if (evt.getSource() == plusTrade1)
+        {
+        }
     }
 }
