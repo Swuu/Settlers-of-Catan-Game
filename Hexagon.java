@@ -8,13 +8,15 @@ public class Hexagon
 {
 	
     Polygon polygon;
-	//private DrawingCanvas canvas;
 	
-	public static final int SEVEN = 7;
+	private static final int SEVEN = 7;
     private double[] xs;
     private double[] ys;
     private Line[] lineArray = new Line[6];
+    private Location centerLoc;
     public int hexValue;
+    private int rollValue;
+    
     //define the length of side of polygon
     public final double LENGTH = 64;
 	
@@ -43,6 +45,7 @@ public class Hexagon
 		double a5 = a0;
 		double b5 = b3;
 		
+        centerLoc = new Location(b0, )
 		//end and start points
 		
 		//puts points in array to send to constructor
