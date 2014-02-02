@@ -232,6 +232,7 @@ public class OpenTrade implements ActionListener, Runnable
         
         theFrame.pack();
         theFrame.setVisible(true);
+        theFrame.setLocationRelativeTo(null);
     }
 
 
@@ -293,7 +294,7 @@ public class OpenTrade implements ActionListener, Runnable
                     
             }
         }
-            else
+        
         if (evt.getSource() == buttonClay)
         {
             if (step == 0)
