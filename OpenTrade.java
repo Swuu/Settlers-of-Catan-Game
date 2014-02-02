@@ -255,6 +255,7 @@ public class OpenTrade implements ActionListener, Runnable
                 plusTrade2.setEnabled(true);
                 minusTrade2.setEnabled(true);
                 
+                curRes = -1;
                 playerQty.setText(" ");
             }
             else if (step == 1)
@@ -284,14 +285,13 @@ public class OpenTrade implements ActionListener, Runnable
                                               playerOneNewRes[3],
                                               playerOneNewRes[4] );
                                               
-                    playerTwo.updateResources(playerOneNewRes[0],
-                                              playerOneNewRes[1],
-                                              playerOneNewRes[2],
-                                              playerOneNewRes[3],
-                                              playerOneNewRes[4] );
+                    playerTwo.updateResources(playerTwoNewRes[0],
+                                              playerTwoNewRes[1],
+                                              playerTwoNewRes[2],
+                                              playerTwoNewRes[3],
+                                              playerTwoNewRes[4] );
                     theFrame.dispose();
-                }
-                    
+                }   
             }
         }
         
