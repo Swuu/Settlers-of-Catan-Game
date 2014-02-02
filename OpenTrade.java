@@ -30,7 +30,7 @@ public class OpenTrade implements ActionListener, Runnable
     private JTextArea[] RIGHT_MES = new JTextArea[5];
     private JTextArea[] LEFT_DELTA = new JTextArea[5];
     private JTextArea[] RIGHT_DELTA = new JTextArea[5];
-    private JLabel playerQty;
+    private JLabel playerQty, playerOneName, playerTwoName;
     
     /* Qty of each resource of trading players */
     /*
@@ -175,13 +175,27 @@ public class OpenTrade implements ActionListener, Runnable
         
     /* BOTTOM */
         JP_SOUTH = new JPanel();
-        JP_SOUTH.setLayout(new FlowLayout());
+        JPanel botAux1 = new JPanel();
+        JPanel botAux2 = new JPanel();
         
-        finishTrade = new JButton ("Offer");
-        cancelTrade = new JButton ("Cancel");
+        JP_SOUTH.setLayout(new BorderLayout());
+        botAux1.setLayout(new GridLayout(1, 2));
+        botAux2.setLayout(new FlowLayout());
         
-        JP_SOUTH.add(finishTrade);
-        JP_SOUTH.add(cancelTrade);
+        playerOneName = new JLabel("\"" + playerOne.getName() + "\"");
+        playerTwoName = new JLabel("\"" + playerTwo.getName() + "\"");
+        playerOneName.setHorizontalAlignment(SwingConstants.CENTER);
+        playerTwoName.setHorizontalAlignment(SwingConstants.CENTER);
+        botAux1.add(playerOneName);
+        botAux1.add(playerTwoName);
+        
+        finishTrade = new JButton (" Offer  ");
+        cancelTrade = new JButton (" Cancel ");
+        botAux2.add(finishTrade);
+        botAux2.add(cancelTrade);
+        
+        JP_SOUTH.add(botAux1, BorderLayout.NORTH);
+        JP_SOUTH.add(botAux2, BorderLayout.SOUTH);
         
         main.add(JP_SOUTH, BorderLayout.SOUTH);
         
@@ -189,7 +203,7 @@ public class OpenTrade implements ActionListener, Runnable
         JP_WEST = new JPanel();
         JP_WEST.setLayout(new GridLayout(4, 1));
         
-        JPanel aux = new JPanel();
+        JLabel aux = new JLabel(" ");
         plusTrade1 = new JButton("+");
         minusTrade1 = new JButton("-");
         
@@ -233,6 +247,7 @@ public class OpenTrade implements ActionListener, Runnable
         theFrame.pack();
         theFrame.setVisible(true);
         theFrame.setLocationRelativeTo(null);
+        theFrame.setMinimumSize(theFrame.getMinimumSize());
     }
 
 
