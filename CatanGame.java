@@ -17,7 +17,9 @@ public class CatanGame extends WindowController implements ActionListener, Catan
  	private static Player playerFour;
     private static HexagonMap gameBoard;
  	private static Player currentPlayer;
+ 	private static Text currentName;
  	private static int currentTurn;
+ 	private JTextArea info;
  	private static int menu;
  	private static JButton buttonOne;
  	private static JButton buttonTwo;
@@ -51,6 +53,10 @@ public class CatanGame extends WindowController implements ActionListener, Catan
   		currentTurn = 0;
   		currentPlayer = playerList.get(currentTurn);
 		currentPlayer.displayResourceHand(canvas2);
+		currentName = new Text(currentPlayer.getName() + "'s trurn.", canvas.getWidth()/2+700, canvas.getHeight()/2, canvas);
+                currentName.setColor(Color.BLUE);
+                info.append(currentPlayer.getName() + "'s trurn.\n");
+		
 
 		JFrame frame = new JFrame("The Settlers of Catan");	//(JFrame) SwingUtilities.getWindowAncestor(this);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,7 +73,7 @@ public class CatanGame extends WindowController implements ActionListener, Catan
         bottomPanel.add(canvas2, BorderLayout.SOUTH);
         contentPane.add(bottomPanel, BorderLayout.SOUTH);
 		contentPane.add(new JScrollPane(info), BorderLayout.NORTH);
-		JPanel rightPanel = new JPanel(new GridLayout(5, 1));
+		JPanel rightPanel = new JPanel(new GridLayout(6, 1));
 		buttonOne  = new JButton("Add Resource Card");
 		buttonOne.addActionListener(this);
 		buttonTwo  = new JButton("Buy Item");
@@ -80,6 +86,7 @@ public class CatanGame extends WindowController implements ActionListener, Catan
 		buttonFive.addActionListener(this);
 		menu = 0;
 		
+		rightPanel.add(new JScrollPane(info));
 		rightPanel.add(buttonOne);
 		rightPanel.add(buttonTwo);
 		rightPanel.add(buttonThree);
@@ -170,6 +177,24 @@ public class CatanGame extends WindowController implements ActionListener, Catan
 				}
 				currentPlayer = playerList.get(currentTurn);
 				currentPlayer.displayResourceHand(canvas2);
+				info.append(currentPlayer.getName() + "'s trurn.\n");
+                                currentName.setText(currentPlayer.getName() + "'s trurn.");
+                                switch(currentTurn)
+                                {
+                                        default:
+                                                currentName.setColor(Color.BLUE);
+                                                break;
+                                        case 1:
+                                                currentName.setColor(Color.RED);
+                                                break;
+                                        case 2:
+                                                currentName.setColor(Color.GREEN);
+                                                break;
+                                        case 3:
+                                                currentName.setColor(Color.YELLOW);
+                                                break;
+                                }
+
 			}
 		}
 		
