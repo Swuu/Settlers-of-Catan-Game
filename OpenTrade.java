@@ -10,7 +10,7 @@
             3 = Sheep
             4 = Wheat
 */
-
+import objectdraw.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -31,6 +31,7 @@ public class OpenTrade implements ActionListener, Runnable
     private JTextArea[] LEFT_DELTA = new JTextArea[5];
     private JTextArea[] RIGHT_DELTA = new JTextArea[5];
     private JLabel playerQty, playerOneName, playerTwoName;
+    private JDrawingCanvas canvas;
     
     /* Qty of each resource of trading players */
     /*
@@ -53,7 +54,7 @@ public class OpenTrade implements ActionListener, Runnable
     
     
     /* CONSTRUCTOR */
-    public OpenTrade(Player one, Player two)
+    public OpenTrade(Player one, Player two, JDrawingCanvas aCanvas)
     {
         playerOne = one;
         playerTwo = two;
@@ -75,6 +76,10 @@ public class OpenTrade implements ActionListener, Runnable
             playerOneNewRes[index] = playerOneResources[index];
             playerTwoNewRes[index] = playerTwoResources[index];
         }
+        
+        canvas = aCanvas;
+        
+        playerOne.hideHand(canvas);
     }
     
     /* INTERFACE BUILD */
@@ -256,57 +261,84 @@ public class OpenTrade implements ActionListener, Runnable
     {
         if (evt.getSource() == cancelTrade)
             theFrame.dispose();
-            
+    /* OFFER - EXCHANGE mechanics */        
         if (evt.getSource() == finishTrade)
         {
             if (step == 0)
             {
-                JOptionPane.showMessageDialog(theFrame,
-                        "Please call \"" + playerTwo.getName() + 
-                        "\" to the computer", "", JOptionPane.WARNING_MESSAGE);
+                playerQty.setText(" ");
                 step = 1;
+                curRes = -1;
                 plusTrade1.setEnabled(false);
                 minusTrade1.setEnabled(false);
                 plusTrade2.setEnabled(true);
                 minusTrade2.setEnabled(true);
                 
-                curRes = -1;
-                playerQty.setText(" ");
+                JOptionPane.showMessageDialog(theFrame,
+                        "Please call \"" + playerTwo.getName() + 
+                        "\" to the computer", "", JOptionPane.WARNING_MESSAGE);
             }
             else if (step == 1)
             {
-                JOptionPane.showMessageDialog(theFrame,
-                        "Please call \"" + playerOne.getName() + 
-                        "\" to the computer\n to review your offer",
-                        "", JOptionPane.WARNING_MESSAGE);
                 playerQty.setText(" ");
                 step = 2;
                 curRes = -1;
                 plusTrade2.setEnabled(false);
                 minusTrade2.setEnabled(false);
+                buttonClay.setEnabled(false);
+                buttonLumber.setEnabled(false);
+                buttonOre.setEnabled(false);
+                buttonSheep.setEnabled(false);
+                buttonWheat.setEnabled(false);
                 finishTrade.setText("Exchange");
+                JOptionPane.showMessageDialog(theFrame,
+                        "Please call \"" + playerOne.getName() + 
+                        "\" to the computer\n to review your offer",
+                        "", JOptionPane.WARNING_MESSAGE);
             }
             else if (step == 2)
             {
-                int success = JOptionPane.YES_NO_OPTION;
-                int dialog = JOptionPane.showConfirmDialog(theFrame,
+                int n = JOptionPane.showConfirmDialog(theFrame,
                     "Are you sure you want to proceed?",
-                    "Warning", success, JOptionPane.QUESTION_MESSAGE);
-                if (success == 0)
+                    "Warning", JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+                if (n == JOptionPane.OK_OPTION)
                 {
-                    playerOne.updateResources(playerOneNewRes[0],
-                                              playerOneNewRes[1],
-                                              playerOneNewRes[2],
-                                              playerOneNewRes[3],
-                                              playerOneNewRes[4] );
+                    int[] finalResOne = new int[5];
+                    int[] finalResTwo = new int[5];
+                    
+                    for(int index = 0; index < 5; index++)
+                    {
+                        finalResOne[index] = playerOneNewRes[index] +
+                                             playerTwoResources[index] -
+                                             playerTwoNewRes[index];
+                                             
+                        finalResTwo[index] = playerTwoNewRes[index] +
+                                             playerOneResources[index] -
+                                             playerOneNewRes[index];
+                    }
+                        
+                    
+                    playerOne.updateResources(finalResOne[0],
+                                              finalResOne[1],
+                                              finalResOne[2],
+                                              finalResOne[3],
+                                              finalResOne[4]);
                                               
-                    playerTwo.updateResources(playerTwoNewRes[0],
-                                              playerTwoNewRes[1],
-                                              playerTwoNewRes[2],
-                                              playerTwoNewRes[3],
-                                              playerTwoNewRes[4] );
+                    playerTwo.updateResources(finalResTwo[0],
+                                              finalResTwo[1],
+                                              finalResTwo[2],
+                                              finalResTwo[3],
+                                              finalResTwo[4]);
+                    
+                    playerOne.displayResourceHand(canvas);
+                    
                     theFrame.dispose();
-                }   
+                }
+                if (n == JOptionPane.NO_OPTION)
+                {}
+                if (n == JOptionPane.CLOSED_OPTION)
+                {}
             }
         }
         
@@ -329,7 +361,7 @@ public class OpenTrade implements ActionListener, Runnable
                                     playerOneResources[1]);
             else
                 playerQty.setText("Lumber available: " +
-                                    playerOneResources[1]);
+                                    playerTwoResources[1]);
             curRes = 1;
         }
 
@@ -387,8 +419,8 @@ public class OpenTrade implements ActionListener, Runnable
             }
             else
                 JOptionPane.showMessageDialog(theFrame,
-                            "Please select a resource first", "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                            "Please select a resource first", "Info",
+                            JOptionPane.INFORMATION_MESSAGE);
         }
         
         
@@ -411,8 +443,8 @@ public class OpenTrade implements ActionListener, Runnable
             }
             else
                 JOptionPane.showMessageDialog(theFrame,
-                            "Please select a resource first", "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                            "Please select a resource first", "Info",
+                            JOptionPane.INFORMATION_MESSAGE);
         }
         
         if (evt.getSource() == plusTrade2)
@@ -434,8 +466,8 @@ public class OpenTrade implements ActionListener, Runnable
             }
             else
                 JOptionPane.showMessageDialog(theFrame,
-                            "Please select a resource first", "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                            "Please select a resource first", "Info",
+                            JOptionPane.INFORMATION_MESSAGE);
         }
         
         if (evt.getSource() == minusTrade2)
@@ -457,8 +489,8 @@ public class OpenTrade implements ActionListener, Runnable
             }
             else
                 JOptionPane.showMessageDialog(theFrame,
-                            "Please select a resource first", "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                            "Please select a resource first", "Info",
+                            JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

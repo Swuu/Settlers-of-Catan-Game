@@ -201,6 +201,11 @@ public class Player implements CatanController
 		displayingResourceCards = false;
 	}
 	
+	public void hideHand(DrawingCanvas canvas2)
+	{
+	    canvas2.clear();
+	}
+	
 	/* for trading purposes:
 	    1) gives current quantities of resources
 	    2) updates after a successful trade

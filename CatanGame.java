@@ -237,25 +237,25 @@ public class CatanGame extends WindowController implements ActionListener, Catan
 			if (evt.getSource() == buttonOne)
 			{
 			    OpenTrade tradewindow = new OpenTrade(currentPlayer,
-			                                            playerOne);
+			                                            playerOne, canvas2);
 			    SwingUtilities.invokeLater(tradewindow);
 			}
 			else if (evt.getSource() == buttonTwo)
 			{
 			    OpenTrade tradewindow = new OpenTrade(currentPlayer,
-			                                            playerTwo);
+			                                            playerTwo, canvas2);
 			    SwingUtilities.invokeLater(tradewindow);
 			}
 			else if (evt.getSource() == buttonThree)
 			{
 			    OpenTrade tradewindow = new OpenTrade(currentPlayer,
-			                                            playerThree);
+			                                            playerThree, canvas2);
 			    SwingUtilities.invokeLater(tradewindow);
 			}
 			else if (evt.getSource() == buttonFour)
-			{
+            {
 			    OpenTrade tradewindow = new OpenTrade(currentPlayer,
-			                                            playerFour);
+			                                            playerFour, canvas2);
 			    SwingUtilities.invokeLater(tradewindow);
 			}
 			returnToMainMenu();
