@@ -53,9 +53,9 @@ public class CatanGame extends WindowController implements ActionListener, Catan
   		currentTurn = 0;
   		currentPlayer = playerList.get(currentTurn);
 		currentPlayer.displayResourceHand(canvas2);
-		currentName = new Text(currentPlayer.getName() + "'s trurn.", canvas.getWidth()/2+700, canvas.getHeight()/2, canvas);
+		currentName = new Text(currentPlayer.getName() + "'s turn.", canvas.getWidth()/2+700, canvas.getHeight()/2, canvas);
                 currentName.setColor(Color.BLUE);
-                info.append(currentPlayer.getName() + "'s trurn.\n");
+                info.append(currentPlayer.getName() + "'s turn.\n");
 		
 
 		JFrame frame = new JFrame("The Settlers of Catan");	//(JFrame) SwingUtilities.getWindowAncestor(this);
@@ -177,8 +177,8 @@ public class CatanGame extends WindowController implements ActionListener, Catan
 				}
 				currentPlayer = playerList.get(currentTurn);
 				currentPlayer.displayResourceHand(canvas2);
-				info.append(currentPlayer.getName() + "'s trurn.\n");
-                                currentName.setText(currentPlayer.getName() + "'s trurn.");
+				info.append(currentPlayer.getName() + "'s turn.\n");
+                                currentName.setText(currentPlayer.getName() + "'s turn.");
                                 switch(currentTurn)
                                 {
                                         default:
