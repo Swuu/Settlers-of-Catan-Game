@@ -36,7 +36,7 @@ public class CatanGame extends WindowController implements ActionListener, Catan
 		canvas= new JDrawingCanvas(1000,500);
 		canvas2 = new JDrawingCanvas(800, 100);
         gameBoard = new HexagonMap(canvas);
-		JTextArea info = new JTextArea(5, 5);
+		info = new JTextArea(5, 5);
 		info.setEditable(false);
 		playerList = new ArrayList<Player>();
   		playerOne = new Player(1, names.get(0), canvas, info);
