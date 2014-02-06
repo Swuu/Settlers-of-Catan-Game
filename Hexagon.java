@@ -45,7 +45,7 @@ public class Hexagon
 		double a5 = a0;
 		double b5 = b3;
 		
-        centerLoc = new Location(b0, )
+        //centerLoc = new Location(b0, )
 		//end and start points
 		
 		//puts points in array to send to constructor

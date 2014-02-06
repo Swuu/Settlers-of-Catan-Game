@@ -5,10 +5,19 @@ public class HexagonMap extends WindowController
 {
     private static int width = 1000;
     private static int height = 500;
+    private int[] numHex = new int[6];
+
     private static Hexagon[] hexagonArray = new Hexagon[19];
     
     public HexagonMap(DrawingCanvas canvas)
     {
+        
+        numHex[0] = 3; //Clay
+        numHex[1] = 4; //Lumber
+        numHex[2] = 3; //Ore
+        numHex[3] = 4; //Sheep
+        numHex[4] = 4; //Wheat
+        numHex[5] = 1; //Desert
         hexagonArray[0] = new Hexagon(120, 40, 0, canvas);
         hexagonArray[1] = new Hexagon(hexagonArray[0].getXCoord() + 2,hexagonArray[0].getYCoord(), 1, canvas);
         hexagonArray[2] = new Hexagon(hexagonArray[1].getXCoord() + 2,hexagonArray[1].getYCoord(), 2, canvas);
@@ -33,9 +42,19 @@ public class HexagonMap extends WindowController
         hexagonArray[17] = new Hexagon(hexagonArray[16].getXCoord() + 2,hexagonArray[16].getYCoord(), 1, canvas);
         hexagonArray[18] = new Hexagon(hexagonArray[17].getXCoord() + 2,hexagonArray[17].getYCoord(), 2, canvas);
         
-        for (int i = 0; i < 17; i++)
+        for (int i = 0; i < 19; i++)
         {
-            hexagonArray[i].setValue((int)(Math.random() * 6) + 1);
+            boolean validType = false;
+            while (validType == false)
+            {
+                int typeValue = (int)(Math.random()*6);
+                if (numHex[typeValue] > 0)
+                {
+                    hexagonArray[i].setValue(typeValue);
+                    numHex[typeValue]--;
+                    validType = true;
+                }
+            }
         }
     }
     
