@@ -53,12 +53,14 @@ public class CatanGame extends WindowController implements ActionListener, Catan
   		currentTurn = 0;
   		currentPlayer = playerList.get(currentTurn);
 		currentPlayer.displayResourceHand(canvas2);
-		currentName = new Text(currentPlayer.getName() + "'s turn.", canvas.getWidth()/2+700, canvas.getHeight()/2, canvas);
+		currentName = new Text(currentPlayer.getName() + "'s turn.", 
+		                canvas.getWidth()/2+700, canvas.getHeight()/2, canvas);
                 currentName.setColor(Color.BLUE);
                 info.append(currentPlayer.getName() + "'s turn.\n");
 		
 
-		JFrame frame = new JFrame("The Settlers of Catan");	//(JFrame) SwingUtilities.getWindowAncestor(this);
+		JFrame frame = new JFrame("The Settlers of Catan");	
+		//(JFrame) SwingUtilities.getWindowAncestor(this);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(getContentPane());		
 
@@ -98,6 +100,8 @@ public class CatanGame extends WindowController implements ActionListener, Catan
 		validate();
 		frame.pack();
 		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
+		frame.setMinimumSize(frame.getMinimumSize());
 	}
 
 	
@@ -249,10 +253,8 @@ public class CatanGame extends WindowController implements ActionListener, Catan
 					currentPlayer.displayDevelopmentHand(canvas2);
 				}
 			}
-			else
-			{
-			}
-			returnToMainMenu();
+			else if (evt.getSource() == buttonFive)
+			    returnToMainMenu();
 		}
 		
 		/* after clicking on "trade"
@@ -283,7 +285,8 @@ public class CatanGame extends WindowController implements ActionListener, Catan
 			                                            playerFour, canvas2);
 			    SwingUtilities.invokeLater(tradewindow);
 			}
-			returnToMainMenu();
+			else if (evt.getSource() == buttonFive)
+			    returnToMainMenu();
 		}
     }
  	
