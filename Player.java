@@ -21,16 +21,17 @@ public class Player implements CatanController
 	private int numRoadBuilding;
 	private int numYearOfPlenty;
 	private int totalCards;
-	private DrawingCanvas canvas;
+	private DrawingCanvas canvas, canvas2;
 	private ArrayList <ResourceCard> hand;
  	public static boolean displayingResourceCards;
 	public static JTextArea info;
  
-	public Player(int currentPlayer, String currentPlayerName, DrawingCanvas aCanvas, JTextArea out)
+	public Player(int currentPlayer, String currentPlayerName, DrawingCanvas aCanvas, DrawingCanvas aCanvas2, JTextArea out)
 	{
 		player = currentPlayer;
 		playerName = currentPlayerName;
 		canvas = aCanvas;
+		canvas2 = aCanvas2;
 		victoryPoints = 0;
 		info = out;
 	}
@@ -87,7 +88,7 @@ public class Player implements CatanController
 		//displayDevelopmentHand();
 	}
  	
-	public void buyItem(Item item, DrawingCanvas canvas2)
+	public void buyItem(Item item)
 	{
 		if (numClay >= item.priceClay && numLumber >= item.priceLumber && numOre >= item.priceOre && numSheep >= item.priceSheep && numWheat >= item.priceWheat)
 		{
@@ -103,7 +104,7 @@ public class Player implements CatanController
 			info.append("You've not enough minerals\n");
 		}
         totalCards = numClay + numLumber + numOre + numSheep + numWheat;
-		displayResourceHand(canvas2);
+		displayResourceHand();
 	}
 	
 	public void buyDevelopmentCard()
@@ -126,9 +127,9 @@ public class Player implements CatanController
 		//displayResourceHand();
 	}
  
-	public void displayResourceHand(DrawingCanvas displayCanvas)
+	public void displayResourceHand()
 	{
-		displayCanvas.clear();
+		canvas2.clear();
 		int x = 10;
 		int y = 10;
         int increment;
@@ -140,34 +141,34 @@ public class Player implements CatanController
         }
 		for(int i = 0; i < numClay; i++)
 		{
-			new ResourceCard( 1, displayCanvas).displayCard(new Location( x, y));
+			new ResourceCard( 1, canvas2).displayCard(new Location( x, y));
 			x+=increment;
 		}
 		for(int i = 0; i < numLumber; i++)
 		{
-			new ResourceCard( 2, displayCanvas).displayCard(new Location( x, y));
+			new ResourceCard( 2, canvas2).displayCard(new Location( x, y));
 			x+=increment;
 		}
 		for(int i = 0; i < numOre; i++)
 		{
-			new ResourceCard( 3, displayCanvas).displayCard(new Location( x, y));
+			new ResourceCard( 3, canvas2).displayCard(new Location( x, y));
 			x+=increment;
 		}
 		for(int i = 0; i < numSheep; i++)
 		{
-			new ResourceCard( 4, displayCanvas).displayCard(new Location( x, y));
+			new ResourceCard( 4, canvas2).displayCard(new Location( x, y));
 			x+=increment;
 		}
 		for(int i = 0; i < numWheat; i++)
 		{
-			new ResourceCard( 5, displayCanvas).displayCard(new Location( x, y));
+			new ResourceCard( 5, canvas2).displayCard(new Location( x, y));
 			x+=increment;
 		}
 		displayingResourceCards = true;
 		
 	}
 	
-	public void displayDevelopmentHand(DrawingCanvas canvas2)
+	public void displayDevelopmentHand()
 	{
 		canvas2.clear();
 		int x = 10;
@@ -201,7 +202,7 @@ public class Player implements CatanController
 		displayingResourceCards = false;
 	}
 	
-	public void hideHand(DrawingCanvas canvas2)
+	public void hideHand()
 	{
 	    canvas2.clear();
 	}

@@ -1,4 +1,5 @@
 /* PLEASE DON'T MAKE ANY CHANGES TO THIS FILE */
+/* CONTACT KIRILL SYDYKOV INSTEAD */
 
 /* Opens a new "child" window for trading in CatanGame */
 
@@ -10,7 +11,7 @@
             3 = Sheep
             4 = Wheat
 */
-import objectdraw.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -31,7 +32,7 @@ public class OpenTrade implements ActionListener, Runnable
     private JTextArea[] LEFT_DELTA = new JTextArea[5];
     private JTextArea[] RIGHT_DELTA = new JTextArea[5];
     private JLabel playerQty, playerOneName, playerTwoName;
-    private JDrawingCanvas canvas;
+    private CatanGame master;
     
     /* Qty of each resource of trading players */
     /*
@@ -54,8 +55,9 @@ public class OpenTrade implements ActionListener, Runnable
     
     
     /* CONSTRUCTOR */
-    public OpenTrade(Player one, Player two, JDrawingCanvas aCanvas)
+    public OpenTrade(Player one, Player two, CatanGame theGame)
     {
+        master = theGame;
         playerOne = one;
         playerTwo = two;
         
@@ -77,9 +79,8 @@ public class OpenTrade implements ActionListener, Runnable
             playerTwoNewRes[index] = playerTwoResources[index];
         }
         
-        canvas = aCanvas;
-        
-        playerOne.hideHand(canvas);
+        playerOne.hideHand();
+        master.toggleButtons(false);
     }
     
     /* INTERFACE BUILD */
@@ -89,7 +90,27 @@ public class OpenTrade implements ActionListener, Runnable
         int JTA_height = 1; /* ... height */
     
         theFrame = new JFrame("Trade Dialog");
-        theFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        theFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        theFrame.addWindowListener( new WindowAdapter()
+        {
+            public void windowClosing(WindowEvent e)
+            {
+                JFrame frame = (JFrame)e.getSource();
+
+                int result = JOptionPane.showConfirmDialog(
+                    frame,
+                    "Are you sure you want to exit?",
+                    "Exit Trading",
+                    JOptionPane.YES_NO_OPTION);
+
+                if (result == JOptionPane.YES_OPTION)
+                {
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    master.toggleButtons(true);
+                }
+            }
+        });
         
         main = theFrame.getContentPane();
         main.setLayout(new BorderLayout());
@@ -133,12 +154,20 @@ public class OpenTrade implements ActionListener, Runnable
             ctrAux3.add(LEFT_DELTA[index]);
             ctrAux4.add(RIGHT_DELTA[index]);
         }
+        
+        playerOneName = new JLabel("\"" + playerOne.getName() + "\"");
+        playerTwoName = new JLabel("\"" + playerTwo.getName() + "\"");
+        playerOneName.setHorizontalAlignment(SwingConstants.CENTER);
+        playerTwoName.setHorizontalAlignment(SwingConstants.CENTER);
+        
         listsAux1.add(ctrAux1, BorderLayout.WEST);
         listsAux1.add(ctrAux3, BorderLayout.EAST);
         listsAux1.add(new JLabel(" "), BorderLayout.CENTER);
+        listsAux1.add(playerOneName, BorderLayout.SOUTH);
         listsAux2.add(ctrAux2, BorderLayout.WEST);
         listsAux2.add(ctrAux4, BorderLayout.EAST);
         listsAux2.add(new JLabel(" "), BorderLayout.CENTER);
+        listsAux2.add(playerTwoName, BorderLayout.SOUTH);
         
         JP_CENTER.add(TradSymbol, BorderLayout.CENTER);
         JP_CENTER.add(listsAux1, BorderLayout.WEST);
@@ -180,27 +209,31 @@ public class OpenTrade implements ActionListener, Runnable
         
     /* BOTTOM */
         JP_SOUTH = new JPanel();
-        JPanel botAux1 = new JPanel();
-        JPanel botAux2 = new JPanel();
+        JP_SOUTH.setLayout(new GridLayout(1, 2));
+        //JPanel botAux1 = new JPanel();
+        //JPanel botAux2 = new JPanel();
         
-        JP_SOUTH.setLayout(new BorderLayout());
-        botAux1.setLayout(new GridLayout(1, 2));
-        botAux2.setLayout(new FlowLayout());
+        //JP_SOUTH.setLayout(new BorderLayout());
+        //botAux1.setLayout(new GridLayout(1, 2));
+        //botAux2.setLayout(new FlowLayout());
         
-        playerOneName = new JLabel("\"" + playerOne.getName() + "\"");
-        playerTwoName = new JLabel("\"" + playerTwo.getName() + "\"");
-        playerOneName.setHorizontalAlignment(SwingConstants.CENTER);
-        playerTwoName.setHorizontalAlignment(SwingConstants.CENTER);
-        botAux1.add(playerOneName);
-        botAux1.add(playerTwoName);
+        //playerOneName = new JLabel("\"" + playerOne.getName() + "\"");
+        //playerTwoName = new JLabel("\"" + playerTwo.getName() + "\"");
+        //playerOneName.setHorizontalAlignment(SwingConstants.CENTER);
+        //playerTwoName.setHorizontalAlignment(SwingConstants.CENTER);
+        //botAux1.add(playerOneName);
+        //botAux1.add(playerTwoName);
         
         finishTrade = new JButton (" Offer  ");
         cancelTrade = new JButton (" Cancel ");
-        botAux2.add(finishTrade);
-        botAux2.add(cancelTrade);
+        //botAux2.add(finishTrade);
+        //botAux2.add(cancelTrade);
         
-        JP_SOUTH.add(botAux1, BorderLayout.NORTH);
-        JP_SOUTH.add(botAux2, BorderLayout.SOUTH);
+        //JP_SOUTH.add(botAux1, BorderLayout.NORTH);
+        //JP_SOUTH.add(botAux2, BorderLayout.SOUTH);
+        
+        JP_SOUTH.add(finishTrade);
+        JP_SOUTH.add(cancelTrade);
         
         main.add(JP_SOUTH, BorderLayout.SOUTH);
         
@@ -208,14 +241,13 @@ public class OpenTrade implements ActionListener, Runnable
         JP_WEST = new JPanel();
         JP_WEST.setLayout(new GridLayout(4, 1));
         
-        JLabel aux = new JLabel(" ");
+        JLabel auxLeft = new JLabel("\n \n");
         plusTrade1 = new JButton("+");
         minusTrade1 = new JButton("-");
         
-        JP_WEST.add(aux);
+        JP_WEST.add(auxLeft);
         JP_WEST.add(plusTrade1);
         JP_WEST.add(minusTrade1);
-        JP_WEST.add(aux);
         
         main.add(JP_WEST, BorderLayout.WEST);
         
@@ -223,17 +255,17 @@ public class OpenTrade implements ActionListener, Runnable
         JP_EAST = new JPanel();
         JP_EAST.setLayout(new GridLayout(4, 1));
         
+        JLabel auxRight = new JLabel("\n \n \n");
         plusTrade2 = new JButton("+");
         minusTrade2 = new JButton("-");
         
         plusTrade2.setEnabled(false);
         minusTrade2.setEnabled(false);
         
-        JP_EAST.add(aux);
+        JP_EAST.add(auxRight);
         JP_EAST.add(plusTrade2);
         JP_EAST.add(minusTrade2);
-        JP_EAST.add(aux);
-        
+                
         main.add(JP_EAST, BorderLayout.EAST);
         
         /* actionListener activation */
@@ -256,11 +288,41 @@ public class OpenTrade implements ActionListener, Runnable
     }
 
 
+    public boolean terminate()
+    {
+        boolean terminated = false;
+        int n = JOptionPane.showConfirmDialog(theFrame,
+                        "Your trading will be terminated. \n" +
+                        "If you open a trade, you are allowed \n" +
+                        "to interact only with the trading window", "",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.WARNING_MESSAGE);
+        theFrame.toFront();
+        if (n == JOptionPane.OK_OPTION)
+        {
+            terminated = true;
+            theFrame.dispose();
+        }
+        if (n == JOptionPane.NO_OPTION)
+        {}
+        if (n == JOptionPane.CLOSED_OPTION)
+        {}
+        return terminated;
+    }
+    
+    public void toFront()
+    {
+        theFrame.toFront();
+    }
+
     /* actionPerformed */
     public void actionPerformed(ActionEvent evt)
     {
         if (evt.getSource() == cancelTrade)
+        {
             theFrame.dispose();
+            master.toggleButtons(true);
+        }
     /* OFFER - EXCHANGE mechanics */        
         if (evt.getSource() == finishTrade)
         {
@@ -331,8 +393,8 @@ public class OpenTrade implements ActionListener, Runnable
                                               finalResTwo[3],
                                               finalResTwo[4]);
                     
-                    playerOne.displayResourceHand(canvas);
-                    
+                    playerOne.displayResourceHand();
+                    master.toggleButtons(true);
                     theFrame.dispose();
                 }
                 if (n == JOptionPane.NO_OPTION)
