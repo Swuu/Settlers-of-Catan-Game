@@ -12,13 +12,13 @@ public class HexagonMap extends WindowController
     public HexagonMap(DrawingCanvas canvas)
     {
         
-        numHex[0] = 3; //Clay
-        numHex[1] = 4; //Lumber
-        numHex[2] = 3; //Ore
-        numHex[3] = 4; //Sheep
-        numHex[4] = 4; //Wheat
-        numHex[5] = 1; //Desert
-        hexagonArray[0] = new Hexagon(120, 40, 0, canvas);
+        numHex[1] = 3; //Clay
+        numHex[2] = 4; //Lumber
+        numHex[3] = 3; //Ore
+        numHex[4] = 4; //Sheep
+        numHex[5] = 4; //Wheat
+        numHex[0] = 1; //Desert
+        hexagonArray[0] = new Hexagon(200, 50, 0, canvas);
         hexagonArray[1] = new Hexagon(hexagonArray[0].getXCoord() + 2,hexagonArray[0].getYCoord(), 1, canvas);
         hexagonArray[2] = new Hexagon(hexagonArray[1].getXCoord() + 2,hexagonArray[1].getYCoord(), 2, canvas);
         

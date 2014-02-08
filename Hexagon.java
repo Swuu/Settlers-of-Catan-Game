@@ -13,17 +13,23 @@ public class Hexagon
     private double[] xs;
     private double[] ys;
     private Line[] lineArray = new Line[6];
+    private FilledArc[] arcArray = new FilledArc[6];
     private Location centerLoc;
     public int hexValue;
     private int rollValue;
+    private double arcAngle =  120;
+    private DrawingCanvas canvas;
+    private Text cardText;
+    public String cardType = "";
     
     //define the length of side of polygon
     public final double LENGTH = 64;
 	
 	//constuctor that will be called
-	public Hexagon(double a, double b, int type, DrawingCanvas canvas)
+	public Hexagon(double a, double b, int type, DrawingCanvas aCanvas)
     {
         
+        canvas = aCanvas;
         hexValue = type;
 		//start points
 		double a0 = a; //a is x axis
@@ -45,7 +51,7 @@ public class Hexagon
 		double a5 = a0;
 		double b5 = b3;
 		
-        //centerLoc = new Location(b0, )
+        centerLoc = new Location(a1- LENGTH/4, b0);
 		//end and start points
 		
 		//puts points in array to send to constructor
@@ -71,32 +77,6 @@ public class Hexagon
 		for (int i = 0; i < 6; i++)
         {
             lineArray[i] = new Line(xs[i], ys[i], xs[i+1], ys[i+1], canvas);
-            Color hexColor;
-            if (hexValue == 1)
-            {
-                hexColor = new Color(210, 105, 30);
-            }
-            else if (hexValue == 2)
-            {
-                hexColor = new Color(0, 100, 0);
-            }
-            else if (hexValue == 3)
-            {
-                hexColor = new Color(105, 105, 105);
-            }
-            else if (hexValue == 4)
-            {
-                hexColor = new Color(220, 220, 220);
-            }
-            else if (hexValue == 5)
-            {
-                hexColor = new Color(255, 215, 0);
-            }
-            else
-            {
-                hexColor = new Color(0, 0, 0);
-            }
-            lineArray[i].setColor(hexColor);
         }
         
         int[] intxs = new int[7];
@@ -109,7 +89,24 @@ public class Hexagon
         }
 		//calls actual constructor
 		polygon = new Polygon(intxs, intys,SEVEN);
+        fillHexagons();
 	}
+    
+    public void fillHexagons()
+    {
+        /*arcArray[0] = new FilledArc(lineArray[0].getStart(), xs[1] - xs[0], ys[5]- ys[0], 270, arcAngle, canvas);
+        arcArray[1] = new FilledArc(lineArray[1].getStart(), lineArray[1].getEnd(), , arcAngle, canvas);
+        arcArray[2] = new FilledArc(lineArray[2].getStart(), lineArray[2].getEnd(), , arcAngle, canvas);
+        arcArray[3] = new FilledArc(lineArray[3].getStart(), lineArray[3].getEnd(), , arcAngle, canvas);
+        arcArray[4] = new FilledArc(lineArray[4].getStart(), lineArray[4].getEnd(), , arcAngle, canvas);
+        arcArray[5] = new FilledArc(lineArray[5].getStart(), lineArray[5].getEnd(), , arcAngle, canvas);*/
+        
+    }
+    
+    public void printType()
+    {
+        
+    }
     
     public boolean contains(double x, double y)
     {
@@ -151,29 +148,36 @@ public class Hexagon
         {
             if (hexValue == 1)
             {
+                cardType = "Clay";
                 hexColor = new Color(210, 105, 30);
             }
             else if (hexValue == 2)
             {
+                cardType = "Lumber";
                 hexColor = new Color(0, 100, 0);
             }
             else if (hexValue == 3)
             {
+                cardType = "Ore";
                 hexColor = new Color(105, 105, 105);
             }
             else if (hexValue == 4)
             {
+                cardType = "Sheep";
                 hexColor = new Color(220, 220, 220);
             }
             else if (hexValue == 5)
             {
+                cardType = "Wheat";
                 hexColor = new Color(255, 215, 0);
             }
             else
             {
+                cardType = "Desert";
                 hexColor = new Color(0, 0, 0);
             }
             lineArray[i].setColor(hexColor);
+            cardText = new Text(cardType, centerLoc, canvas);
         }
     }
 }
