@@ -15,38 +15,39 @@ public class Coord
     {
         xCoord = aLocation.getX();
         yCoord = aLocation.getY();
-        areaRadius = Hexagon.LENGTH/2;
+        areaRadius = (Hexagon.LENGTH+11);
         selectionRadius = 15;
-        areaTester = new FilledOval(xCoord - areaRadius, yCoord - areaRadius, Hexagon.LENGTH+11, Hexagon.LENGTH+11, canvas);
-        areaTester.setColor(new Color(0, 189, 0, 125));
-        areaTester.hide();
+        areaTester = new FilledOval(xCoord - areaRadius, yCoord - areaRadius, (Hexagon.LENGTH+11)*2, (Hexagon.LENGTH+11)*2, canvas);
+        areaTester.setColor(new Color(0, 145, 0, 100));
+                areaTester.hide();
         selectionBubble = new FilledOval(xCoord - selectionRadius, yCoord - selectionRadius, selectionRadius*2, selectionRadius*2, canvas);
         selectionBubble.setColor(new Color(0,0, 255, 125));
-        available = true;
+                available = true;
         selectionBubble.hide();
     }
 
-    public void showSelectionRadius()
-    {
-        selectionBubble.show();
-    }
+        public void showSelectionRadius()
+        {
+                selectionBubble.show();
+        }
 
-    public void hideSelectionBubble()
-    {
-        selectionBubble.hide();
-    }
+        public void hideSelectionBubble()
+        {
+                selectionBubble.hide();
+        }
 
-    public void showAreaTester()
-    {
-        areaTester.show();
-    }
+        public void showAreaTester()
+        {
+                areaTester.show();
+        }
 
-    public void hideAreaTester()
-    {
-        areaTester.hide();
-    }
+        public void hideAreaTester()
+        {
+                areaTester.hide();
+        }
 
-    public void changeTesterColor(Color colour)
-    {
-        areaTester.setColor(colour);
-    }
+        public void changeTesterColor(Color colour)
+        {
+                areaTester.setColor(colour);
+        }
+}
