@@ -1,0 +1,19 @@
+import objectdraw.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Collections;
+import javax.swing.*;
+public class CatanSetup
+{
+  public static void main(String[] args)
+  {
+    Jframe frame = new JFrame("Settlers of Catan");
+    frame.setSize(200,400);
+    frame.setlocationRelativeTo(null);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setVisible(true);
+  }
+}
