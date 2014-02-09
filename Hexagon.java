@@ -23,7 +23,7 @@ public class Hexagon
     public String cardType = "";
     
     //define the length of side of polygon
-    public final double LENGTH = 64;
+    public static final double LENGTH = 64;
 	
 	//constuctor that will be called
 	public Hexagon(double a, double b, int type, DrawingCanvas aCanvas)
