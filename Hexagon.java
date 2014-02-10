@@ -2,6 +2,7 @@ import objectdraw.*;
 import java.awt.*;
 import java.awt.Polygon;
 import java.awt.Graphics;
+import java.util.*;
 
 
 public class Hexagon
@@ -91,6 +92,56 @@ public class Hexagon
 		polygon = new Polygon(intxs, intys,SEVEN);
         fillHexagons();
 	}
+
+	public ArrayList<Coord> getTopCoords()
+	{
+		ArrayList<Coord> coords = new ArrayList<Coord>();
+		coords.add(new Coord(new Location(xs[1], ys[1]), canvas));
+		coords.add(new Coord(new Location(xs[2], ys[2]), canvas));	
+		coords.add(new Coord(new Location(xs[6], ys[6]), canvas));
+		return coords;
+	}
+
+	public ArrayList<Coord> getLeftCoords()
+	{
+		ArrayList<Coord> coords = new ArrayList<Coord>();
+		coords.add(new Coord(new Location(xs[3], ys[3]), canvas));
+		coords.add(new Coord(new Location(xs[4], ys[4]), canvas));
+		coords.add(new Coord(new Location(xs[5], ys[5]), canvas));
+		coords.add(new Coord(new Location(xs[6], ys[6]), canvas));
+		return coords;
+	}
+
+	public ArrayList<Coord> getCoords()
+	{
+		ArrayList<Coord> coords = new ArrayList<Coord>();
+		coords.add(new Coord(new Location(xs[1], ys[1]), canvas));
+		coords.add(new Coord(new Location(xs[2], ys[2]), canvas));	
+		coords.add(new Coord(new Location(xs[3], ys[3]), canvas));
+		coords.add(new Coord(new Location(xs[4], ys[4]), canvas));
+		coords.add(new Coord(new Location(xs[5], ys[5]), canvas));
+		coords.add(new Coord(new Location(xs[6], ys[6]), canvas));
+		return coords;
+	}
+
+	public ArrayList<Coord> getRightCoords()
+	{
+		ArrayList<Coord> coords = new ArrayList<Coord>();
+		coords.add(new Coord(new Location(xs[2], ys[2]), canvas));	
+		coords.add(new Coord(new Location(xs[3], ys[3]), canvas));
+		coords.add(new Coord(new Location(xs[4], ys[4]), canvas));
+		coords.add(new Coord(new Location(xs[5], ys[5]), canvas));
+		return coords;
+	}
+
+	public ArrayList<Coord> getBottomCoords()
+	{
+		ArrayList<Coord> coords = new ArrayList<Coord>();
+		coords.add(new Coord(new Location(xs[3], ys[3]), canvas));
+		coords.add(new Coord(new Location(xs[4], ys[4]), canvas));
+		coords.add(new Coord(new Location(xs[5], ys[5]), canvas));
+		return coords;
+	}
     
     public void fillHexagons()
     {
@@ -178,6 +229,7 @@ public class Hexagon
             }
             lineArray[i].setColor(hexColor);
             cardText = new Text(cardType, centerLoc, canvas);
+			cardText.setColor(Color.WHITE);
         }
     }
 }
