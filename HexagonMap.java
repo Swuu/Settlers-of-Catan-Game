@@ -1,5 +1,6 @@
 import objectdraw.*;
 import java.awt.*;
+import java.util.*;
 
 public class HexagonMap extends WindowController
 {
@@ -8,6 +9,7 @@ public class HexagonMap extends WindowController
     private int[] numHex = new int[6];
 
     private static Hexagon[] hexagonArray = new Hexagon[19];
+	private ArrayList<Coord> coords;
     
     public HexagonMap(DrawingCanvas canvas)
     {
@@ -18,29 +20,64 @@ public class HexagonMap extends WindowController
         numHex[4] = 4; //Sheep
         numHex[5] = 4; //Wheat
         numHex[0] = 1; //Desert
+
+		coords = new ArrayList<Coord>();
+
         hexagonArray[0] = new Hexagon(200, 50, 0, canvas);
         hexagonArray[1] = new Hexagon(hexagonArray[0].getXCoord() + 2,hexagonArray[0].getYCoord(), 1, canvas);
         hexagonArray[2] = new Hexagon(hexagonArray[1].getXCoord() + 2,hexagonArray[1].getYCoord(), 2, canvas);
-        
+       
+		coords.addAll(hexagonArray[0].getTopCoords());
+		coords.addAll(hexagonArray[1].getTopCoords());
+		coords.addAll(hexagonArray[2].getTopCoords());
+
+ 
         hexagonArray[3] = new Hexagon(hexagonArray[0].jumpBackX() - 1,hexagonArray[0].jumpBackY() + 2, 3, canvas);
         hexagonArray[4] = new Hexagon(hexagonArray[3].getXCoord() + 2,hexagonArray[3].getYCoord(), 1, canvas);
         hexagonArray[5] = new Hexagon(hexagonArray[4].getXCoord() + 2,hexagonArray[4].getYCoord(), 1, canvas);
         hexagonArray[6] = new Hexagon(hexagonArray[5].getXCoord() + 2,hexagonArray[5].getYCoord(), 1, canvas);
+
+		coords.addAll(hexagonArray[3].getTopCoords());
+		coords.addAll(hexagonArray[4].getTopCoords());
+		coords.addAll(hexagonArray[5].getTopCoords());
+		coords.addAll(hexagonArray[6].getTopCoords());
         
         hexagonArray[7] = new Hexagon(hexagonArray[3].jumpBackX() - 1,hexagonArray[3].jumpBackY() + 2, 1, canvas);
         hexagonArray[8] = new Hexagon(hexagonArray[7].getXCoord() + 2,hexagonArray[7].getYCoord(), 1, canvas);
         hexagonArray[9] = new Hexagon(hexagonArray[8].getXCoord() + 2,hexagonArray[8].getYCoord(), 1, canvas);
         hexagonArray[10] = new Hexagon(hexagonArray[9].getXCoord() + 2,hexagonArray[9].getYCoord(), 1, canvas);
         hexagonArray[11] = new Hexagon(hexagonArray[10].getXCoord() + 2,hexagonArray[10].getYCoord(), 1, canvas);
-        
+     
+		coords.addAll(hexagonArray[7].getTopCoords());
+		coords.addAll(hexagonArray[8].getTopCoords());
+		coords.addAll(hexagonArray[9].getTopCoords());
+		coords.addAll(hexagonArray[10].getTopCoords());
+		coords.addAll(hexagonArray[11].getTopCoords());
+		
+		coords.addAll(hexagonArray[7].getBottomCoords());
+		coords.addAll(hexagonArray[8].getBottomCoords());
+		coords.addAll(hexagonArray[9].getBottomCoords());
+		coords.addAll(hexagonArray[10].getBottomCoords());
+		coords.addAll(hexagonArray[11].getBottomCoords());
+
+	  
         hexagonArray[12] = new Hexagon(hexagonArray[8].jumpBackX() - 1,hexagonArray[8].jumpBackY() + 2, 3, canvas);
         hexagonArray[13] = new Hexagon(hexagonArray[12].getXCoord() + 2,hexagonArray[12].getYCoord(), 1, canvas);
         hexagonArray[14] = new Hexagon(hexagonArray[13].getXCoord() + 2,hexagonArray[13].getYCoord(), 1, canvas);
         hexagonArray[15] = new Hexagon(hexagonArray[14].getXCoord() + 2,hexagonArray[14].getYCoord(), 1, canvas);
-        
+   
+		coords.addAll(hexagonArray[12].getBottomCoords());
+		coords.addAll(hexagonArray[13].getBottomCoords());
+		coords.addAll(hexagonArray[14].getBottomCoords());
+		coords.addAll(hexagonArray[15].getBottomCoords());
+     
         hexagonArray[16] = new Hexagon(hexagonArray[13].jumpBackX() - 1,hexagonArray[13].jumpBackY() + 2, 3, canvas);
         hexagonArray[17] = new Hexagon(hexagonArray[16].getXCoord() + 2,hexagonArray[16].getYCoord(), 1, canvas);
         hexagonArray[18] = new Hexagon(hexagonArray[17].getXCoord() + 2,hexagonArray[17].getYCoord(), 2, canvas);
+
+		coords.addAll(hexagonArray[16].getBottomCoords());
+		coords.addAll(hexagonArray[17].getBottomCoords());
+		coords.addAll(hexagonArray[18].getBottomCoords());
         
         for (int i = 0; i < 19; i++)
         {
@@ -57,6 +94,11 @@ public class HexagonMap extends WindowController
             }
         }
     }
+
+	public Hexagon[] getMap()
+	{
+		return hexagonArray;
+	}
     
     public void onMousePress(Location point)
     {
