@@ -132,6 +132,5 @@ public class HexagonMap extends WindowController implements MouseMotionListener
 			}
 		}
 	}
-
 	
 }
