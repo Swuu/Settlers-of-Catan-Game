@@ -21,7 +21,7 @@ public class Coord
         areaTester.setColor(new Color(0, 145, 0, 100));
                 areaTester.hide();
         selectionBubble = new FilledOval(xCoord - selectionRadius, yCoord - selectionRadius, selectionRadius*2, selectionRadius*2, canvas);
-        selectionBubble.setColor(new Color(0,0, 255, 125));
+        selectionBubble.setColor(new Color(0, 145, 11, 125));//new Color(0,0, 255, 125));
                 available = true;
         selectionBubble.hide();
     }
@@ -31,7 +31,7 @@ public class Coord
                 selectionBubble.show();
         }
 
-        public void hideSelectionBubble()
+        public void hideSelectionRadius()
         {
                 selectionBubble.hide();
         }
@@ -50,4 +50,9 @@ public class Coord
         {
                 areaTester.setColor(colour);
         }
+
+	public boolean contains(Location loc)
+	{
+		return	selectionBubble.contains(loc);
+	}
 }
