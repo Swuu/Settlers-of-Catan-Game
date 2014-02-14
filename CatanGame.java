@@ -16,20 +16,26 @@ public class CatanGame extends WindowController implements ActionListener,
  	private static Player playerTwo;
  	private static Player playerThree;
  	private static Player playerFour;
-    private static HexagonMap gameBoard;
  	private static Player currentPlayer;
+    private static int numPlayers;
+    
+    //private static ArrayList<String> names;
+ 	private static ArrayList<Player> playerList;
+    
+    private static HexagonMap gameBoard;
+    private static CatanSetup startGame;
  	private static Text currentName;
  	private static int currentTurn;
- 	private JTextArea info;
+ 	
+    private JTextArea info;
  	private static int menu;
  	private static JButton buttonOne;
  	private static JButton buttonTwo;
  	private static JButton buttonThree;
  	private static JButton buttonFour;
  	private static JButton buttonFive;
- 	private static ArrayList<String> names;
- 	private static ArrayList<Player> playerList;
-	private static JDrawingCanvas canvas;
+	
+    private static JDrawingCanvas canvas;
     private static JDrawingCanvas canvas2;
     private OpenTrade tradewindow;
  
@@ -40,20 +46,22 @@ public class CatanGame extends WindowController implements ActionListener,
 
 		generateBackground(canvas); 
 		
-		gameBoard = new HexagonMap(canvas);	
-
-		info = new JTextArea(5, 5);
+		gameBoard = new HexagonMap(canvas);
+		
+        info = new JTextArea(5, 5);
 		info.setEditable(false);
-		playerList = new ArrayList<Player>();
-  		playerOne = new Player(1, names.get(0), canvas, canvas2, info);
+		
+        numPlayers = startGame.getNumOfPlayers();
+        playerList = new ArrayList<Player>();
+  		playerOne = new Player(1, startGame.getName(0), canvas, canvas2, info);
   		playerList.add(playerOne);
-  		playerTwo = new Player(2, names.get(1), canvas, canvas2, info);
+  		playerTwo = new Player(2, startGame.getName(1), canvas, canvas2, info);
   		playerList.add(playerTwo);
-  		playerThree = new Player(3, names.get(2), canvas, canvas2, info);
+  		playerThree = new Player(3, startGame.getName(2), canvas, canvas2, info);
   		playerList.add(playerThree);
-  		if (names.size() == 4)
+  		if (numPlayers == 4)
   		{
-  			playerFour = new Player(4, names.get(3), canvas, canvas2, info);
+  			playerFour = new Player(4, startGame.getName(3), canvas, canvas2, info);
   			playerList.add(playerFour);
   		}
   		currentTurn = 0;
@@ -171,7 +179,7 @@ public class CatanGame extends WindowController implements ActionListener,
 				buttonOne.setText(playerOne.playerName);
 				buttonTwo.setText(playerTwo.playerName);
 				buttonThree.setText(playerThree.playerName);				
-				if (names.size() == 4)
+				if (numPlayers == 4)
 					buttonFour.setText(playerFour.playerName);
 				else
 				{
@@ -364,7 +372,8 @@ public class CatanGame extends WindowController implements ActionListener,
  	
 	public static void main(String[] args)
 	{
-		int numPlayers;
+        startGame = new CatanSetup();
+		/*int numPlayers;
   		Scanner scanner = new Scanner(System.in);
   		System.out.println("Welcome to Settlers of Catan!  \nHow many players will be playing?" +
        				   " (Pick between 3-4)");
@@ -431,7 +440,8 @@ public class CatanGame extends WindowController implements ActionListener,
 	  		}
 	 	 }
 		System.out.println("\nGame Setup Complete. Let the game begin!");
-		//new CatanGame().startController(1300, 800);
+		//new CatanGame().startController(1300, 800);*/
+        
 		CatanGame settlers = new CatanGame();
 		SwingUtilities.invokeLater(settlers);
 	}
