@@ -174,19 +174,9 @@ public class CatanGame extends WindowController implements ActionListener,
 				if (names.size() == 4)
 					buttonFour.setText(playerFour.playerName);
 				else
-				{
 					buttonFour.setText("");
-				    buttonFour.setEnabled(false);
-				}
 					
-				if (currentTurn == 0)
-				    buttonOne.setEnabled(false);
-				else if (currentTurn == 1)
-				    buttonTwo.setEnabled(false);
-				else if (currentTurn == 2)
-				    buttonThree.setEnabled(false);
-				else if (currentTurn == 3)
-				    buttonFour.setEnabled(false);
+				toggleButtons(true);
 				
 				buttonFive.setText("Back");
 				menu = 2;
@@ -322,6 +312,9 @@ public class CatanGame extends WindowController implements ActionListener,
  	    buttonFour.setEnabled(bln);
  	    buttonFive.setEnabled(bln);
  	    
+ 	    if (names.size() == 3)
+            buttonFour.setEnabled(false);
+            
  	    if (bln)
  	    {
             if (currentTurn == 0)
@@ -333,18 +326,6 @@ public class CatanGame extends WindowController implements ActionListener,
             else if (currentTurn == 3)
                 buttonFour.setEnabled(!bln);
         }
- 	}
- 	
- 	public void enableButtons()
- 	{
-        if (currentTurn == 0)
-            buttonOne.setEnabled(false);
-        else if (currentTurn == 1)
-            buttonTwo.setEnabled(false);
-        else if (currentTurn == 2)
-            buttonThree.setEnabled(false);
-        else if (currentTurn == 3)
-            buttonFour.setEnabled(false);
  	}
  	
  	public static void returnToMainMenu()
