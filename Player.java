@@ -133,6 +133,7 @@ public class Player implements CatanController
 		int x = 10;
 		int y = 10;
         int increment;
+        totalCards = numClay + numLumber + numOre + numSheep + numWheat;
         if (totalCards <= 7)
             increment = 110;
         else
