@@ -187,19 +187,9 @@ public class CatanGame extends WindowController implements ActionListener,
 				if (numPlayers == 4)
 					buttonFour.setText(playerFour.playerName);
 				else
-				{
 					buttonFour.setText("");
-				    buttonFour.setEnabled(false);
-				}
 					
-				if (currentTurn == 0)
-				    buttonOne.setEnabled(false);
-				else if (currentTurn == 1)
-				    buttonTwo.setEnabled(false);
-				else if (currentTurn == 2)
-				    buttonThree.setEnabled(false);
-				else if (currentTurn == 3)
-				    buttonFour.setEnabled(false);
+				toggleButtons(true);
 				
 				buttonFive.setText("Back");
 				menu = 2;
@@ -296,28 +286,20 @@ public class CatanGame extends WindowController implements ActionListener,
 		    a list of players to trade with */ 
 		else if (menu == 2)
 		{
+            Player tradingPlayer = null;
 			if (evt.getSource() == buttonOne)
-			{
-			    tradewindow = new OpenTrade(currentPlayer,
-			                                            playerOne, this);
-			    SwingUtilities.invokeLater(tradewindow);
-			}
-			else if (evt.getSource() == buttonTwo)
-			{
-			    tradewindow = new OpenTrade(currentPlayer,
-			                                            playerTwo, this);
-			    SwingUtilities.invokeLater(tradewindow);
-			}
+			    tradingPlayer = playerOne;
+		    else if (evt.getSource() == buttonTwo)
+			    tradingPlayer = playerTwo;
 			else if (evt.getSource() == buttonThree)
-			{
-			    tradewindow = new OpenTrade(currentPlayer,
-			                                            playerThree, this);
-			    SwingUtilities.invokeLater(tradewindow);
-			}
+			    tradingPlayer = playerThree;
 			else if (evt.getSource() == buttonFour)
-            {
+			    tradingPlayer = playerFour;
+			    
+            if (tradingPlayer != null)
+            {    
                 tradewindow = new OpenTrade(currentPlayer,
-                                                    playerFour, this);
+                                                    tradingPlayer, this);
                 SwingUtilities.invokeLater(tradewindow);
 			}
 			else if (evt.getSource() == buttonFive)
@@ -335,6 +317,9 @@ public class CatanGame extends WindowController implements ActionListener,
  	    buttonFour.setEnabled(bln);
  	    buttonFive.setEnabled(bln);
  	    
+ 	    if (numPlayers == 3)
+            buttonFour.setEnabled(false);
+            
  	    if (bln)
  	    {
             if (currentTurn == 0)
@@ -346,18 +331,6 @@ public class CatanGame extends WindowController implements ActionListener,
             else if (currentTurn == 3)
                 buttonFour.setEnabled(!bln);
         }
- 	}
- 	
- 	public void enableButtons()
- 	{
-        if (currentTurn == 0)
-            buttonOne.setEnabled(false);
-        else if (currentTurn == 1)
-            buttonTwo.setEnabled(false);
-        else if (currentTurn == 2)
-            buttonThree.setEnabled(false);
-        else if (currentTurn == 3)
-            buttonFour.setEnabled(false);
  	}
  	
  	public static void returnToMainMenu()
@@ -446,10 +419,8 @@ public class CatanGame extends WindowController implements ActionListener,
 	 	 }
 		System.out.println("\nGame Setup Complete. Let the game begin!");
 		//new CatanGame().startController(1300, 800);*/
-        System.out.println(startGame.isDone());
         while (startGame.isDone() == false)
         {
-            System.out.println(startGame.isDone());
         }
         System.out.println(startGame.isDone());
         CatanGame settlers = new CatanGame();
