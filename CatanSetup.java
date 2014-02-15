@@ -41,11 +41,26 @@ public class CatanSetup implements ActionListener
     group.add(button3);
     group.add(button4);
     //numFrame.add(button2);
+    
     numFrame.add(button3);
     numFrame.add(button4);
     numFrame.setResizable(false);
     numFrame.add(confirmButton);
     numFrame.setVisible(true);
+    button3.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER)
+          setNumOfPlayers();
+      }
+    });
+    button4.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER)
+          setNumOfPlayers();
+      }
+    });
     nameFrame.setSize(300, 200);
     nameFrame.setLocationRelativeTo(null);
     nameFrame.setLayout(new GridLayout(3, 1, 4, 4));
@@ -58,20 +73,7 @@ public class CatanSetup implements ActionListener
   public void actionPerformed(ActionEvent evt)
   {
     if( evt.getSource() == confirmButton )
-    {
-      //if( button2.isSelected())
-        //players = 2;
-      if( button3.isSelected())
-        players = 3;
-      if( button4.isSelected())
-        players = 4;
-      playerNames = new String[this.getNumOfPlayers()];
-      for (int i = 0; i < playerNames.length; i++) {
-        playerNames[i] = "";
-      }
-      numFrame.setVisible(false);
-      this.setNames();
-    }
+      setNumOfPlayers();
     if ( evt.getSource() == confirmButton2 || evt.getSource() == textField) {
       while(globalI < playerNames.length)
       {
@@ -111,6 +113,20 @@ public class CatanSetup implements ActionListener
   }
   
   public int getNumOfPlayers() { return players; }
+  public void setNumOfPlayers() {
+      //if( button2.isSelected())
+        //players = 2;
+      if( button3.isSelected())
+        players = 3;
+      if( button4.isSelected())
+        players = 4;
+      playerNames = new String[this.getNumOfPlayers()];
+      for (int i = 0; i < playerNames.length; i++) {
+        playerNames[i] = "";
+      }
+      numFrame.setVisible(false);
+      this.setNames();
+  }
   
   public void setNames()
   {
@@ -131,5 +147,4 @@ public class CatanSetup implements ActionListener
   {
     return done;
   }
-  
 }

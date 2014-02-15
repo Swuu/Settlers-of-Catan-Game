@@ -357,7 +357,6 @@ public class CatanGame extends WindowController implements ActionListener,
             done = startGame.isDone();
             System.out.print("");
         }
-        System.out.println(startGame.isDone());
         CatanGame settlers = new CatanGame();
         SwingUtilities.invokeLater(settlers);
 	}

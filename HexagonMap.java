@@ -30,8 +30,8 @@ public class HexagonMap extends WindowController implements MouseMotionListener
         hexagonArray[2] = new Hexagon(hexagonArray[1].getXCoord() + 2,hexagonArray[1].getYCoord(), 2, canvas);
        
 		coords.addAll(hexagonArray[0].getTopCoords());
-		coords.addAll(hexagonArray[1].getTopCoords());
-		coords.addAll(hexagonArray[2].getTopCoords());
+		coords.addAll(hexagonArray[1].getTopRightCoords());
+		coords.addAll(hexagonArray[2].getTopRightCoords());
 
  
         hexagonArray[3] = new Hexagon(hexagonArray[0].jumpBackX() - 1,hexagonArray[0].jumpBackY() + 2, 3, canvas);
@@ -40,9 +40,9 @@ public class HexagonMap extends WindowController implements MouseMotionListener
         hexagonArray[6] = new Hexagon(hexagonArray[5].getXCoord() + 2,hexagonArray[5].getYCoord(), 1, canvas);
 
 		coords.addAll(hexagonArray[3].getTopCoords());
-		coords.addAll(hexagonArray[4].getTopCoords());
-		coords.addAll(hexagonArray[5].getTopCoords());
-		coords.addAll(hexagonArray[6].getTopCoords());
+		coords.addAll(hexagonArray[4].getTopRightCoords());
+		coords.addAll(hexagonArray[5].getTopRightCoords());
+		coords.addAll(hexagonArray[6].getTopRightCoords());
         
         hexagonArray[7] = new Hexagon(hexagonArray[3].jumpBackX() - 1,hexagonArray[3].jumpBackY() + 2, 1, canvas);
         hexagonArray[8] = new Hexagon(hexagonArray[7].getXCoord() + 2,hexagonArray[7].getYCoord(), 1, canvas);
@@ -51,16 +51,16 @@ public class HexagonMap extends WindowController implements MouseMotionListener
         hexagonArray[11] = new Hexagon(hexagonArray[10].getXCoord() + 2,hexagonArray[10].getYCoord(), 1, canvas);
      
 		coords.addAll(hexagonArray[7].getTopCoords());
-		coords.addAll(hexagonArray[8].getTopCoords());
-		coords.addAll(hexagonArray[9].getTopCoords());
-		coords.addAll(hexagonArray[10].getTopCoords());
-		coords.addAll(hexagonArray[11].getTopCoords());
+		coords.addAll(hexagonArray[8].getTopRightCoords());
+		coords.addAll(hexagonArray[9].getTopRightCoords());
+		coords.addAll(hexagonArray[10].getTopRightCoords());
+		coords.addAll(hexagonArray[11].getTopRightCoords());
 		
 		coords.addAll(hexagonArray[7].getBottomCoords());
-		coords.addAll(hexagonArray[8].getBottomCoords());
-		coords.addAll(hexagonArray[9].getBottomCoords());
-		coords.addAll(hexagonArray[10].getBottomCoords());
-		coords.addAll(hexagonArray[11].getBottomCoords());
+		coords.addAll(hexagonArray[8].getBottomRightCoords());
+		coords.addAll(hexagonArray[9].getBottomRightCoords());
+		coords.addAll(hexagonArray[10].getBottomRightCoords());
+		coords.addAll(hexagonArray[11].getBottomRightCoords());
 
 	  
         hexagonArray[12] = new Hexagon(hexagonArray[8].jumpBackX() - 1,hexagonArray[8].jumpBackY() + 2, 3, canvas);
@@ -69,17 +69,17 @@ public class HexagonMap extends WindowController implements MouseMotionListener
         hexagonArray[15] = new Hexagon(hexagonArray[14].getXCoord() + 2,hexagonArray[14].getYCoord(), 1, canvas);
    
 		coords.addAll(hexagonArray[12].getBottomCoords());
-		coords.addAll(hexagonArray[13].getBottomCoords());
-		coords.addAll(hexagonArray[14].getBottomCoords());
-		coords.addAll(hexagonArray[15].getBottomCoords());
+		coords.addAll(hexagonArray[13].getBottomRightCoords());
+		coords.addAll(hexagonArray[14].getBottomRightCoords());
+		coords.addAll(hexagonArray[15].getBottomRightCoords());
      
         hexagonArray[16] = new Hexagon(hexagonArray[13].jumpBackX() - 1,hexagonArray[13].jumpBackY() + 2, 3, canvas);
         hexagonArray[17] = new Hexagon(hexagonArray[16].getXCoord() + 2,hexagonArray[16].getYCoord(), 1, canvas);
         hexagonArray[18] = new Hexagon(hexagonArray[17].getXCoord() + 2,hexagonArray[17].getYCoord(), 2, canvas);
 
 		coords.addAll(hexagonArray[16].getBottomCoords());
-		coords.addAll(hexagonArray[17].getBottomCoords());
-		coords.addAll(hexagonArray[18].getBottomCoords());
+		coords.addAll(hexagonArray[17].getBottomRightCoords());
+		coords.addAll(hexagonArray[18].getBottomRightCoords());
         
         for (int i = 0; i < 19; i++)
         {
