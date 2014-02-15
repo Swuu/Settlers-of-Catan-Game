@@ -102,13 +102,11 @@ public class Hexagon
 		return coords;
 	}
 
-	public ArrayList<Coord> getLeftCoords()
+	public ArrayList<Coord> getBottomRightCoords()
 	{
 		ArrayList<Coord> coords = new ArrayList<Coord>();
 		coords.add(new Coord(new Location(xs[3], ys[3]), canvas));
 		coords.add(new Coord(new Location(xs[4], ys[4]), canvas));
-		coords.add(new Coord(new Location(xs[5], ys[5]), canvas));
-		coords.add(new Coord(new Location(xs[6], ys[6]), canvas));
 		return coords;
 	}
 
@@ -124,13 +122,11 @@ public class Hexagon
 		return coords;
 	}
 
-	public ArrayList<Coord> getRightCoords()
+	public ArrayList<Coord> getTopRightCoords()
 	{
 		ArrayList<Coord> coords = new ArrayList<Coord>();
-		coords.add(new Coord(new Location(xs[2], ys[2]), canvas));	
-		coords.add(new Coord(new Location(xs[3], ys[3]), canvas));
-		coords.add(new Coord(new Location(xs[4], ys[4]), canvas));
-		coords.add(new Coord(new Location(xs[5], ys[5]), canvas));
+		coords.add(new Coord(new Location(xs[1], ys[1]), canvas));
+		coords.add(new Coord(new Location(xs[2], ys[2]), canvas));		
 		return coords;
 	}
 
