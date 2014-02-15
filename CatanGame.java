@@ -57,11 +57,16 @@ public class CatanGame extends WindowController implements ActionListener,
   		playerList.add(playerOne);
   		playerTwo = new Player(2, startGame.getName(1), canvas, canvas2, info);
   		playerList.add(playerTwo);
-  		playerThree = new Player(3, startGame.getName(2), canvas, canvas2, info);
-  		playerList.add(playerThree);
-  		if (numPlayers == 4)
+  		if (numPlayers == 3)
+        {
+            playerThree = new Player(3, startGame.getName(2), canvas, canvas2, info);
+            playerList.add(playerThree);
+  		}
+        else if (numPlayers == 4)
   		{
-  			playerFour = new Player(4, startGame.getName(3), canvas, canvas2, info);
+  			playerThree = new Player(3, startGame.getName(2), canvas, canvas2, info);
+            playerList.add(playerThree);
+            playerFour = new Player(4, startGame.getName(3), canvas, canvas2, info);
   			playerList.add(playerFour);
   		}
   		currentTurn = 0;
@@ -441,8 +446,13 @@ public class CatanGame extends WindowController implements ActionListener,
 	 	 }
 		System.out.println("\nGame Setup Complete. Let the game begin!");
 		//new CatanGame().startController(1300, 800);*/
-        
-		CatanGame settlers = new CatanGame();
-		SwingUtilities.invokeLater(settlers);
+        System.out.println(startGame.isDone());
+        while (startGame.isDone() == false)
+        {
+            System.out.println(startGame.isDone());
+        }
+        System.out.println(startGame.isDone());
+        CatanGame settlers = new CatanGame();
+        SwingUtilities.invokeLater(settlers);
 	}
-} 
+}

@@ -7,7 +7,8 @@ import java.util.Collections;
 import javax.swing.*;
 public class CatanSetup implements ActionListener
 {
-	private int players = 0;
+	private boolean done;
+    private int players = 0;
 	private String[] playerNames;
 	private boolean nameSet = false;
 	private JFrame frame = new JFrame("Settlers of Catan");
@@ -27,7 +28,8 @@ public class CatanSetup implements ActionListener
 
 	public CatanSetup()
 	{ 
-		frame.setSize(250,350);
+		done = false;
+        frame.setSize(250,350);
 		frame.setLayout(new GridLayout(5, 1, 5, 5));
 		frame.setLocationRelativeTo(null);
 		frame.add(new JLabel("Please pick the number of players: "));
@@ -55,11 +57,6 @@ public class CatanSetup implements ActionListener
 		confirmButton2.addActionListener(this);
 		confirmButton3.addActionListener(this);
 	}
-    
-    public void run()
-    {
-        
-    }
 
 	public void actionPerformed(ActionEvent evt)
 	{
@@ -107,8 +104,12 @@ public class CatanSetup implements ActionListener
 					if (playerNames[playerNames.length - 1].equals(""))
 						this.setNames();
 					else
+                    {
 						frame2.setVisible(false);
-					break;
+                        System.out.println("Setup finished");
+                        done = true;
+					}
+                    break;
 				}
 			}
 		}
@@ -131,5 +132,10 @@ public class CatanSetup implements ActionListener
 	{
 		return playerNames[player];
 	}
+    
+    public boolean isDone()
+    {
+        return done;
+    }
 
 }
