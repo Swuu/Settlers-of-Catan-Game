@@ -108,6 +108,7 @@ public class OpenTrade implements ActionListener, Runnable
                 {
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     master.toggleButtons(true);
+                    playerOne.displayResourceHand();
                 }
             }
         });
@@ -322,6 +323,7 @@ public class OpenTrade implements ActionListener, Runnable
         {
             theFrame.dispose();
             master.toggleButtons(true);
+            playerOne.displayResourceHand();
         }
     /* OFFER - EXCHANGE mechanics */        
         if (evt.getSource() == finishTrade)
