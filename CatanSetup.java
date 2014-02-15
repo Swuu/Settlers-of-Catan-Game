@@ -106,7 +106,6 @@ public class CatanSetup implements ActionListener
 					else
                     {
 						frame2.setVisible(false);
-                        System.out.println("Setup finished");
                         done = true;
 					}
                     break;

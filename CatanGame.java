@@ -351,76 +351,11 @@ public class CatanGame extends WindowController implements ActionListener,
 	public static void main(String[] args)
 	{
         startGame = new CatanSetup();
-		/*int numPlayers;
-  		Scanner scanner = new Scanner(System.in);
-  		System.out.println("Welcome to Settlers of Catan!  \nHow many players will be playing?" +
-       				   " (Pick between 3-4)");
-  		names = new ArrayList<String>();
-  		while(true)
-  		{
-			String stringPlayers;
-   			stringPlayers = scanner.next();
-			try
-			{
-				numPlayers = Integer.parseInt(stringPlayers);
-			}
-			catch (NumberFormatException nfe)
-			{
-				numPlayers = 0;
-			}
-   			if (numPlayers == 3 || numPlayers == 4) 
-   			{
-	   			break;
-   			}
-   			else
-   			{
-	  			System.out.println("Please pick a number of players between 3 and 4\n");
-   			}
-  		}
-  		for(int playerIndex = 0; playerIndex < numPlayers; playerIndex++)
-  		{
-   			while(true)
-	  		{
-	  			Scanner scanner2 =  new Scanner(System.in);
-	    			System.out.println("\nPlayer " + (playerIndex + 1) 
-	    			                        + " Please enter your name.");
-	    			String name = scanner2.nextLine();
-				boolean sameName = false;
-				char[] nameChars = name.toCharArray();
-        			nameChars[0] = Character.toUpperCase(nameChars[0]);
-        			String finalName = new String(nameChars); 
-        			name = finalName;
-	    			if (name.equals(""))
-	    			{
-	      				System.out.println("You must input a name");
-	    			}
-	    			else
-	    			{
-					for(int i = 0; i < names.size(); i++)
-					{
-						if (name.equals(names.get(i)))
-						{
-							sameName = true;
-							System.out.println("You must input a unique name");
-							break;
-						}
-						else
-						{
-							sameName = false;
-						}
-					}
-					if (sameName == false)
-					{
-	      					names.add(name);
-	      					break;
-					}
-	   			}
-	  		}
-	 	 }
-		System.out.println("\nGame Setup Complete. Let the game begin!");
-		//new CatanGame().startController(1300, 800);*/
-        while (startGame.isDone() == false)
+        boolean done = startGame.isDone();
+        while (done == false)
         {
+            done = startGame.isDone();
+            System.out.print("");
         }
         System.out.println(startGame.isDone());
         CatanGame settlers = new CatanGame();
