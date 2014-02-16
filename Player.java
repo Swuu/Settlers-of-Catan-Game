@@ -88,7 +88,7 @@ public class Player implements CatanController
 		//displayDevelopmentHand();
 	}
  	
-	public void buyItem(Item item)
+	public boolean buyItem(Item item)
 	{
 		if (numClay >= item.priceClay && numLumber >= item.priceLumber && numOre >= item.priceOre && numSheep >= item.priceSheep && numWheat >= item.priceWheat)
 		{
@@ -102,9 +102,11 @@ public class Player implements CatanController
 		{
 			System.out.println("You've not enough minerals");
 			info.append("You've not enough minerals\n");
+            return false;
 		}
         totalCards = numClay + numLumber + numOre + numSheep + numWheat;
 		displayResourceHand();
+        return true;
 	}
 	
 	public void buyDevelopmentCard()

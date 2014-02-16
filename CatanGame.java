@@ -244,7 +244,8 @@ public class CatanGame extends WindowController implements ActionListener,
 			}
 			else if (evt.getSource() == buttonTwo)
 			{
-				currentPlayer.buyItem(SETTLEMENT);
+				if (currentPlayer.buyItem(SETTLEMENT))
+                    gameBoard.buySettlementOn();
 				if (currentPlayer.displayingResourceCards == true)
 				{
 					currentPlayer.displayResourceHand();

@@ -9,6 +9,8 @@ public class HexagonMap extends WindowController implements MouseMotionListener
     private static int width = 1000;
     private static int height = 500;
     private int[] numHex = new int[6];
+    private boolean buySettlement = false;
+    private boolean buyRoad = false;
 
     private static Hexagon[] hexagonArray = new Hexagon[19];
 	private ArrayList<Coord> coords;
@@ -98,39 +100,50 @@ public class HexagonMap extends WindowController implements MouseMotionListener
 		canvas.addMouseMotionListener(this);
 		begin();
     }
+    
+    public void buySettlementOn()
+    {
+        buySettlement = true;
+    }
 
+    public void buySettlementOff()
+    {
+        buySettlement = false;
+    }
+    
+    public void buyRoadOn()
+    {
+        buyRoad = true;
+    }
+    
+    public void buyRoadOff()
+    {
+        buyRoad = false;
+    }
+    
 	public ArrayList<Coord> getCoords()
 	{
 		return coords;
 	}
     
 	public void mouseDragged(MouseEvent evt) {}
-/*
-    public void mouseMoved(MouseEvent evt)
-    {
-        for (int i = 0; i < 19; i++)
-        {
-            if (hexagonArray[i].contains(point))
-            {
-                System.out.println(i + " is pressed!");
-                break;
-            }
-        }
-    }*/
 
 	public void mouseMoved(MouseEvent evt)
 	{
-		for(Coord e: coords)
-		{
-			if(e.contains(new Location(evt.getX(), evt.getY())))
-			{
-				e.showSelectionRadius();
-			}
-			else
-			{
-				e.hideSelectionRadius();
-			}
-		}
-	}
+		if (buySettlement)
+        {
+            for(Coord e: coords)
+            {
+                if(e.contains(new Location(evt.getX(), evt.getY())))
+                {
+                    e.showSelectionRadius();
+                }
+                else
+                {
+                    e.hideSelectionRadius();
+                }
+            }
+        }
+    }
 	
 }
