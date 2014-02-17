@@ -25,6 +25,11 @@ public class Coord
                 available = true;
         selectionBubble.hide();
     }
+    
+    public Location location()
+    {
+        return new Location(xCoord, yCoord);
+    }
 
         public void showSelectionRadius()
         {

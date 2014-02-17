@@ -9,8 +9,9 @@ public class HexagonMap extends WindowController implements MouseMotionListener
     private static int width = 1000;
     private static int height = 500;
     private int[] numHex = new int[6];
-    private boolean buySettlement = false;
+    private boolean selectCoord = false;
     private boolean buyRoad = false;
+    private static Settlement mapSettlement;
 
     private static Hexagon[] hexagonArray = new Hexagon[19];
 	private ArrayList<Coord> coords;
@@ -18,6 +19,8 @@ public class HexagonMap extends WindowController implements MouseMotionListener
     public HexagonMap(DrawingCanvas canvas)
     {
         
+        mapSettlement = new Settlement(0, 0, 0, canvas);
+        mapSettlement.hide();
         numHex[1] = 3; //Clay
         numHex[2] = 4; //Lumber
         numHex[3] = 3; //Ore
@@ -101,14 +104,14 @@ public class HexagonMap extends WindowController implements MouseMotionListener
 		begin();
     }
     
-    public void buySettlementOn()
+    public void selectCoordOn()
     {
-        buySettlement = true;
+        selectCoord = true;
     }
 
-    public void buySettlementOff()
+    public void selectCoordOff()
     {
-        buySettlement = false;
+        selectCoord = false;
     }
     
     public void buyRoadOn()
@@ -130,16 +133,19 @@ public class HexagonMap extends WindowController implements MouseMotionListener
 
 	public void mouseMoved(MouseEvent evt)
 	{
-		if (buySettlement)
+		if (selectCoord)
         {
+            mapSettlement.show();
             for(Coord e: coords)
             {
                 if(e.contains(new Location(evt.getX(), evt.getY())))
                 {
+                    mapSettlement.moveTo(e.location());
                     e.showSelectionRadius();
                 }
                 else
                 {
+                    mapSettlement.moveTo(evt.getX(), evt.getY());
                     e.hideSelectionRadius();
                 }
             }
