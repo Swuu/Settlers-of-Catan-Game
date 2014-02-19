@@ -11,7 +11,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener
     private int[] numHex = new int[6];
     private boolean selectCoord = false;
     private boolean buyRoad = false;
-    private static Settlement mapSettlement;
+    private static SettlementShape mapSettlement;
 
     private static Hexagon[] hexagonArray = new Hexagon[19];
 	private ArrayList<Coord> coords;
@@ -19,7 +19,8 @@ public class HexagonMap extends WindowController implements MouseMotionListener
     public HexagonMap(DrawingCanvas canvas)
     {
         
-        mapSettlement = new Settlement(0, 0, 0, canvas);
+        mapSettlement = new SettlementShape(0, 0, 0, canvas);
+        mapSettlement.moveToFront();
         mapSettlement.hide();
         numHex[1] = 3; //Clay
         numHex[2] = 4; //Lumber

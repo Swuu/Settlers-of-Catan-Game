@@ -10,31 +10,27 @@ import javax.swing.event.*;
 import javax.swing.JTextArea;
 
 // Makes a house, with the middle of the square at x , y
-public class Settlement extends WindowController {
+public class SettlementShape extends WindowController {
 	private FilledRect base;
     private FilledArc roof;
     private int playerNum;
-    
-	/* testing code
-	public void begin() {
-		MakeHouse (100 , 100 , 3 , canvas);
-	}
-	*/
 
-	public Settlement (double x , double y , int aNum , DrawingCanvas canvas)
+	public SettlementShape (double x , double y , int aNum , DrawingCanvas canvas)
     {
 		base = new FilledRect (x-12.5 , y-12.5, 25 , 25 , canvas);
-		roof = new FilledArc (x-19 , y-45 , 38 , 38 , 225 , 90 , canvas);
+		roof = new FilledArc (x-19 , y-45, 38 , 38 , 225 , 90 , canvas);
         playerNum = aNum;
+        setColor();
     }
 
-    public Settlement (Location aLocation, int aNum , DrawingCanvas canvas)
+    public SettlementShape (Location aLocation, int aNum , DrawingCanvas canvas)
     {
         double x = aLocation.getX();
         double y = aLocation.getY();
-        base = new FilledRect (x-12.5 , y-12.5, 25 , 25 , canvas);
+        base = new FilledRect (x-12.5 , y, 25 , 25 , canvas);
         roof = new FilledArc (x-19 , y-45 , 38 , 38 , 225 , 90 , canvas);
         playerNum = aNum;
+        setColor();
     }
 
     public void setColor()
@@ -77,6 +73,12 @@ public class Settlement extends WindowController {
         roof.moveTo(aLocation);
     }
     
+    public void sendToFront()
+    {
+        base.sendToFront();
+        roof.sendToFront();
+    }
+    
     public void hide()
     {
         base.hide();
@@ -88,9 +90,5 @@ public class Settlement extends WindowController {
         base.show();
         roof.show();
     }
-	/* testing code
-	public static void main (String [] args) {
-		new House().startController(200, 200);
-	}
-	*/
+
 } 
