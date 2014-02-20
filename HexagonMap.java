@@ -141,7 +141,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener
             {
                 if(e.contains(new Location(evt.getX(), evt.getY())))
                 {
-                    mapSettlement.moveTo(e.location());
+                    mapSettlement.sendTo(e.location());
                     e.showSelectionRadius();
                 }
                 else
