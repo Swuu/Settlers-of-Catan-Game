@@ -21,8 +21,10 @@ public class Player implements CatanController
 	private int numRoadBuilding;
 	private int numYearOfPlenty;
 	private int totalCards;
+	private int diceScore;
 	private DrawingCanvas canvas, canvas2;
 	private ArrayList <ResourceCard> hand;
+	private boolean rolledThisTurn;
  	public static boolean displayingResourceCards;
 	public static JTextArea info;
  
@@ -34,6 +36,7 @@ public class Player implements CatanController
 		canvas2 = aCanvas2;
 		victoryPoints = 0;
 		info = out;
+		rolledThisTurn = false;
 	}
  
 	public void addCard(int cardNumber)
@@ -100,7 +103,7 @@ public class Player implements CatanController
 		}
 		else
 		{
-			System.out.println("You've not enough minerals");
+			//System.out.println("You've not enough minerals");
 			info.append("You've not enough minerals\n");
             return false;
 		}
@@ -233,5 +236,25 @@ public class Player implements CatanController
     public String getName()
     {
         return playerName;
+    }
+    
+    public boolean canRoll()
+    {
+        return !rolledThisTurn;
+    }
+    
+    public void hasRolled(boolean status)
+    {
+        rolledThisTurn = status;
+    }
+    
+    public int getScore()
+    {
+        return diceScore;
+    }
+    
+    public void setScore(int score)
+    {
+        diceScore = score;
     }
 }

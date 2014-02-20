@@ -10,7 +10,8 @@ import javax.swing.event.*;
 import javax.swing.JTextArea;
 
 public class CatanGame extends WindowController implements ActionListener, 
-                                                    CatanController, Runnable
+                                                    CatanController, Runnable,
+                                                    KeyListener
 {
     private static Player playerOne;
  	private static Player playerTwo;
@@ -39,6 +40,8 @@ public class CatanGame extends WindowController implements ActionListener,
     private static JDrawingCanvas canvas;
     private static JDrawingCanvas canvas2;
     private OpenTrade tradewindow;
+    private DiceRoll rolling;
+    private JFrame frame;
  
 	public void run()
 	{
@@ -60,14 +63,17 @@ public class CatanGame extends WindowController implements ActionListener,
   		playerList.add(playerTwo);
   		if (numPlayers == 3)
         {
-            playerThree = new Player(3, startGame.getName(2), canvas, canvas2, info);
+            playerThree = new Player(3, startGame.getName(2), canvas, canvas2,
+                                                                    info);
             playerList.add(playerThree);
   		}
         else if (numPlayers == 4)
   		{
-  			playerThree = new Player(3, startGame.getName(2), canvas, canvas2, info);
+  			playerThree = new Player(3, startGame.getName(2), canvas, canvas2,
+  			                                                        info);
             playerList.add(playerThree);
-            playerFour = new Player(4, startGame.getName(3), canvas, canvas2, info);
+            playerFour = new Player(4, startGame.getName(3), canvas, canvas2,
+                                                                    info);
   			playerList.add(playerFour);
   		}
   		currentTurn = 0;
@@ -79,7 +85,7 @@ public class CatanGame extends WindowController implements ActionListener,
                 info.append(currentPlayer.getName() + "'s turn.\n");
 		
 
-		JFrame frame = new JFrame("The Settlers of Catan");	
+		frame = new JFrame("The Settlers of Catan");	
 		//(JFrame) SwingUtilities.getWindowAncestor(this);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(getContentPane());		
@@ -93,8 +99,9 @@ public class CatanGame extends WindowController implements ActionListener,
 		
 		JPanel bottomPanel = new JPanel();
 				
-		rollDice = new JButton("Roll Dice");
+		rollDice = new JButton("(R)oll Dice");
 		rollDice.addActionListener(this);
+		rollDice.addKeyListener(this);
 		bottomPanel.add(rollDice, BorderLayout.NORTH);
 		
         bottomPanel.add(canvas2, BorderLayout.SOUTH);
@@ -143,7 +150,8 @@ public class CatanGame extends WindowController implements ActionListener,
 		{
 			for(int col = 10; col < 2000; col+=50)
 			{ 
-				water = new VisibleImage(toolkit.getImage("water.jpg"), col, row, 50, 50, canvas);
+				water = new VisibleImage(toolkit.getImage("water.jpg"), col, 
+				                                    row, 50, 50, canvas);
                 		water.sendBackward();
 			}
 		}
@@ -153,9 +161,7 @@ public class CatanGame extends WindowController implements ActionListener,
 	{
 	    if (evt.getSource() == rollDice)
 	    {
-	        int score = 0;
-	        DiceRoll rolling = new DiceRoll(score);
-	        SwingUtilities.invokeLater(rolling);
+	        rollDice();
 	    }
 	    
 		if (menu == 0)
@@ -209,7 +215,7 @@ public class CatanGame extends WindowController implements ActionListener,
 				buttonFive.setText("Back");
 				menu = 2;
 			}
-			else
+			else if (evt.getSource() == buttonFive)
 			{
 				if (currentTurn == playerList.size() - 1)
 				{
@@ -219,25 +225,26 @@ public class CatanGame extends WindowController implements ActionListener,
 				{
 					currentTurn++;
 				}
+				currentPlayer.hasRolled(false);
 				currentPlayer = playerList.get(currentTurn);
 				currentPlayer.displayResourceHand();
 				info.append(currentPlayer.getName() + "'s turn.\n");
-                                currentName.setText(currentPlayer.getName() + "'s turn.");
-                                switch(currentTurn)
-                                {
-                                        default:
-                                                currentName.setColor(Color.BLUE);
-                                                break;
-                                        case 1:
-                                                currentName.setColor(Color.RED);
-                                                break;
-                                        case 2:
-                                                currentName.setColor(Color.GREEN);
-                                                break;
-                                        case 3:
-                                                currentName.setColor(Color.YELLOW);
-                                                break;
-                                }
+                currentName.setText(currentPlayer.getName() + "'s turn.");
+                switch(currentTurn)
+                {
+                        default:
+                                currentName.setColor(Color.BLUE);
+                                break;
+                        case 1:
+                                currentName.setColor(Color.RED);
+                                break;
+                        case 2:
+                                currentName.setColor(Color.GREEN);
+                                break;
+                        case 3:
+                                currentName.setColor(Color.YELLOW);
+                                break;
+                }
 
 			}
 		}
@@ -326,6 +333,18 @@ public class CatanGame extends WindowController implements ActionListener,
 		}
     }
  	
+ 	public void keyPressed(KeyEvent key)
+ 	{
+        if (key.getKeyCode() == KeyEvent.VK_R)
+ 	        rollDice();
+ 	}
+ 	public void keyReleased(KeyEvent key) {}
+ 	public void keyTyped(KeyEvent key) {}
+ 	/*
+ 	 * This method gives control over all buttons of the game.
+ 	 * It is used from OpenTrade.java to deactivate buttons upon start of
+ 	 * trading and to activate them back when the trade is completed
+ 	 */
  	public void toggleButtons(boolean bln)
  	{
  	    buttonOne.setEnabled(bln);
@@ -351,6 +370,23 @@ public class CatanGame extends WindowController implements ActionListener,
         }
  	}
  	
+ 	public void rollDice()
+ 	{
+ 	    if (currentPlayer.canRoll())
+ 	    {
+ 	        rolling = new DiceRoll(currentPlayer);
+	        SwingUtilities.invokeLater(rolling);
+	    }
+	    else
+	        JOptionPane.showMessageDialog(frame,
+                            currentPlayer.getName() + ", you have already " +
+                            "rolled this turn.", "Sorry...", 
+                            JOptionPane.WARNING_MESSAGE);
+	}
+ 	/*
+ 	 * This method is used for "Finish Turn" button.
+ 	 * Resets buttons' names to their defaults and sets 'menu' to 0
+ 	 */
  	public static void returnToMainMenu()
  	{
  		buttonOne.setText("Add Resource Card");
@@ -366,6 +402,9 @@ public class CatanGame extends WindowController implements ActionListener,
 		buttonFour.setEnabled(true);
  	}
  	
+ 	/*
+ 	    *** MAIN METHOD ***
+ 	 */
 	public static void main(String[] args)
 	{
         startGame = new CatanSetup();

@@ -13,11 +13,12 @@ public class DiceRoll implements Runnable, ActionListener, KeyListener
     private FramedRoundedRect LEFT, RIGHT;
     private JButton CLOSE;
     
-    public DiceRoll(int score)
+    public DiceRoll(Player player)
     {
         scoreOne = generator.nextInt(6) + 1;
         scoreTwo = generator.nextInt(6) + 1;
-        score = scoreOne + scoreTwo;
+        player.setScore(scoreOne + scoreTwo);
+        player.hasRolled(true);
     }
     
     public void run()
@@ -87,7 +88,7 @@ public class DiceRoll implements Runnable, ActionListener, KeyListener
         x = placement.getLocation().getX();
         y = placement.getLocation().getY();
         adjust = placement.getWidth() / 12;
-        System.out.print("ADJUSTMENT: " + adjust + "\n");
+        //System.out.print("ADJUSTMENT: " + adjust + "\n");
         diam = adjust * 2;
         delta = diam + adjust * 2;
         x = x + adjust;
