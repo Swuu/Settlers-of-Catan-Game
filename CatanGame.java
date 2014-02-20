@@ -226,6 +226,7 @@ public class CatanGame extends WindowController implements ActionListener,
 					currentTurn++;
 				}
 				currentPlayer.hasRolled(false);
+				currentPlayer.setScore(0);
 				currentPlayer = playerList.get(currentTurn);
 				currentPlayer.displayResourceHand();
 				info.append(currentPlayer.getName() + "'s turn.\n");
