@@ -100,7 +100,7 @@ public class Player implements CatanController
 		}
 		else
 		{
-			System.out.println("You've not enough minerals");
+			//System.out.println("You've not enough minerals");
 			info.append("You've not enough minerals\n");
             return false;
 		}
