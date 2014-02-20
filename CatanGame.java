@@ -34,6 +34,7 @@ public class CatanGame extends WindowController implements ActionListener,
  	private static JButton buttonThree;
  	private static JButton buttonFour;
  	private static JButton buttonFive;
+ 	private static JButton rollDice;
 	
     private static JDrawingCanvas canvas;
     private static JDrawingCanvas canvas2;
@@ -91,6 +92,11 @@ public class CatanGame extends WindowController implements ActionListener,
 		contentPane.add(topPanel, BorderLayout.NORTH);
 		
 		JPanel bottomPanel = new JPanel();
+				
+		rollDice = new JButton("Roll Dice");
+		rollDice.addActionListener(this);
+		bottomPanel.add(rollDice, BorderLayout.NORTH);
+		
         bottomPanel.add(canvas2, BorderLayout.SOUTH);
         contentPane.add(bottomPanel, BorderLayout.SOUTH);
 		contentPane.add(new JScrollPane(info), BorderLayout.NORTH);
@@ -105,6 +111,8 @@ public class CatanGame extends WindowController implements ActionListener,
 		buttonFour.addActionListener(this);
 		buttonFive = new JButton("Finish Turn");
 		buttonFive.addActionListener(this);
+
+		
 		menu = 0;
 		
 		rightPanel.add(new JScrollPane(info));
@@ -143,6 +151,13 @@ public class CatanGame extends WindowController implements ActionListener,
 
 	public void actionPerformed(ActionEvent evt) 
 	{
+	    if (evt.getSource() == rollDice)
+	    {
+	        int score = 0;
+	        DiceRoll rolling = new DiceRoll(score);
+	        SwingUtilities.invokeLater(rolling);
+	    }
+	    
 		if (menu == 0)
 		{
         	if (evt.getSource() == buttonOne)
@@ -318,6 +333,7 @@ public class CatanGame extends WindowController implements ActionListener,
  	    buttonThree.setEnabled(bln);
  	    buttonFour.setEnabled(bln);
  	    buttonFive.setEnabled(bln);
+ 	    rollDice.setEnabled(bln);
  	    
  	    if (numPlayers == 3)
             buttonFour.setEnabled(false);
