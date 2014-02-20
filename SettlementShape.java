@@ -7,11 +7,13 @@ public class SettlementShape
 	private FilledRect base, window;
 	private FramedRect frame1, frame2;
     private FilledArc roof;
+    private Line left, right;
+    private Line[] fill;
     private int playerNum;
 
     /* CONFIG */
-    double width = 25;
-    double height = 25;
+    double width = 24;
+    double height = 24;
     double arcX = 30;
     double arcY = 30;
     
@@ -22,15 +24,18 @@ public class SettlementShape
         playerNum = aNum;
         setColor();*/
 
-        frame1 = new FramedRect(x-width/2 -1, y-height/2 -1, width+2, height+2,
+        frame1 = new FramedRect(x-width/2 -1, y-height/2 -1, width+1, height+1,
                                                                 canvas);
         base = new FilledRect(x-width/2, y-height/2, width, height, canvas);
-        frame2 = new FramedRect(x-width/6 -1, y-height/6 -1, width/3 +2,
-                                                    height/3 +2, canvas);
+        frame2 = new FramedRect(x-width/6 -1, y-height/6 -1, width/3 +1,
+                                                    height/3 +1, canvas);
         window = new FilledRect(x-width/6, y-height/6, width/3, height/3,
                                                                 canvas);
         roof = new FilledArc(x-arcX/2, y +height/2 -arcY/2, width, 
                                             height/2, 0, 180, canvas);
+                                            
+        left = new Line(x-width/2 - 1, y-height, x, y - height*3/2, canvas);
+        right = new Line(x+width/2 + 1, y-height, x, y - height*3/2,canvas);
                                                                 
         window.setColor(Color.YELLOW);
         //roof.setColor(Color.WHITE);
@@ -50,12 +55,15 @@ public class SettlementShape
         frame1 = new FramedRect(x-width/2 -1, y-height/2 -1, width+2, height+2,
                                                                 canvas);
         base = new FilledRect(x-width/2, y-height/2, width, height, canvas);
-        frame2 = new FramedRect(x-width/6 -1, y-height/6 -1, width/3 +2,
-                                                    height/3 +2, canvas);
+        frame2 = new FramedRect(x-width/6 -1, y-height/6 -1, width/3 +1,
+                                                    height/3 +1, canvas);
         window = new FilledRect(x-width/6, y-height/6, width/3, height/3,
                                                                 canvas);
-        roof = new FilledArc(x-arcX/2, y +height/2 -arcY/2, width, 
-                                            height/2, 0, 180, canvas);
+        //roof = new FilledArc(x-arcX/2, y +height/2 -arcY/2, width, 
+                                            //height/2, 0, 180, canvas);
+                                            
+        left = new Line(x-width/2 - 1, y-height, x, y - height*3/2, canvas);
+        right = new Line(x+width/2 + 1, y-height, x, y - height*3/2,canvas);
                                                                 
         window.setColor(Color.YELLOW);
         //roof.setColor(Color.WHITE);
@@ -94,21 +102,25 @@ public class SettlementShape
     {
         double x = aLocation.getX();
         double y = aLocation.getY();
-        frame1.moveTo(x, y);
-        frame2.moveTo(x+width/3, y+width/3);
-        base.moveTo(x+1, y+1);
-        window.moveTo(x+width/3 + 1, y+width/3 + 1);
-        roof.moveTo(x, y-height/4);
+        frame1.moveTo(x - width/2 - 1, y - height/2 - 1);
+        frame2.moveTo(x - width/6 - 1, y - height/6 - 1);
+        base.moveTo(x - width/2, y - height/2);
+        window.moveTo(x - width/6, y - height/6);
+        left.moveTo(x - width/2 - 1, y - height/2);
+        right.moveTo(x + width/2, y - height/2);
+        //roof.moveTo(x -  arcX/2, y - height);
     }
     
     public void moveTo(double x, double y)
     {
         Location aLocation = new Location(x, y);
-        frame1.moveTo(x, y);
-        frame2.moveTo(x+width/3, y+width/3);
-        base.moveTo(x+1, y+1);
-        window.moveTo(x+width/3 + 1, y+width/3 + 1);
-        roof.moveTo(x, y-height/4);
+        frame1.moveTo(x - width/2 - 1, y - height/2 - 1);
+        frame2.moveTo(x - width/6 - 1, y - height/6 - 1);
+        base.moveTo(x - width/2, y - height/2);
+        window.moveTo(x - width/6, y - height/6);
+        left.moveTo(x - width/2 - 1, y - height/2);
+        right.moveTo(x + width/2, y - height/2);
+        //roof.moveTo(x -  arcX/2, y - height);
     }
     
     public void sendToFront()
@@ -117,7 +129,9 @@ public class SettlementShape
         frame2.sendToFront();
         base.sendToFront();
         window.sendToFront();
-        roof.sendToFront();
+        left.sendToFront();
+        right.sendToFront();
+        //roof.sendToFront();
     }
     
     public void hide()
@@ -126,7 +140,7 @@ public class SettlementShape
         frame2.hide();
         base.hide();
         window.hide();
-        roof.hide();
+        //roof.hide();
     }
         
     public void show()
@@ -135,7 +149,7 @@ public class SettlementShape
         frame2.show();
         base.show();
         window.show();
-        roof.show();
+        //roof.show();
     }
 
 } 
