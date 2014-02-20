@@ -48,7 +48,7 @@ public class CatanGame extends WindowController implements ActionListener,
 		canvas= new JDrawingCanvas(1000,500);
 		canvas2 = new JDrawingCanvas(800, 100);
 
-		generateBackground(canvas); 
+	//generateBackground(canvas); 
 		
 		gameBoard = new HexagonMap(canvas);
 		

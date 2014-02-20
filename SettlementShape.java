@@ -33,7 +33,7 @@ public class SettlementShape
                                             height/2, 0, 180, canvas);
                                                                 
         window.setColor(Color.YELLOW);
-        roof.setColor(Color.WHITE);
+        //roof.setColor(Color.WHITE);
         playerNum = aNum;
         setColor();
     }
@@ -58,7 +58,7 @@ public class SettlementShape
                                             height/2, 0, 180, canvas);
                                                                 
         window.setColor(Color.YELLOW);
-        roof.setColor(Color.WHITE);
+        //roof.setColor(Color.WHITE);
         playerNum = aNum;
         setColor();
     }
