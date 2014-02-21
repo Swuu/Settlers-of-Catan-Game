@@ -48,7 +48,7 @@ public class CatanGame extends WindowController implements ActionListener,
 		canvas= new JDrawingCanvas(1000,500);
 		canvas2 = new JDrawingCanvas(800, 100);
 
-	//generateBackground(canvas); 
+        generateBackground(canvas); 
 		
 		gameBoard = new HexagonMap(canvas);
 		
@@ -142,15 +142,15 @@ public class CatanGame extends WindowController implements ActionListener,
 	{
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 
-                //double horizontalBuf = canvas.getWidth()-10;
-                //double verticalBuf = canvas.getHeight()-10;
+                double horizontalBuf = canvas.getWidth()-10;
+                double verticalBuf = canvas.getHeight()-10;
 		VisibleImage water; 
 
 		for(int row = 15; row < 2000; row+=50)
 		{
 			for(int col = 10; col < 2000; col+=50)
 			{ 
-				water = new VisibleImage(toolkit.getImage("water.jpg"), col, 
+				water = new VisibleImage(toolkit.getImage("blue.jpg"), col,
 				                                    row, 50, 50, canvas);
                 		water.sendBackward();
 			}
