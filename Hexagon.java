@@ -13,14 +13,22 @@ public class Hexagon
 	private static final int SEVEN = 7;
     private double[] xs;
     private double[] ys;
+    
     private Line[] lineArray = new Line[6];
     private FilledArc[] arcArray = new FilledArc[6];
+    
     private Location centerLoc;
-    public int hexValue;
+    private Location belowLoc;
+    
+    private int hexValue;
     private int rollValue;
+    
     private double arcAngle =  120;
     private DrawingCanvas canvas;
+    
     private Text cardText;
+    private Text cardNum;
+    
     public String cardType = "";
 	public static final int skew = 1;
     
@@ -28,11 +36,12 @@ public class Hexagon
     public static final double LENGTH = 64;
 	
 	//constuctor that will be called
-	public Hexagon(double a, double b, int type, DrawingCanvas aCanvas)
+	public Hexagon(double a, double b, int type, int number, DrawingCanvas aCanvas)
     {
         
         canvas = aCanvas;
         hexValue = type;
+        rollValue = number;
 		//start points
 		double a0 = a; //a is x axis
 		double b0 = b; //b is y axis
@@ -54,6 +63,7 @@ public class Hexagon
 		double b5 = b3;
 		
         centerLoc = new Location(a1- LENGTH/4, b0);
+        belowLoc = new Location(a1-LENGTH/8, b0 + 20);
 		//end and start points
 		
 		//puts points in array to send to constructor
@@ -188,6 +198,11 @@ public class Hexagon
         return ys[2];
     }
     
+    public int getHexValue()
+    {
+        return hexValue;
+    }
+    
     public void setValue(int aType)
     {
         this.hexValue = aType;
@@ -228,5 +243,17 @@ public class Hexagon
             cardText = new Text(cardType, centerLoc, canvas);
 			cardText.setColor(Color.WHITE);
         }
+    }
+    
+    public int getRollValue()
+    {
+        return rollValue;
+    }
+    
+    public void setRollValue(int aNumber)
+    {
+        rollValue = aNumber;
+        cardNum = new Text(rollValue, belowLoc, canvas);
+        cardNum.setColor(Color.WHITE);
     }
 }
