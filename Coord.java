@@ -10,6 +10,7 @@ public class Coord
     private double yCoord;
     private double areaRadius;
     private int selectionRadius;
+    private boolean habitable;
 
     public Coord(Location aLocation, DrawingCanvas canvas)
     {
@@ -60,4 +61,19 @@ public class Coord
 	{
 		return	selectionBubble.contains(loc);
 	}
+    
+    public boolean isHabitable()
+    {
+        return habitable;
+    }
+    
+    public void makeHabitable()
+    {
+        habitable = true;
+    }
+    
+    public void makeInhabitable()
+    {
+        habitable = false;
+    }
 }
