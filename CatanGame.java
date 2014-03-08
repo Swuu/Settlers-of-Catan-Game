@@ -50,7 +50,7 @@ public class CatanGame extends WindowController implements ActionListener,
 
         generateBackground(canvas); 
 		
-		gameBoard = new HexagonMap(canvas);
+		gameBoard = new HexagonMap(canvas, this);
 		
         info = new JTextArea(5, 5);
 		info.setEditable(false);
@@ -148,7 +148,7 @@ public class CatanGame extends WindowController implements ActionListener,
 
 		for(int row = 15; row < 2000; row+=50)
 		{
-			for(int col = 10; col < 2000; col+=50)
+			for(int col = 0; col < 2000; col+=50)
 			{ 
 				water = new VisibleImage(toolkit.getImage("blue.jpg"), col,
 				                                    row, 50, 50, canvas);
@@ -384,6 +384,12 @@ public class CatanGame extends WindowController implements ActionListener,
                             "rolled this turn.", "Sorry...", 
                             JOptionPane.WARNING_MESSAGE);
 	}
+    
+    public Player currentPlayer()
+    {
+        return currentPlayer;
+    }
+    
  	/*
  	 * This method is used for "Finish Turn" button.
  	 * Resets buttons' names to their defaults and sets 'menu' to 0

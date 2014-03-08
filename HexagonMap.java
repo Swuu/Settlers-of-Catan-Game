@@ -13,13 +13,16 @@ public class HexagonMap extends WindowController implements MouseMotionListener
     private boolean selectCoord = false;
     private boolean buyRoad = false;
     private static SettlementShape mapSettlement;
+    private CatanGame game;
+    private DrawingCanvas canvas;
 
     private static Hexagon[] hexagonArray = new Hexagon[19];
 	private ArrayList<Coord> coords;
     
-    public HexagonMap(DrawingCanvas canvas)
+    public HexagonMap(DrawingCanvas aCanvas, CatanGame aGame)
     {
-        
+        canvas = aCanvas;
+        game = aGame;
         mapSettlement = new SettlementShape(0, 0, 0, canvas);
         mapSettlement.sendToFront();
         mapSettlement.hide();
@@ -46,7 +49,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener
 
 		coords = new ArrayList<Coord>();
 
-        hexagonArray[0] = new Hexagon(200, 50, 0, 0, canvas);
+        hexagonArray[0] = new Hexagon(200, 70, 0, 0, canvas);
         hexagonArray[1] = new Hexagon(hexagonArray[0].getXCoord() + 2,hexagonArray[0].getYCoord(), 1, 0, canvas);
         hexagonArray[2] = new Hexagon(hexagonArray[1].getXCoord() + 2,hexagonArray[1].getYCoord(), 2, 0, canvas);
        
@@ -187,4 +190,19 @@ public class HexagonMap extends WindowController implements MouseMotionListener
         }
     }
 	
+    public void mouseClicked(MouseEvent evt)
+    {
+        if (selectCoord)
+        {
+            for (Coord e: coords)
+            {
+                if (e.contains(new Location(evt.getX(), evt.getY())))
+                {
+                    new GameSettlement(e, game.currentPlayer(), canvas);
+                    selectCoord = false;
+                }
+            }
+        }
+    }
+    
 }

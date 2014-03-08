@@ -1,5 +1,3 @@
-/*WARNING: Be careful when modifiying this file on Dropbox!! If more than one person is modifiying it at a time and you
- * both save, then there is a chance for data loss and we all lose!*/
 import java.awt.*;
 import java.util.ArrayList;
 import objectdraw.*;
@@ -256,5 +254,10 @@ public class Player implements CatanController
     public void setScore(int score)
     {
         diceScore = score;
+    }
+    
+    public int getNum()
+    {
+        return player;
     }
 }
