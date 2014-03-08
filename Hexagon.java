@@ -104,6 +104,7 @@ public class Hexagon
         fillHexagons();
 	}
 
+    //adds Coord objects to the 3 top vertices of the Hexagon
 	public ArrayList<Coord> getTopCoords()
 	{
 		ArrayList<Coord> coords = new ArrayList<Coord>();
@@ -113,6 +114,7 @@ public class Hexagon
 		return coords;
 	}
 
+    //adds Coord objects to the 2 bottom vertices of the Hexagon
 	public ArrayList<Coord> getBottomRightCoords()
 	{
 		ArrayList<Coord> coords = new ArrayList<Coord>();
@@ -121,6 +123,7 @@ public class Hexagon
 		return coords;
 	}
 
+    //adds Coord objects to all 6 vertices of the Hexagon
 	public ArrayList<Coord> getCoords()
 	{
 		ArrayList<Coord> coords = new ArrayList<Coord>();
@@ -133,6 +136,7 @@ public class Hexagon
 		return coords;
 	}
 
+    //adds Coord objects to the top right vertices of the Hexagon
 	public ArrayList<Coord> getTopRightCoords()
 	{
 		ArrayList<Coord> coords = new ArrayList<Coord>();
@@ -141,6 +145,7 @@ public class Hexagon
 		return coords;
 	}
 
+    //adds Coord objects to the bottom vertices of the Hexagon
 	public ArrayList<Coord> getBottomCoords()
 	{
 		ArrayList<Coord> coords = new ArrayList<Coord>();
@@ -152,13 +157,6 @@ public class Hexagon
     
     public void fillHexagons()
     {
-        /*arcArray[0] = new FilledArc(lineArray[0].getStart(), xs[1] - xs[0], ys[5]- ys[0], 270, arcAngle, canvas);
-        arcArray[1] = new FilledArc(lineArray[1].getStart(), lineArray[1].getEnd(), , arcAngle, canvas);
-        arcArray[2] = new FilledArc(lineArray[2].getStart(), lineArray[2].getEnd(), , arcAngle, canvas);
-        arcArray[3] = new FilledArc(lineArray[3].getStart(), lineArray[3].getEnd(), , arcAngle, canvas);
-        arcArray[4] = new FilledArc(lineArray[4].getStart(), lineArray[4].getEnd(), , arcAngle, canvas);
-        arcArray[5] = new FilledArc(lineArray[5].getStart(), lineArray[5].getEnd(), , arcAngle, canvas);*/
-        
     }
     
     public void printType()
@@ -176,6 +174,7 @@ public class Hexagon
         return polygon.contains(c.getX(), c.getY());
     }
     
+    //returns the X coord for the initial location of a next row Hexagon
     public double jumpBackX()
     {
         
@@ -183,6 +182,7 @@ public class Hexagon
         return initX;
     }
     
+    //returns the Y coord for the initial location of a next row Hexagon
     public double jumpBackY()
     {
         return (0.5*LENGTH + ys[5]);
@@ -203,10 +203,12 @@ public class Hexagon
         return hexValue;
     }
     
+    //sets the Hexagon's type
     public void setValue(int aType)
     {
         this.hexValue = aType;
         Color hexColor;
+        //for loop to set all the lines colors
         for (int i = 0; i < 6; i ++)
         {
             if (hexValue == 1)
@@ -246,11 +248,13 @@ public class Hexagon
         }
     }
     
+    //get method to get rollValue
     public int getRollValue()
     {
         return rollValue;
     }
     
+    //sets rollValue
     public void setRollValue(int aNumber)
     {
         rollValue = aNumber;
