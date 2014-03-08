@@ -4,7 +4,7 @@ import java.util.*;
 import java.awt.event.*;
 import javax.swing.event.*;
 
-public class HexagonMap extends WindowController implements MouseMotionListener
+public class HexagonMap extends WindowController implements MouseMotionListener, MouseListener
 {
     private static int width = 1000;
     private static int height = 500;
@@ -173,6 +173,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener
 		if (selectCoord)
         {
             mapSettlement.show();
+		canvas.addMouseListener(this);
             for(Coord e: coords)
             {
                 if(e.contains(new Location(evt.getX(), evt.getY())))
@@ -189,7 +190,15 @@ public class HexagonMap extends WindowController implements MouseMotionListener
             }
         }
     }
+
+	public void mouseEntered(MouseEvent evt) {}
+
+	public void mouseExited(MouseEvent evt) {}
 	
+	public void mousePressed(MouseEvent evt) {}
+
+	public void mouseReleased(MouseEvent evt) {}
+
     public void mouseClicked(MouseEvent evt)
     {
         if (selectCoord)
