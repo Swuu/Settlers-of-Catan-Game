@@ -10,50 +10,70 @@ import javax.swing.event.*;
 import javax.swing.JTextArea;
 
 public class CatanGame extends WindowController implements ActionListener, 
-                                                    CatanController, Runnable
+                                                    CatanController, Runnable,
+                                                    KeyListener
 {
     private static Player playerOne;
  	private static Player playerTwo;
  	private static Player playerThree;
  	private static Player playerFour;
-    private static HexagonMap gameBoard;
  	private static Player currentPlayer;
+    private static int numPlayers;
+    
+    //private static ArrayList<String> names;
+ 	private static ArrayList<Player> playerList;
+    
+    private static HexagonMap gameBoard;
+    private static CatanSetup startGame;
  	private static Text currentName;
  	private static int currentTurn;
- 	private JTextArea info;
+ 	
+    private JTextArea info;
  	private static int menu;
  	private static JButton buttonOne;
  	private static JButton buttonTwo;
  	private static JButton buttonThree;
  	private static JButton buttonFour;
  	private static JButton buttonFive;
- 	private static ArrayList<String> names;
- 	private static ArrayList<Player> playerList;
-	private static JDrawingCanvas canvas;
+ 	private static JButton rollDice;
+	
+    private static JDrawingCanvas canvas;
     private static JDrawingCanvas canvas2;
     private OpenTrade tradewindow;
+    private DiceRoll rolling;
+    private JFrame frame;
  
 	public void run()
 	{
 		canvas= new JDrawingCanvas(1000,500);
 		canvas2 = new JDrawingCanvas(800, 100);
 
-		generateBackground(canvas); 
+        generateBackground(canvas); 
 		
-		gameBoard = new HexagonMap(canvas);	
-
-		info = new JTextArea(5, 5);
+		gameBoard = new HexagonMap(canvas);
+		
+        info = new JTextArea(5, 5);
 		info.setEditable(false);
-		playerList = new ArrayList<Player>();
-  		playerOne = new Player(1, names.get(0), canvas, canvas2, info);
+		
+        numPlayers = startGame.getNumOfPlayers();
+        playerList = new ArrayList<Player>();
+  		playerOne = new Player(1, startGame.getName(0), canvas, canvas2, info);
   		playerList.add(playerOne);
-  		playerTwo = new Player(2, names.get(1), canvas, canvas2, info);
+  		playerTwo = new Player(2, startGame.getName(1), canvas, canvas2, info);
   		playerList.add(playerTwo);
-  		playerThree = new Player(3, names.get(2), canvas, canvas2, info);
-  		playerList.add(playerThree);
-  		if (names.size() == 4)
+  		if (numPlayers == 3)
+        {
+            playerThree = new Player(3, startGame.getName(2), canvas, canvas2,
+                                                                    info);
+            playerList.add(playerThree);
+  		}
+        else if (numPlayers == 4)
   		{
-  			playerFour = new Player(4, names.get(3), canvas, canvas2, info);
+  			playerThree = new Player(3, startGame.getName(2), canvas, canvas2,
+  			                                                        info);
+            playerList.add(playerThree);
+            playerFour = new Player(4, startGame.getName(3), canvas, canvas2,
+                                                                    info);
   			playerList.add(playerFour);
   		}
   		currentTurn = 0;
@@ -65,7 +85,7 @@ public class CatanGame extends WindowController implements ActionListener,
                 info.append(currentPlayer.getName() + "'s turn.\n");
 		
 
-		JFrame frame = new JFrame("The Settlers of Catan");	
+		frame = new JFrame("The Settlers of Catan");	
 		//(JFrame) SwingUtilities.getWindowAncestor(this);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(getContentPane());		
@@ -78,6 +98,12 @@ public class CatanGame extends WindowController implements ActionListener,
 		contentPane.add(topPanel, BorderLayout.NORTH);
 		
 		JPanel bottomPanel = new JPanel();
+				
+		rollDice = new JButton("(R)oll Dice");
+		rollDice.addActionListener(this);
+		rollDice.addKeyListener(this);
+		bottomPanel.add(rollDice, BorderLayout.NORTH);
+		
         bottomPanel.add(canvas2, BorderLayout.SOUTH);
         contentPane.add(bottomPanel, BorderLayout.SOUTH);
 		contentPane.add(new JScrollPane(info), BorderLayout.NORTH);
@@ -92,6 +118,8 @@ public class CatanGame extends WindowController implements ActionListener,
 		buttonFour.addActionListener(this);
 		buttonFive = new JButton("Finish Turn");
 		buttonFive.addActionListener(this);
+
+		
 		menu = 0;
 		
 		rightPanel.add(new JScrollPane(info));
@@ -114,15 +142,16 @@ public class CatanGame extends WindowController implements ActionListener,
 	{
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 
-                //double horizontalBuf = canvas.getWidth()-10;
-                //double verticalBuf = canvas.getHeight()-10;
+                double horizontalBuf = canvas.getWidth()-10;
+                double verticalBuf = canvas.getHeight()-10;
 		VisibleImage water; 
 
 		for(int row = 15; row < 2000; row+=50)
 		{
 			for(int col = 10; col < 2000; col+=50)
 			{ 
-				water = new VisibleImage(toolkit.getImage("water.jpg"), col, row, 50, 50, canvas);
+				water = new VisibleImage(toolkit.getImage("blue.jpg"), col,
+				                                    row, 50, 50, canvas);
                 		water.sendBackward();
 			}
 		}
@@ -130,6 +159,11 @@ public class CatanGame extends WindowController implements ActionListener,
 
 	public void actionPerformed(ActionEvent evt) 
 	{
+	    if (evt.getSource() == rollDice)
+	    {
+	        rollDice();
+	    }
+	    
 		if (menu == 0)
 		{
         	if (evt.getSource() == buttonOne)
@@ -171,27 +205,17 @@ public class CatanGame extends WindowController implements ActionListener,
 				buttonOne.setText(playerOne.playerName);
 				buttonTwo.setText(playerTwo.playerName);
 				buttonThree.setText(playerThree.playerName);				
-				if (names.size() == 4)
+				if (numPlayers == 4)
 					buttonFour.setText(playerFour.playerName);
 				else
-				{
 					buttonFour.setText("");
-				    buttonFour.setEnabled(false);
-				}
 					
-				if (currentTurn == 0)
-				    buttonOne.setEnabled(false);
-				else if (currentTurn == 1)
-				    buttonTwo.setEnabled(false);
-				else if (currentTurn == 2)
-				    buttonThree.setEnabled(false);
-				else if (currentTurn == 3)
-				    buttonFour.setEnabled(false);
+				toggleButtons(true);
 				
 				buttonFive.setText("Back");
 				menu = 2;
 			}
-			else
+			else if (evt.getSource() == buttonFive)
 			{
 				if (currentTurn == playerList.size() - 1)
 				{
@@ -201,25 +225,27 @@ public class CatanGame extends WindowController implements ActionListener,
 				{
 					currentTurn++;
 				}
+				currentPlayer.hasRolled(false);
+				currentPlayer.setScore(0);
 				currentPlayer = playerList.get(currentTurn);
 				currentPlayer.displayResourceHand();
 				info.append(currentPlayer.getName() + "'s turn.\n");
-                                currentName.setText(currentPlayer.getName() + "'s turn.");
-                                switch(currentTurn)
-                                {
-                                        default:
-                                                currentName.setColor(Color.BLUE);
-                                                break;
-                                        case 1:
-                                                currentName.setColor(Color.RED);
-                                                break;
-                                        case 2:
-                                                currentName.setColor(Color.GREEN);
-                                                break;
-                                        case 3:
-                                                currentName.setColor(Color.YELLOW);
-                                                break;
-                                }
+                currentName.setText(currentPlayer.getName() + "'s turn.");
+                switch(currentTurn)
+                {
+                        default:
+                                currentName.setColor(Color.BLUE);
+                                break;
+                        case 1:
+                                currentName.setColor(Color.RED);
+                                break;
+                        case 2:
+                                currentName.setColor(Color.GREEN);
+                                break;
+                        case 3:
+                                currentName.setColor(Color.YELLOW);
+                                break;
+                }
 
 			}
 		}
@@ -241,7 +267,8 @@ public class CatanGame extends WindowController implements ActionListener,
 			}
 			else if (evt.getSource() == buttonTwo)
 			{
-				currentPlayer.buyItem(SETTLEMENT);
+				if (currentPlayer.buyItem(SETTLEMENT))
+                    gameBoard.selectCoordOn();
 				if (currentPlayer.displayingResourceCards == true)
 				{
 					currentPlayer.displayResourceHand();
@@ -253,7 +280,8 @@ public class CatanGame extends WindowController implements ActionListener,
 			}
 			else if (evt.getSource() == buttonThree)
 			{
-				currentPlayer.buyItem(CITY);
+				if (currentPlayer.buyItem(CITY))
+                    gameBoard.selectCoordOn();
 				if (currentPlayer.displayingResourceCards == true)
 				{
 					currentPlayer.displayResourceHand();
@@ -283,28 +311,20 @@ public class CatanGame extends WindowController implements ActionListener,
 		    a list of players to trade with */ 
 		else if (menu == 2)
 		{
+            Player tradingPlayer = null;
 			if (evt.getSource() == buttonOne)
-			{
-			    tradewindow = new OpenTrade(currentPlayer,
-			                                            playerOne, this);
-			    SwingUtilities.invokeLater(tradewindow);
-			}
-			else if (evt.getSource() == buttonTwo)
-			{
-			    tradewindow = new OpenTrade(currentPlayer,
-			                                            playerTwo, this);
-			    SwingUtilities.invokeLater(tradewindow);
-			}
+			    tradingPlayer = playerOne;
+		    else if (evt.getSource() == buttonTwo)
+			    tradingPlayer = playerTwo;
 			else if (evt.getSource() == buttonThree)
-			{
-			    tradewindow = new OpenTrade(currentPlayer,
-			                                            playerThree, this);
-			    SwingUtilities.invokeLater(tradewindow);
-			}
+			    tradingPlayer = playerThree;
 			else if (evt.getSource() == buttonFour)
-            {
+			    tradingPlayer = playerFour;
+			    
+            if (tradingPlayer != null)
+            {    
                 tradewindow = new OpenTrade(currentPlayer,
-                                                    playerFour, this);
+                                                    tradingPlayer, this);
                 SwingUtilities.invokeLater(tradewindow);
 			}
 			else if (evt.getSource() == buttonFive)
@@ -314,6 +334,18 @@ public class CatanGame extends WindowController implements ActionListener,
 		}
     }
  	
+ 	public void keyPressed(KeyEvent key)
+ 	{
+        if (key.getKeyCode() == KeyEvent.VK_R)
+ 	        rollDice();
+ 	}
+ 	public void keyReleased(KeyEvent key) {}
+ 	public void keyTyped(KeyEvent key) {}
+ 	/*
+ 	 * This method gives control over all buttons of the game.
+ 	 * It is used from OpenTrade.java to deactivate buttons upon start of
+ 	 * trading and to activate them back when the trade is completed
+ 	 */
  	public void toggleButtons(boolean bln)
  	{
  	    buttonOne.setEnabled(bln);
@@ -321,7 +353,11 @@ public class CatanGame extends WindowController implements ActionListener,
  	    buttonThree.setEnabled(bln);
  	    buttonFour.setEnabled(bln);
  	    buttonFive.setEnabled(bln);
+ 	    rollDice.setEnabled(bln);
  	    
+ 	    if (numPlayers == 3)
+            buttonFour.setEnabled(false);
+            
  	    if (bln)
  	    {
             if (currentTurn == 0)
@@ -335,18 +371,23 @@ public class CatanGame extends WindowController implements ActionListener,
         }
  	}
  	
- 	public void enableButtons()
+ 	public void rollDice()
  	{
-        if (currentTurn == 0)
-            buttonOne.setEnabled(false);
-        else if (currentTurn == 1)
-            buttonTwo.setEnabled(false);
-        else if (currentTurn == 2)
-            buttonThree.setEnabled(false);
-        else if (currentTurn == 3)
-            buttonFour.setEnabled(false);
- 	}
- 	
+ 	    if (currentPlayer.canRoll())
+ 	    {
+ 	        rolling = new DiceRoll(currentPlayer);
+	        SwingUtilities.invokeLater(rolling);
+	    }
+	    else
+	        JOptionPane.showMessageDialog(frame,
+                            currentPlayer.getName() + ", you have already " +
+                            "rolled this turn.", "Sorry...", 
+                            JOptionPane.WARNING_MESSAGE);
+	}
+ 	/*
+ 	 * This method is used for "Finish Turn" button.
+ 	 * Resets buttons' names to their defaults and sets 'menu' to 0
+ 	 */
  	public static void returnToMainMenu()
  	{
  		buttonOne.setText("Add Resource Card");
@@ -362,77 +403,19 @@ public class CatanGame extends WindowController implements ActionListener,
 		buttonFour.setEnabled(true);
  	}
  	
+ 	/*
+ 	    *** MAIN METHOD ***
+ 	 */
 	public static void main(String[] args)
 	{
-		int numPlayers;
-  		Scanner scanner = new Scanner(System.in);
-  		System.out.println("Welcome to Settlers of Catan!  \nHow many players will be playing?" +
-       				   " (Pick between 3-4)");
-  		names = new ArrayList<String>();
-  		while(true)
-  		{
-			String stringPlayers;
-   			stringPlayers = scanner.next();
-			try
-			{
-				numPlayers = Integer.parseInt(stringPlayers);
-			}
-			catch (NumberFormatException nfe)
-			{
-				numPlayers = 0;
-			}
-   			if (numPlayers == 3 || numPlayers == 4) 
-   			{
-	   			break;
-   			}
-   			else
-   			{
-	  			System.out.println("Please pick a number of players between 3 and 4\n");
-   			}
-  		}
-  		for(int playerIndex = 0; playerIndex < numPlayers; playerIndex++)
-  		{
-   			while(true)
-	  		{
-	  			Scanner scanner2 =  new Scanner(System.in);
-	    			System.out.println("\nPlayer " + (playerIndex + 1) 
-	    			                        + " Please enter your name.");
-	    			String name = scanner2.nextLine();
-				boolean sameName = false;
-				char[] nameChars = name.toCharArray();
-        			nameChars[0] = Character.toUpperCase(nameChars[0]);
-        			String finalName = new String(nameChars); 
-        			name = finalName;
-	    			if (name.equals(""))
-	    			{
-	      				System.out.println("You must input a name");
-	    			}
-	    			else
-	    			{
-					for(int i = 0; i < names.size(); i++)
-					{
-						if (name.equals(names.get(i)))
-						{
-							sameName = true;
-							System.out.println("You must input a unique name");
-							break;
-						}
-						else
-						{
-							sameName = false;
-						}
-					}
-					if (sameName == false)
-					{
-	      					names.add(name);
-	      					break;
-					}
-	   			}
-	  		}
-	 	 }
-		System.out.println("\nGame Setup Complete. Let the game begin!");
-		//new CatanGame().startController(1300, 800);
-		CatanGame settlers = new CatanGame();
-		SwingUtilities.invokeLater(settlers);
+        startGame = new CatanSetup();
+        boolean done = startGame.isDone();
+        while (done == false)
+        {
+            done = startGame.isDone();
+            System.out.print("");
+        }
+        CatanGame settlers = new CatanGame();
+        SwingUtilities.invokeLater(settlers);
 	}
-} 
+}

@@ -13,25 +13,35 @@ public class Hexagon
 	private static final int SEVEN = 7;
     private double[] xs;
     private double[] ys;
+    
     private Line[] lineArray = new Line[6];
     private FilledArc[] arcArray = new FilledArc[6];
+    
     private Location centerLoc;
-    public int hexValue;
+    private Location belowLoc;
+    
+    private int hexValue;
     private int rollValue;
+    
     private double arcAngle =  120;
     private DrawingCanvas canvas;
+    
     private Text cardText;
+    private Text cardNum;
+    
     public String cardType = "";
+	public static final int skew = 1;
     
     //define the length of side of polygon
     public static final double LENGTH = 64;
 	
 	//constuctor that will be called
-	public Hexagon(double a, double b, int type, DrawingCanvas aCanvas)
+	public Hexagon(double a, double b, int type, int number, DrawingCanvas aCanvas)
     {
         
         canvas = aCanvas;
         hexValue = type;
+        rollValue = number;
 		//start points
 		double a0 = a; //a is x axis
 		double b0 = b; //b is y axis
@@ -53,6 +63,7 @@ public class Hexagon
 		double b5 = b3;
 		
         centerLoc = new Location(a1- LENGTH/4, b0);
+        belowLoc = new Location(a1-LENGTH/8, b0 + 20);
 		//end and start points
 		
 		//puts points in array to send to constructor
@@ -96,50 +107,46 @@ public class Hexagon
 	public ArrayList<Coord> getTopCoords()
 	{
 		ArrayList<Coord> coords = new ArrayList<Coord>();
-		coords.add(new Coord(new Location(xs[1], ys[1]), canvas));
-		coords.add(new Coord(new Location(xs[2], ys[2]), canvas));	
-		coords.add(new Coord(new Location(xs[6], ys[6]), canvas));
+		coords.add(new Coord(new Location(xs[1], ys[1]-skew), canvas));
+		coords.add(new Coord(new Location(xs[2]+skew, ys[2]-skew), canvas));	
+		coords.add(new Coord(new Location(xs[6]-skew, ys[6]-skew), canvas));
 		return coords;
 	}
 
-	public ArrayList<Coord> getLeftCoords()
+	public ArrayList<Coord> getBottomRightCoords()
 	{
 		ArrayList<Coord> coords = new ArrayList<Coord>();
-		coords.add(new Coord(new Location(xs[3], ys[3]), canvas));
-		coords.add(new Coord(new Location(xs[4], ys[4]), canvas));
-		coords.add(new Coord(new Location(xs[5], ys[5]), canvas));
-		coords.add(new Coord(new Location(xs[6], ys[6]), canvas));
+		coords.add(new Coord(new Location(xs[3]+skew, ys[3]+skew), canvas));
+		coords.add(new Coord(new Location(xs[4], ys[4]+skew), canvas));
 		return coords;
 	}
 
 	public ArrayList<Coord> getCoords()
 	{
 		ArrayList<Coord> coords = new ArrayList<Coord>();
-		coords.add(new Coord(new Location(xs[1], ys[1]), canvas));
-		coords.add(new Coord(new Location(xs[2], ys[2]), canvas));	
-		coords.add(new Coord(new Location(xs[3], ys[3]), canvas));
-		coords.add(new Coord(new Location(xs[4], ys[4]), canvas));
-		coords.add(new Coord(new Location(xs[5], ys[5]), canvas));
-		coords.add(new Coord(new Location(xs[6], ys[6]), canvas));
+		coords.add(new Coord(new Location(xs[1], ys[1]-skew), canvas));
+		coords.add(new Coord(new Location(xs[2]+skew, ys[2]-skew), canvas));	
+		coords.add(new Coord(new Location(xs[3]+skew, ys[3]+skew), canvas));
+		coords.add(new Coord(new Location(xs[4], ys[4]-skew), canvas));
+		coords.add(new Coord(new Location(xs[5]-skew, ys[5]+skew), canvas));
+		coords.add(new Coord(new Location(xs[6]-skew, ys[6]-skew), canvas));
 		return coords;
 	}
 
-	public ArrayList<Coord> getRightCoords()
+	public ArrayList<Coord> getTopRightCoords()
 	{
 		ArrayList<Coord> coords = new ArrayList<Coord>();
-		coords.add(new Coord(new Location(xs[2], ys[2]), canvas));	
-		coords.add(new Coord(new Location(xs[3], ys[3]), canvas));
-		coords.add(new Coord(new Location(xs[4], ys[4]), canvas));
-		coords.add(new Coord(new Location(xs[5], ys[5]), canvas));
+		coords.add(new Coord(new Location(xs[1], ys[1]-skew), canvas));
+		coords.add(new Coord(new Location(xs[2]+skew, ys[2]-skew), canvas));		
 		return coords;
 	}
 
 	public ArrayList<Coord> getBottomCoords()
 	{
 		ArrayList<Coord> coords = new ArrayList<Coord>();
-		coords.add(new Coord(new Location(xs[3], ys[3]), canvas));
-		coords.add(new Coord(new Location(xs[4], ys[4]), canvas));
-		coords.add(new Coord(new Location(xs[5], ys[5]), canvas));
+		coords.add(new Coord(new Location(xs[3]+skew, ys[3]+skew), canvas));
+		coords.add(new Coord(new Location(xs[4], ys[4]+skew), canvas));
+		coords.add(new Coord(new Location(xs[5]-skew, ys[5]+skew), canvas));
 		return coords;
 	}
     
@@ -191,6 +198,11 @@ public class Hexagon
         return ys[2];
     }
     
+    public int getHexValue()
+    {
+        return hexValue;
+    }
+    
     public void setValue(int aType)
     {
         this.hexValue = aType;
@@ -231,5 +243,17 @@ public class Hexagon
             cardText = new Text(cardType, centerLoc, canvas);
 			cardText.setColor(Color.WHITE);
         }
+    }
+    
+    public int getRollValue()
+    {
+        return rollValue;
+    }
+    
+    public void setRollValue(int aNumber)
+    {
+        rollValue = aNumber;
+        cardNum = new Text(rollValue, belowLoc, canvas);
+        cardNum.setColor(Color.WHITE);
     }
 }

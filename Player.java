@@ -21,8 +21,10 @@ public class Player implements CatanController
 	private int numRoadBuilding;
 	private int numYearOfPlenty;
 	private int totalCards;
+	private int diceScore;
 	private DrawingCanvas canvas, canvas2;
 	private ArrayList <ResourceCard> hand;
+	private boolean rolledThisTurn;
  	public static boolean displayingResourceCards;
 	public static JTextArea info;
  
@@ -34,6 +36,7 @@ public class Player implements CatanController
 		canvas2 = aCanvas2;
 		victoryPoints = 0;
 		info = out;
+		rolledThisTurn = false;
 	}
  
 	public void addCard(int cardNumber)
@@ -88,7 +91,7 @@ public class Player implements CatanController
 		//displayDevelopmentHand();
 	}
  	
-	public void buyItem(Item item)
+	public boolean buyItem(Item item)
 	{
 		if (numClay >= item.priceClay && numLumber >= item.priceLumber && numOre >= item.priceOre && numSheep >= item.priceSheep && numWheat >= item.priceWheat)
 		{
@@ -100,11 +103,13 @@ public class Player implements CatanController
 		}
 		else
 		{
-			System.out.println("You've not enough minerals");
+			//System.out.println("You've not enough minerals");
 			info.append("You've not enough minerals\n");
+            return false;
 		}
         totalCards = numClay + numLumber + numOre + numSheep + numWheat;
 		displayResourceHand();
+        return true;
 	}
 	
 	public void buyDevelopmentCard()
@@ -121,7 +126,6 @@ public class Player implements CatanController
 		}
 		else
 		{
-			System.out.println("You've not enough minerals");
 			info.append("You've not enough minerals\n");
 		}
 		//displayResourceHand();
@@ -133,6 +137,7 @@ public class Player implements CatanController
 		int x = 10;
 		int y = 10;
         int increment;
+        totalCards = numClay + numLumber + numOre + numSheep + numWheat;
         if (totalCards <= 7)
             increment = 110;
         else
@@ -231,5 +236,25 @@ public class Player implements CatanController
     public String getName()
     {
         return playerName;
+    }
+    
+    public boolean canRoll()
+    {
+        return !rolledThisTurn;
+    }
+    
+    public void hasRolled(boolean status)
+    {
+        rolledThisTurn = status;
+    }
+    
+    public int getScore()
+    {
+        return diceScore;
+    }
+    
+    public void setScore(int score)
+    {
+        diceScore = score;
     }
 }
