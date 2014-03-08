@@ -4,8 +4,8 @@ import java.awt.*;
 // Makes a Thief, with the middle of the square at x , y
 public class Thief
 {
- private FilledRect base, window;
- private FramedRect frame1, frame2;
+	private FilledRect base, window;
+	private FramedRect frame1, frame2;
     private FilledArc roof;
     private Line left, right;
     private Line[] fill;
@@ -17,9 +17,9 @@ public class Thief
     double arcX = 30;
     double arcY = 30;
     
- public Thief (double x , double y , int aNum , DrawingCanvas canvas)
+	public Thief (double x , double y , int aNum , DrawingCanvas canvas)
     {
-  FilledOval head = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,
+		FilledOval head = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,
                                                                 canvas);
         FilledOval body = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,
                                                                 canvas);
@@ -32,8 +32,6 @@ public class Thief
 
     public Thief (Location aLocation, int aNum , DrawingCanvas canvas)
     {
-        double x = aLocation.getX();
-        double y = aLocation.getY();
         FilledOval head = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,
                                                                 canvas);
         FilledOval body = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,
