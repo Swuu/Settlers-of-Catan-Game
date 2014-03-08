@@ -12,8 +12,8 @@ public class Thief extends WindowController
     private Line left, right;
     private Line[] fill;
 =======
-	private FilledOval head, body;
-	private FilledRect base;
+ private FilledOval head, body;
+ private FilledRect base;
     
 >>>>>>> FETCH_HEAD
     private int playerNum;
@@ -34,9 +34,9 @@ public class Thief extends WindowController
         Thief thief = new Thief(20, 30, 2, aCanvas);
     }
     
-	public Thief (double x , double y , int aNum , DrawingCanvas canvas)
+ public Thief (double x , double y , int aNum , DrawingCanvas canvas)
     {
-		head = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,
+  head = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,
 >>>>>>> FETCH_HEAD
                                                                 canvas);
         body = new FilledOval (x-width/2 -1, y-height/2 + height, width+1, (height*2)+1,
@@ -116,4 +116,4 @@ public class Thief extends WindowController
         base.moveTo(x - width/2, y - height/2);
     }
 
-} 
+}
