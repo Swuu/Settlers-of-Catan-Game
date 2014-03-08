@@ -62,8 +62,8 @@ public class Hexagon
 		double a5 = a0;
 		double b5 = b3;
 		
-        centerLoc = new Location(a1- LENGTH/4, b0);
-        belowLoc = new Location(a1-LENGTH/8, b0 + 20);
+        centerLoc = new Location(a1, b0);
+        belowLoc = new Location(a1, b0 + 20);
 		//end and start points
 		
 		//puts points in array to send to constructor
@@ -242,6 +242,7 @@ public class Hexagon
             lineArray[i].setColor(hexColor);
             cardText = new Text(cardType, centerLoc, canvas);
 			cardText.setColor(Color.WHITE);
+            cardText.move(-(cardType.length()*8)/2, 0);
         }
     }
     
@@ -255,5 +256,6 @@ public class Hexagon
         rollValue = aNumber;
         cardNum = new Text(rollValue, belowLoc, canvas);
         cardNum.setColor(Color.WHITE);
+        cardNum.move(-(int)((Math.log10(rollValue))+1)*8/2, 0);
     }
 }
