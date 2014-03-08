@@ -208,6 +208,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
                 if (e.contains(new Location(evt.getX(), evt.getY())))
                 {
                     new GameSettlement(e, game.currentPlayer(), canvas);
+			e.hideSelectionRadius();
                     selectCoord = false;
                 }
             }
