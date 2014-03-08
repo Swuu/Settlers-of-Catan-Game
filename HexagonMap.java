@@ -25,7 +25,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
         game = aGame;
         mapSettlement = new SettlementShape(0, 0, 0, canvas);
         mapSettlement.sendToFront();
-        mapSettlement.hide();
+        mapSettlement.hide();LOL
         numHex[1] = 3; //Clay
         numHex[2] = 4; //Lumber
         numHex[3] = 3; //Ore
