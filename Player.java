@@ -101,7 +101,6 @@ public class Player implements CatanController
 		}
 		else
 		{
-			//System.out.println("You've not enough minerals");
 			info.append("You've not enough minerals\n");
             return false;
 		}
@@ -201,7 +200,6 @@ public class Player implements CatanController
 			new DevelopmentCard( 5, canvas2).displayCard(new Location( x, y));
 			x+=110;
 		}
-			//new Hexagon(80, 80);
 		displayingResourceCards = false;
 	}
 	
@@ -259,5 +257,20 @@ public class Player implements CatanController
     public int getNum()
     {
         return player;
+    }
+    
+    public void addPoints()
+    {
+        victoryPoints++;
+    }
+    
+    public void minusPoints()
+    {
+        victoryPoints--;
+    }
+    
+    public int getPoints()
+    {
+        return victoryPoints;
     }
 }

@@ -5,17 +5,15 @@ import java.awt.Graphics;
 // Makes a Thief, with the middle of the square at x , y
 public class Thief extends WindowController
 {
-<<<<<<< HEAD
+//HEAD
  private FilledRect base, window;
  private FramedRect frame1, frame2;
     private FilledArc roof;
     private Line left, right;
     private Line[] fill;
-=======
 	private FilledOval head, body;
-	private FilledRect base;
     
->>>>>>> FETCH_HEAD
+//FETCH_HEAD
     private int playerNum;
 
     /*Configurations of the Thief body */
@@ -24,11 +22,8 @@ public class Thief extends WindowController
     double arcX = 30;
     double arcY = 30;
     
-<<<<<<< HEAD
- public Thief (double x , double y , int aNum , DrawingCanvas canvas)
-    {
-  FilledOval head = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,
-=======
+
+
     public static void main(){
         JDrawingCanvas aCanvas = new JDrawingCanvas(500, 500);
         Thief thief = new Thief(20, 30, 2, aCanvas);
@@ -37,8 +32,7 @@ public class Thief extends WindowController
 	public Thief (double x , double y , int aNum , DrawingCanvas canvas)
     {
 		head = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,
->>>>>>> FETCH_HEAD
-                                                                canvas);
+                               canvas);
         body = new FilledOval (x-width/2 -1, y-height/2 + height, width+1, (height*2)+1,
                                                                 canvas);
         base = new FilledRect (x-width/2 -1, y-height/2 +height+10 , width+1, height+1,
@@ -50,18 +44,14 @@ public class Thief extends WindowController
 
     public Thief (Location aLocation, int aNum , DrawingCanvas canvas)
     {
-<<<<<<< HEAD
+//HEAD
         double x = aLocation.getX();
         double y = aLocation.getY();
-        FilledOval head = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,
-=======
-        head = new FilledOval (aLocation.getX()-width/2 -1, aLocation.getX()-height/2 -1, width+1, height+1,
->>>>>>> FETCH_HEAD
-                                                                canvas);
-        body = new FilledOval (aLocation.getX()-width/2 -1, aLocation.getY()-height/2 -1, width+1, height+1,
-                                                                canvas);
-        base = new FilledRect (aLocation.getX()-width/2 -1, aLocation.getY()-height/2 -1, width+1, height+1,
-                                                                canvas);
+        FilledOval head = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1, canvas);
+//
+        head = new FilledOval (aLocation.getX()-width/2 -1, aLocation.getX()-height/2 -1, width+1, height+1, canvas);
+        body = new FilledOval (aLocation.getX()-width/2 -1, aLocation.getY()-height/2 -1, width+1, height+1, canvas);
+        base = new FilledRect (aLocation.getX()-width/2 -1, aLocation.getY()-height/2 -1, width+1, height+1, canvas);
 
         playerNum = aNum;
         setColor();
