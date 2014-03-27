@@ -1,4 +1,4 @@
-        import objectdraw.*;
+import objectdraw.*;
 import java.awt.*;
 
 public class Coord
