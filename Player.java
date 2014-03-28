@@ -25,15 +25,17 @@ public class Player implements CatanController
 	private boolean rolledThisTurn;
  	public static boolean displayingResourceCards;
 	public static JTextArea info;
+    private CatanGame game;
  
-	public Player(int currentPlayer, String currentPlayerName, DrawingCanvas aCanvas, DrawingCanvas aCanvas2, JTextArea out)
+	public Player(int currentPlayer, String currentPlayerName, CatanGame aGame)
 	{
-		player = currentPlayer;
+		game = aGame;
+        player = currentPlayer;
 		playerName = currentPlayerName;
-		canvas = aCanvas;
-		canvas2 = aCanvas2;
+		canvas = aGame.getCanvas();
+		canvas2 = aGame.getCanvasTwo();
 		victoryPoints = 0;
-		info = out;
+		info = aGame.getInfo();
 		rolledThisTurn = false;
 	}
  
@@ -60,7 +62,6 @@ public class Player implements CatanController
 			numWheat++;
 		}
         totalCards = numClay + numLumber + numOre + numSheep + numWheat;
-		//displayResourceHand();
 	}
  	
  	public void addDevelopmentCard()
@@ -86,7 +87,6 @@ public class Player implements CatanController
 		{
 			numYearOfPlenty++;
 		}
-		//displayDevelopmentHand();
 	}
  	
 	public boolean buyItem(Item item)
@@ -125,7 +125,6 @@ public class Player implements CatanController
 		{
 			info.append("You've not enough minerals\n");
 		}
-		//displayResourceHand();
 	}
  
 	public void displayResourceHand()
@@ -262,6 +261,7 @@ public class Player implements CatanController
     public void addPoints()
     {
         victoryPoints++;
+        game.checkVictory();
     }
     
     public void minusPoints()
