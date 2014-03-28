@@ -414,7 +414,10 @@ public class CatanGame extends WindowController implements ActionListener,
  	
     public void gameEnd()
     {
-        JFrame gameEnd = new JFrame("Victory!");
+        int n = JOptionPane.showConfirmDialog(frame,
+                currentPlayer.getName() + " Wins!",
+                "Victory!", JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
         
         System.exit(0);
     }
