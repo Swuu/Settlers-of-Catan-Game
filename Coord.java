@@ -11,6 +11,7 @@ public class Coord
     private double areaRadius;
     private int selectionRadius;
     private boolean habitable;
+	private boolean occupied;
 
     public Coord(Location aLocation, DrawingCanvas canvas)
     {
@@ -62,18 +63,23 @@ public class Coord
 		return	selectionBubble.contains(loc);
 	}
     
-    public boolean isHabitable()
+    public boolean isHabitable(Location loc)
     {
-        return habitable;
+        return areaTester.contains(loc);
     }
     
-    public void makeHabitable()
+    public void makeInhabitable(boolean hab)
     {
-        habitable = true;
+        habitable = hab;
     }
-    
-    public void makeInhabitable()
-    {
-        habitable = false;
-    }
+	
+	public void changeAvailability(boolean isAvailable)
+	{
+		available=isAvailable;
+	}
+
+	public boolean isAvailable()
+	{
+		return available; 
+	}
 }
