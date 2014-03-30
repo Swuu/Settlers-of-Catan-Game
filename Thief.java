@@ -21,28 +21,26 @@ public class Thief
     double arcX = 30;
     double arcY = 30;
     
-    
-    /*public static void main(){
+    //Comment this out***********
+    public static void main(){
         JDrawingCanvas aCanvas = new JDrawingCanvas(500,500);
 
-        public Thief (double x , double y , int aNum , DrawingCanvas canvas){
-            FilledOval head = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,
-                canvas);
-        }
-     
-    public static void main(){
-        JDrawingCanvas aCanvas = new JDrawingCanvas(500, 500);
-        Thief thief = new Thief(20, 30, 2, aCanvas);
-    }*/
+        Thief (250 , 100 , 50 , aCanvas);/*{
+            FilledOval head = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,canvas);
+        }*/
+
+    }
     
-	public Thief (double x , double y , int aNum, DrawingCanvas canvas)
-    {
-		head = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,
-                                                                canvas);
+
+public Thief (double x , double y , int aNum , DrawingCanvas canvas){
+        head = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,
+                               canvas);
+    
         body = new FilledOval (x-width/2 -1, y-height/2 + height, width+1, (height*2)+1,
-                                                                canvas);
+                               canvas);
+    
         base = new FilledRect (x-width/2 -1, y-height/2 +height+10 , width+1, height+1,
-                                                                canvas);
+                               canvas);
         /*this sets the player number for the method set color to pick what color the thief
          shall be*/
         playerNum = aNum;
@@ -55,12 +53,11 @@ public class Thief
         double y = aLocation.getY();
         FilledOval head = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1, canvas);
 
-        head = new FilledOval (aLocation.getX()-width/2 -1, aLocation.getX()-height/2 -1, width+1, height+1, canvas);
+        head = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1, canvas);
         
-        body = new FilledOval (aLocation.getX()-width/2 -1, aLocation.getY()-height/2 -1, width+1, height+1,
-                                                                canvas);
-        base = new FilledRect (aLocation.getX()-width/2 -1, aLocation.getY()-height/2 -1, width+1, height+1,
-                                                                canvas);
+        body = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,canvas);
+        
+        base = new FilledRect (x-width/2 -1, y-height/2 -1, width+1, height+1,canvas);
 
         playerNum = aNum;
         setColor();
@@ -115,4 +112,4 @@ public class Thief
         base.moveTo(x - width/2, y - height/2);
     }
 
-} 
+}

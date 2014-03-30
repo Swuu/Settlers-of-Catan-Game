@@ -6,39 +6,18 @@ public class SettlementShape
 {
 	private FilledRect base, window;
 	private FramedRect frame1, frame2;
-    private FilledArc roof;
-    private Line left, right;
-    private Line[] fill;
+    private Triangle roof;
     private int playerNum;
+    private DrawingCanvas cnv;
 
     /* CONFIG */
-    double width = 24;
-    double height = 24;
-    double arcX = 30;
-    double arcY = 30;
+    private double width = 24;
+    private double height = 20;
     
 	public SettlementShape (double x , double y , int aNum , DrawingCanvas canvas)
     {
-		/*base = new FilledRect (x-12.5 , y-12.5, 25 , 25 , canvas);
-		roof = new FilledArc (x-19 , y-45, 38 , 38 , 225 , 90 , canvas);
-        playerNum = aNum;
-        setColor();*/
-
-        frame1 = new FramedRect(x-width/2 -1, y-height/2 -1, width+1, height+1,
-                                                                canvas);
-        base = new FilledRect(x-width/2, y-height/2, width, height, canvas);
-        frame2 = new FramedRect(x-width/6 -1, y-height/6 -1, width/3 +1,
-                                                    height/3 +1, canvas);
-        window = new FilledRect(x-width/6, y-height/6, width/3, height/3,
-                                                                canvas);
-        roof = new FilledArc(x-arcX/2, y +height/2 -arcY/2, width, 
-                                            height/2, 0, 180, canvas);
-                                            
-        left = new Line(x-width/2 - 1, y-height, x, y - height*3/2, canvas);
-        right = new Line(x+width/2 + 1, y-height, x, y - height*3/2,canvas);
-                                                                
-        window.setColor(Color.YELLOW);
-        //roof.setColor(Color.WHITE);
+        cnv = canvas;
+        Constructor(x, y);
         playerNum = aNum;
         setColor();
     }
@@ -47,109 +26,94 @@ public class SettlementShape
     {
         double x = aLocation.getX();
         double y = aLocation.getY();
-        /*base = new FilledRect(x-12.5 , y, 25 , 25 , canvas);
-        roof = new FilledArc(x-19 , y-45 , 38 , 38 , 225 , 90 , canvas);
-        playerNum = aNum;
-        setColor();*/
         
-        frame1 = new FramedRect(x-width/2 -1, y-height/2 -1, width+2, height+2,
-                                                                canvas);
-        base = new FilledRect(x-width/2, y-height/2, width, height, canvas);
-        frame2 = new FramedRect(x-width/6 -1, y-height/6 -1, width/3 +1,
-                                                    height/3 +1, canvas);
-        window = new FilledRect(x-width/6, y-height/6, width/3, height/3,
-                                                                canvas);
-        //roof = new FilledArc(x-arcX/2, y +height/2 -arcY/2, width, 
-                                            //height/2, 0, 180, canvas);
-                                            
-        left = new Line(x-width/2 - 1, y-height, x, y - height*3/2, canvas);
-        right = new Line(x+width/2 + 1, y-height, x, y - height*3/2,canvas);
-                                                                
-        window.setColor(Color.YELLOW);
-        //roof.setColor(Color.WHITE);
+        cnv = canvas;
+        Constructor(x, y);
         playerNum = aNum;
         setColor();
+    }
+    
+    public void Constructor(double x, double y)
+    {
+        frame1 = new FramedRect(x-width/2 -1, y-height/2 -1, width+1, height+1,
+                                cnv);
+        base = new FilledRect(x-width/2, y-height/2, width, height, cnv);
+        frame2 = new FramedRect(x-width/6 -1, y-height/6 -1, width/3 +1,
+                                height/3 +1, cnv);
+        window = new FilledRect(x-width/6, y-height/6, width/3, height/3,
+                                cnv);
+        roof = new Triangle(x-width/2, y-height/2, width, height, cnv);
+        
+        window.setColor(Color.YELLOW);
     }
 
     public void setColor()
     {
+        Color color = Color.BLACK;
         switch (playerNum)
         {
-            case 1:
-            base.setColor(Color.RED);
-            //roof.setColor(Color.RED);
-            break;
-            case 2:
-            base.setColor(Color.BLUE);
-            //roof.setColor(Color.BLUE);
-            break;
-            case 3:
-            base.setColor(Color.GREEN);
-            //roof.setColor(Color.GREEN);
-            break;
-            case 4:
-            base.setColor(Color.BLACK);
-            //roof.setColor(Color.BLACK);
-            break;
             case 0:
-            base.setColor(Color.GRAY);
-            //roof.setColor(Color.GRAY);
-            break;
+                color = Color.GRAY;
+                break;
+            case 1:
+                color = Color.RED;
+                break;
+            case 2:
+                color = Color.BLUE;
+                break;
+            case 3:
+                color = Color.GREEN;
+                break;
         }
+        base.setColor(color);
+        roof.tr_setColor(color);
     }
-
+            
     public void moveTo(Location aLocation)
     {
         double x = aLocation.getX();
         double y = aLocation.getY();
-        frame1.moveTo(x - width/2 - 1, y - height/2 - 1);
-        frame2.moveTo(x - width/6 - 1, y - height/6 - 1);
-        base.moveTo(x - width/2, y - height/2);
-        window.moveTo(x - width/6, y - height/6);
-        left.moveTo(x - width/2 - 1, y - height/2);
-        right.moveTo(x + width/2, y - height/2);
-        //roof.moveTo(x -  arcX/2, y - height);
+        
+        moveTo(x, y);
     }
     
     public void moveTo(double x, double y)
     {
-        Location aLocation = new Location(x, y);
+        double preX = base.getX();
+        double preY = base.getY();
+        
         frame1.moveTo(x - width/2 - 1, y - height/2 - 1);
         frame2.moveTo(x - width/6 - 1, y - height/6 - 1);
         base.moveTo(x - width/2, y - height/2);
         window.moveTo(x - width/6, y - height/6);
-        left.moveTo(x - width/2 - 1, y - height/2);
-        right.moveTo(x + width/2, y - height/2);
-        //roof.moveTo(x -  arcX/2, y - height);
+        roof.moveTo(x - 1 - width/2, y - 1 - height/2);
     }
     
     public void sendToFront()
     {
         frame1.sendToFront();
-        frame2.sendToFront();
         base.sendToFront();
+        frame2.sendToFront();
         window.sendToFront();
-        left.sendToFront();
-        right.sendToFront();
-        //roof.sendToFront();
+        roof.tr_sendToFront();
     }
     
     public void hide()
     {
         frame1.hide();
-        frame2.hide();
         base.hide();
+        frame2.hide();
         window.hide();
-        //roof.hide();
+        roof.tr_hide();
     }
         
     public void show()
     {
         frame1.show();
-        frame2.show();
         base.show();
+        frame2.show();
         window.show();
-        //roof.show();
+        roof.tr_show();
     }
 
 } 
