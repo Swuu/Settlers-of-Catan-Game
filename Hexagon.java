@@ -23,11 +23,12 @@ public class Hexagon
     private int hexValue;
     private int rollValue;
     
-    private double arcAngle =  120;
     private DrawingCanvas canvas;
     
     private Text cardText;
     private Text cardNum;
+    
+    private FilledOval selectionBubble;
     
     public String cardType = "";
 	public static final int skew = 1;
@@ -46,7 +47,7 @@ public class Hexagon
 		double a0 = a; //a is x axis
 		double b0 = b; //b is y axis
 		
-		 //connect the dot points
+        //connect the dot points
 		double a1 = (a + ((Math.sqrt(3.0)/2.0)*LENGTH));
 		double b1 = (b - (LENGTH/2.0));
         
