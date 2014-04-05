@@ -23,11 +23,12 @@ public class Hexagon
     private int hexValue;
     private int rollValue;
     
-    private double arcAngle =  120;
     private DrawingCanvas canvas;
     
     private Text cardText;
     private Text cardNum;
+    
+    private FilledOval selectionBubble;
     
     public String cardType = "";
 	public static final int skew = 1;
@@ -46,7 +47,7 @@ public class Hexagon
 		double a0 = a; //a is x axis
 		double b0 = b; //b is y axis
 		
-		 //connect the dot points
+        //connect the dot points
 		double a1 = (a + ((Math.sqrt(3.0)/2.0)*LENGTH));
 		double b1 = (b - (LENGTH/2.0));
         
@@ -62,8 +63,8 @@ public class Hexagon
 		double a5 = a0;
 		double b5 = b3;
 		
-        centerLoc = new Location(a1- LENGTH/4, b0);
-        belowLoc = new Location(a1-LENGTH/8, b0 + 20);
+        centerLoc = new Location(a1, b0);
+        belowLoc = new Location(a1, b0 + 20);
 		//end and start points
 		
 		//puts points in array to send to constructor
@@ -104,6 +105,7 @@ public class Hexagon
         fillHexagons();
 	}
 
+    //adds Coord objects to the 3 top vertices of the Hexagon
 	public ArrayList<Coord> getTopCoords()
 	{
 		ArrayList<Coord> coords = new ArrayList<Coord>();
@@ -113,6 +115,7 @@ public class Hexagon
 		return coords;
 	}
 
+    //adds Coord objects to the 2 bottom vertices of the Hexagon
 	public ArrayList<Coord> getBottomRightCoords()
 	{
 		ArrayList<Coord> coords = new ArrayList<Coord>();
@@ -121,6 +124,7 @@ public class Hexagon
 		return coords;
 	}
 
+    //adds Coord objects to all 6 vertices of the Hexagon
 	public ArrayList<Coord> getCoords()
 	{
 		ArrayList<Coord> coords = new ArrayList<Coord>();
@@ -133,6 +137,7 @@ public class Hexagon
 		return coords;
 	}
 
+    //adds Coord objects to the top right vertices of the Hexagon
 	public ArrayList<Coord> getTopRightCoords()
 	{
 		ArrayList<Coord> coords = new ArrayList<Coord>();
@@ -141,6 +146,7 @@ public class Hexagon
 		return coords;
 	}
 
+    //adds Coord objects to the bottom vertices of the Hexagon
 	public ArrayList<Coord> getBottomCoords()
 	{
 		ArrayList<Coord> coords = new ArrayList<Coord>();
@@ -152,13 +158,6 @@ public class Hexagon
     
     public void fillHexagons()
     {
-        /*arcArray[0] = new FilledArc(lineArray[0].getStart(), xs[1] - xs[0], ys[5]- ys[0], 270, arcAngle, canvas);
-        arcArray[1] = new FilledArc(lineArray[1].getStart(), lineArray[1].getEnd(), , arcAngle, canvas);
-        arcArray[2] = new FilledArc(lineArray[2].getStart(), lineArray[2].getEnd(), , arcAngle, canvas);
-        arcArray[3] = new FilledArc(lineArray[3].getStart(), lineArray[3].getEnd(), , arcAngle, canvas);
-        arcArray[4] = new FilledArc(lineArray[4].getStart(), lineArray[4].getEnd(), , arcAngle, canvas);
-        arcArray[5] = new FilledArc(lineArray[5].getStart(), lineArray[5].getEnd(), , arcAngle, canvas);*/
-        
     }
     
     public void printType()
@@ -176,6 +175,7 @@ public class Hexagon
         return polygon.contains(c.getX(), c.getY());
     }
     
+    //returns the X coord for the initial location of a next row Hexagon
     public double jumpBackX()
     {
         
@@ -183,6 +183,7 @@ public class Hexagon
         return initX;
     }
     
+    //returns the Y coord for the initial location of a next row Hexagon
     public double jumpBackY()
     {
         return (0.5*LENGTH + ys[5]);
@@ -203,10 +204,12 @@ public class Hexagon
         return hexValue;
     }
     
+    //sets the Hexagon's type
     public void setValue(int aType)
     {
         this.hexValue = aType;
         Color hexColor;
+        //for loop to set all the lines colors
         for (int i = 0; i < 6; i ++)
         {
             if (hexValue == 1)
@@ -242,18 +245,22 @@ public class Hexagon
             lineArray[i].setColor(hexColor);
             cardText = new Text(cardType, centerLoc, canvas);
 			cardText.setColor(Color.WHITE);
+            cardText.move(-(cardType.length()*8)/2, 0);
         }
     }
     
+    //get method to get rollValue
     public int getRollValue()
     {
         return rollValue;
     }
     
+    //sets rollValue
     public void setRollValue(int aNumber)
     {
         rollValue = aNumber;
         cardNum = new Text(rollValue, belowLoc, canvas);
         cardNum.setColor(Color.WHITE);
+        cardNum.move(-(int)((Math.log10(rollValue))+1)*8/2, 0);
     }
 }

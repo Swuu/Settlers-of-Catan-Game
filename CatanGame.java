@@ -20,7 +20,6 @@ public class CatanGame extends WindowController implements ActionListener,
  	private static Player currentPlayer;
     private static int numPlayers;
     
-    //private static ArrayList<String> names;
  	private static ArrayList<Player> playerList;
     
     private static HexagonMap gameBoard;
@@ -57,23 +56,20 @@ public class CatanGame extends WindowController implements ActionListener,
 		
         numPlayers = startGame.getNumOfPlayers();
         playerList = new ArrayList<Player>();
-  		playerOne = new Player(1, startGame.getName(0), canvas, canvas2, info);
+  		playerOne = new Player(1, startGame.getName(0), this);
   		playerList.add(playerOne);
-  		playerTwo = new Player(2, startGame.getName(1), canvas, canvas2, info);
+  		playerTwo = new Player(2, startGame.getName(1), this);
   		playerList.add(playerTwo);
   		if (numPlayers == 3)
         {
-            playerThree = new Player(3, startGame.getName(2), canvas, canvas2,
-                                                                    info);
+            playerThree = new Player(3, startGame.getName(2), this);
             playerList.add(playerThree);
   		}
         else if (numPlayers == 4)
   		{
-  			playerThree = new Player(3, startGame.getName(2), canvas, canvas2,
-  			                                                        info);
+  			playerThree = new Player(3, startGame.getName(2), this);
             playerList.add(playerThree);
-            playerFour = new Player(4, startGame.getName(3), canvas, canvas2,
-                                                                    info);
+            playerFour = new Player(4, startGame.getName(3), this);
   			playerList.add(playerFour);
   		}
   		currentTurn = 0;
@@ -246,7 +242,7 @@ public class CatanGame extends WindowController implements ActionListener,
                                 currentName.setColor(Color.YELLOW);
                                 break;
                 }
-
+                checkVictory();
 			}
 		}
 		
@@ -408,7 +404,38 @@ public class CatanGame extends WindowController implements ActionListener,
 		buttonThree.setEnabled(true);
 		buttonFour.setEnabled(true);
  	}
+
+    //checks if current player has one, if he does then game ends
+    public void checkVictory()
+    {
+        if (currentPlayer.getPoints() >= 10)
+            gameEnd();
+    }
  	
+    public void gameEnd()
+    {
+        int n = JOptionPane.showConfirmDialog(frame,
+                currentPlayer.getName() + " Wins!",
+                "Victory!", JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+        
+        System.exit(0);
+    }
+    
+    public DrawingCanvas getCanvas()
+    {
+        return canvas;
+    }
+    
+    public DrawingCanvas getCanvasTwo()
+    {
+        return canvas2;
+    }
+    
+    public JTextArea getInfo()
+    {
+        return info;
+    }
  	/*
  	    *** MAIN METHOD ***
  	 */
