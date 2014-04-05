@@ -11,6 +11,9 @@ public class Thief
     private Line[] fill;
     private int playerNum;
 
+	public boolean isBlocked = false;
+	public int theifnum = 0;
+
     /* CONFIG */
     double width = 24;
     double height = 24;
@@ -19,26 +22,7 @@ public class Thief
     
 	public Thief (double x , double y , int aNum , DrawingCanvas canvas)
     {
-		FilledOval head = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,
-                                                                canvas);
-        FilledOval body = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,
-                                                                canvas);
-        FilledRect base = new FilledRect (x-width/2 -1, y-height/2 -1, width+1, height+1,
-                                                                canvas);
-
-        playerNum = aNum;
-        setColor();
-    }
-
-    public Thief (Location aLocation, int aNum , DrawingCanvas canvas)
-    {
-        FilledOval head = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,
-                                                                canvas);
-        FilledOval body = new FilledOval (x-width/2 -1, y-height/2 -1, width+1, height+1,
-                                                                canvas);
-        FilledRect base = new FilledRect (x-width/2 -1, y-height/2 -1, width+1, height+1,
-                                                                canvas);
-
+	FilledRect theif = new FilledRect (x-width/2 -1, y-height/2 -1, width+1, height+1, canvas);
         playerNum = aNum;
         setColor();
     }
@@ -47,6 +31,7 @@ public class Thief
     {
         switch (playerNum)
         {
+	/*
             case 1:
             base.setColor(Color.RED);
             head.setColor(Color.RED);
@@ -72,61 +57,33 @@ public class Thief
             head.setColor(Color.GREY);
             body.setColor(Color.GREY);
             break;
+	*/
         }
     }
-
-    public void moveTo(Location aLocation)
-    {
-        double x = aLocation.getX();
-        double y = aLocation.getY();
-        frame1.moveTo(x - width/2 - 1, y - height/2 - 1);
-        frame2.moveTo(x - width/6 - 1, y - height/6 - 1);
-        base.moveTo(x - width/2, y - height/2);
-        window.moveTo(x - width/6, y - height/6);
-        left.moveTo(x - width/2 - 1, y - height/2);
-        right.moveTo(x + width/2, y - height/2);
-        //roof.moveTo(x -  arcX/2, y - height); 
-    }
     
-    public void moveTo(double x, double y)
+    public void moveTo(double x, double y, int num)
     {
-        Location aLocation = new Location(x, y);
-        frame1.moveTo(x - width/2 - 1, y - height/2 - 1);
-        frame2.moveTo(x - width/6 - 1, y - height/6 - 1);
-        base.moveTo(x - width/2, y - height/2);
-        window.moveTo(x - width/6, y - height/6);
-        left.moveTo(x - width/2 - 1, y - height/2);
-        right.moveTo(x + width/2, y - height/2);
-        //roof.moveTo(x -  arcX/2, y - height);
+        theif.moveTo(x - width/2 - 1, y - height/2 - 1);
+	changenum(num);
+    }
+
+    public void changenum (int num) {
+	theifnum=num;
     }
     
     public void sendToFront()
     {
-        frame1.sendToFront();
-        frame2.sendToFront();
-        base.sendToFront();
-        window.sendToFront();
-        left.sendToFront();
-        right.sendToFront();
-        //roof.sendToFront();
+    	theif.sendToFront();
     }
     
     public void hide()
     {
-        frame1.hide();
-        frame2.hide();
-        base.hide();
-        window.hide();
-        //roof.hide();
+	theif.hide();
     }
         
     public void show()
     {
-        frame1.show();
-        frame2.show();
-        base.show();
-        window.show();
-        //roof.show();
+	theif.show();
     }
 
 } 

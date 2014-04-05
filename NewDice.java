@@ -37,6 +37,9 @@ public class NewDice{
     /*create new drawing canvas*/
     public DrawingCanvas canvas/* = new DrawingCanvas(500, 500)*/;
     
+    /*create theif to check*/
+    public static Theif theif;
+
     NewDice(boolean firstDice){
         /*this will be checked when placing the dice on canvas
          so that dice one and dice two will not overlap*/
@@ -71,6 +74,10 @@ public class NewDice{
         
         /*stores the number in output*/
         int output = dice;
+
+	/*check if dice is equal to theif*/
+	if (theif.theifnum == output)
+		theif.isBlocked=true;
         
         return output;
     }
