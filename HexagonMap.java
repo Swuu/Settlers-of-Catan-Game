@@ -205,10 +205,8 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 
     public void mouseClicked(MouseEvent evt)
     {
-        System.out.println("test-1");
         if (selectCoord == 1)
         {
-            System.out.println("test0");
             for (Coord e: coords)
             {
                 if (e.contains(new Location(evt.getX(), evt.getY()))&&e.isAvailable())
@@ -230,12 +228,10 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
         }
         else if (selectCoord == 2)
         {
-            System.out.println("test1");
             for (Coord e: coords)
             {
                 if (e.contains(new Location(evt.getX(), evt.getY()))&& e.isUpgradeable())
                 {
-                    System.out.println("test2");
                     for(Coord c: coords)
                     {
                         if(c!=e&&!c.isAvailable()&&c.isUpgradeable())
