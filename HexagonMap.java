@@ -230,7 +230,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
         {
             for (Coord e: coords)
             {
-                if (e.contains(new Location(evt.getX(), evt.getY()))&& e.isUpgradeable())
+                if (e.contains(new Location(evt.getX(), evt.getY()))&& e.isUpgradeable() && game.currentPlayer()==e.coordSettlement.getPlayer())
                 {
                     for(Coord c: coords)
                     {

@@ -9,6 +9,7 @@ public class SettlementShape
     private Triangle roof;
     private int playerNum;
     private DrawingCanvas cnv;
+    private Line cityLine;
 
     /* CONFIG */
     private double width = 24;
@@ -53,6 +54,7 @@ public class SettlementShape
     public void makeCity()
     {
         cityRect = new FramedRect(xCoord-width/2 - 2, yCoord-height/2 - 2, width + 2, height + 2, cnv);
+        cityLine = new Line(xCoord-width/2, yCoord, xCoord+width/2, yCoord, cnv);
     }
     
     public void setColor()
