@@ -264,7 +264,7 @@ public class CatanGame extends WindowController implements ActionListener,
 			else if (evt.getSource() == buttonTwo)
 			{
 				if (currentPlayer.buyItem(SETTLEMENT))
-                    gameBoard.selectCoordOn();
+                    gameBoard.selectCoordOn(true);
 				if (currentPlayer.displayingResourceCards == true)
 				{
 					currentPlayer.displayResourceHand();
@@ -277,7 +277,7 @@ public class CatanGame extends WindowController implements ActionListener,
 			else if (evt.getSource() == buttonThree)
 			{
 				if (currentPlayer.buyItem(CITY))
-                    gameBoard.selectCoordOn();
+                    gameBoard.selectCoordOn(false);
 				if (currentPlayer.displayingResourceCards == true)
 				{
 					currentPlayer.displayResourceHand();

@@ -10,7 +10,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
     private static int height = 500;
     private int[] numHex = new int[6];
     private int[] numNum = new int[13];
-    private boolean selectCoord = false;
+    private int selectCoord = 0;
     private boolean buyRoad = false;
     private static SettlementShape mapSettlement;
     private CatanGame game;
@@ -141,14 +141,18 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 		begin();
     }
     
-    public void selectCoordOn()
+    //newSettlement determines if selectCoordOn is for creating a new Settlement or upgrading a Settlement into a City
+    public void selectCoordOn(boolean newSettlement)
     {
-        selectCoord = true;
+        if (newSettlement)
+            selectCoord = 1;
+        else
+            selectCoord = 2;
     }
 
     public void selectCoordOff()
     {
-        selectCoord = false;
+        selectCoord = 0;
     }
     
     public void buyRoadOn()
@@ -170,7 +174,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 
 	public void mouseMoved(MouseEvent evt)
 	{
-		if (selectCoord)
+		if (selectCoord != 0)
         {
             mapSettlement.show();
 		canvas.addMouseListener(this);
@@ -201,8 +205,10 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 
     public void mouseClicked(MouseEvent evt)
     {
-        if (selectCoord)
+        System.out.println("test-1");
+        if (selectCoord == 1)
         {
+            System.out.println("test0");
             for (Coord e: coords)
             {
                 if (e.contains(new Location(evt.getX(), evt.getY()))&&e.isAvailable())
@@ -214,10 +220,34 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 					return;
 				}
 			}
-                    new GameSettlement(e, game.currentPlayer(), canvas);
-			e.hideSelectionRadius();
-			e.changeAvailability(false);
-                    selectCoord = false;
+                    e.coordSettlement = new GameSettlement(e, game.currentPlayer(), canvas);
+                    e.makeUpgradeable();
+                    e.hideSelectionRadius();
+                    e.changeAvailability(false);
+                    selectCoord = 0;
+                }
+            }
+        }
+        else if (selectCoord == 2)
+        {
+            System.out.println("test1");
+            for (Coord e: coords)
+            {
+                if (e.contains(new Location(evt.getX(), evt.getY()))&& e.isUpgradeable())
+                {
+                    System.out.println("test2");
+                    for(Coord c: coords)
+                    {
+                        if(c!=e&&!c.isAvailable()&&c.isUpgradeable())
+                        {
+                            return;
+                        }
+                    }
+                    e.coordSettlement.makeCity();
+                    e.makeUnupgradeable();
+                    e.hideSelectionRadius();
+                    e.changeAvailability(false);
+                    selectCoord = 0;
                 }
             }
         }

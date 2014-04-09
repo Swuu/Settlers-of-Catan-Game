@@ -5,7 +5,7 @@ import java.awt.*;
 public class SettlementShape
 {
 	private FilledRect base, window;
-	private FramedRect frame1, frame2;
+	private FramedRect frame1, frame2, cityRect;
     private Triangle roof;
     private int playerNum;
     private DrawingCanvas cnv;
@@ -14,39 +14,47 @@ public class SettlementShape
     private double width = 24;
     private double height = 20;
     
+    private double xCoord, yCoord;
+    
 	public SettlementShape (double x , double y , int aNum , DrawingCanvas canvas)
     {
+        xCoord = x;
+        yCoord = y;
         cnv = canvas;
-        Constructor(x, y);
+        Constructor();
         playerNum = aNum;
         setColor();
     }
 
     public SettlementShape (Location aLocation, int aNum , DrawingCanvas canvas)
     {
-        double x = aLocation.getX();
-        double y = aLocation.getY();
+        xCoord = aLocation.getX();
+        yCoord = aLocation.getY();
         
         cnv = canvas;
-        Constructor(x, y);
+        Constructor();
         playerNum = aNum;
         setColor();
     }
     
-    public void Constructor(double x, double y)
+    public void Constructor()
     {
-        frame1 = new FramedRect(x-width/2 -1, y-height/2 -1, width+1, height+1,
-                                cnv);
-        base = new FilledRect(x-width/2, y-height/2, width, height, cnv);
-        frame2 = new FramedRect(x-width/6 -1, y-height/6 -1, width/3 +1,
+        frame1 = new FramedRect(xCoord-width/2 -1, yCoord-height/2 -1, width+1, height+1, cnv);
+        base = new FilledRect(xCoord-width/2, yCoord-height/2, width, height, cnv);
+        frame2 = new FramedRect(xCoord-width/6 -1, yCoord-height/6 -1, width/3 +1,
                                 height/3 +1, cnv);
-        window = new FilledRect(x-width/6, y-height/6, width/3, height/3,
+        window = new FilledRect(xCoord-width/6, yCoord-height/6, width/3, height/3,
                                 cnv);
-        roof = new Triangle(x-width/2, y-height/2, width, height, cnv);
+        roof = new Triangle(xCoord-width/2, yCoord-height/2, width, height, cnv);
         
         window.setColor(Color.YELLOW);
     }
 
+    public void makeCity()
+    {
+        cityRect = new FramedRect(xCoord-width/2 - 2, yCoord-height/2 - 2, width + 2, height + 2, cnv);
+    }
+    
     public void setColor()
     {
         Color color = Color.BLACK;
