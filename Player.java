@@ -173,7 +173,7 @@ public class Player implements CatanController
   {
     canvas2.clear();
     int x = 10;
-    int y = 30;
+    int y = 10;
     int increment;
     int totalDevCards = numKnight + numBonusPoint + numMonopoly + numRoadBuilding + numRoadBuilding;
     if (totalDevCards <= 7)

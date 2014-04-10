@@ -10,6 +10,7 @@ public class DevelopmentCard
 	public int cardValue;
 	private DrawingCanvas canvas;
 	private FilledRect cardRect;
+    private FramedRect frameRect;
 	private Text cardText;
 
 	public DevelopmentCard(int type, DrawingCanvas aCanvas)
@@ -41,6 +42,7 @@ public class DevelopmentCard
 	public void displayCard(Location cardLocation)
 	{
 		cardRect = new FilledRect(cardLocation, 100, 130, canvas);
+        frameRect = new FramedRect(cardLocation.getX() - 1, cardLocation.getY() - 1, 101, 131, canvas);
 		Color cardColor;
 		if (cardValue == 1)
 		{
