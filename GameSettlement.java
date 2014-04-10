@@ -3,8 +3,27 @@ import java.awt.*;
 
 public class GameSettlement
 {
-    public GameSettlement(Coord aCoord, Player aPlayer, DrawingCanvas canvas)
+    boolean isSettlement;
+    private Player aPlayer;
+    SettlementShape aSettlement;
+    
+    public GameSettlement(Coord aCoord, Player player, DrawingCanvas canvas)
     {
-        new SettlementShape(aCoord.location(), aPlayer.getNum(), canvas);
+        aPlayer = player;
+        aSettlement = new SettlementShape(aCoord.location(), aPlayer.getNum(), canvas);
+        aPlayer.addPoints();
+        isSettlement = true;
+    }
+    
+    public void makeCity()
+    {
+        isSettlement = false;
+        aSettlement.makeCity();
+        aPlayer.addPoints();
+    }
+    
+    public Player getPlayer()
+    {
+        return aPlayer;
     }
 }

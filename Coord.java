@@ -11,6 +11,8 @@ public class Coord
     private double areaRadius;
     private int selectionRadius;
     private boolean habitable;
+    private boolean upgradeable;
+    public GameSettlement coordSettlement;
 
     public Coord(Location aLocation, DrawingCanvas canvas)
     {
@@ -22,7 +24,7 @@ public class Coord
         areaTester.setColor(new Color(0, 145, 0, 100));
                 areaTester.hide();
         selectionBubble = new FilledOval(xCoord - selectionRadius, yCoord - selectionRadius, selectionRadius*2, selectionRadius*2, canvas);
-        selectionBubble.setColor(new Color(0, 145, 11, 125));//new Color(0,0, 255, 125));
+        selectionBubble.setColor(new Color(0, 145, 11, 125));
                 available = true;
         selectionBubble.hide();
     }
@@ -32,48 +34,68 @@ public class Coord
         return new Location(xCoord, yCoord);
     }
 
-        public void showSelectionRadius()
-        {
-                selectionBubble.show();
-        }
+    public void showSelectionRadius()
+    {
+            selectionBubble.show();
+    }
 
-        public void hideSelectionRadius()
-        {
-                selectionBubble.hide();
-        }
+    public void hideSelectionRadius()
+    {
+            selectionBubble.hide();
+    }
 
-        public void showAreaTester()
-        {
-                areaTester.show();
-        }
+    public void showAreaTester()
+    {
+            areaTester.show();
+    }
 
-        public void hideAreaTester()
-        {
-                areaTester.hide();
-        }
+    public void hideAreaTester()
+    {
+            areaTester.hide();
+    }
 
-        public void changeTesterColor(Color colour)
-        {
-                areaTester.setColor(colour);
-        }
+    public void changeTesterColor(Color colour)
+    {
+            areaTester.setColor(colour);
+    }
 
 	public boolean contains(Location loc)
 	{
 		return	selectionBubble.contains(loc);
 	}
     
-    public boolean isHabitable()
+    public boolean isHabitable(Location loc)
     {
-        return habitable;
+        return areaTester.contains(loc);
     }
     
-    public void makeHabitable()
+    public boolean isUpgradeable()
     {
-        habitable = true;
+        return upgradeable;
     }
     
-    public void makeInhabitable()
+    public void makeInhabitable(boolean hab)
     {
-        habitable = false;
+        habitable = hab;
     }
+    
+    public void makeUpgradeable()
+    {
+        upgradeable = true;
+    }
+    
+	public void makeUnupgradeable()
+    {
+        upgradeable = false;
+    }
+    
+	public void changeAvailability(boolean isAvailable)
+	{
+		available=isAvailable;
+	}
+
+	public boolean isAvailable()
+	{
+		return available; 
+	}
 }
