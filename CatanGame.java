@@ -211,7 +211,7 @@ public class CatanGame extends WindowController implements ActionListener,
 				buttonFive.setText("Back");
 				menu = 2;
 			}
-			else if (evt.getSource() == buttonFive)
+			else if (evt.getSource() == buttonFive && gameBoard.canEndTurn())
 			{
 				if (currentTurn == playerList.size() - 1)
 				{

@@ -165,6 +165,11 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
         buyRoad = false;
     }
     
+    public boolean canEndTurn()
+    {
+        return buyRoad==false && selectCoord == 0;
+    }
+    
 	public ArrayList<Coord> getCoords()
 	{
 		return coords;
