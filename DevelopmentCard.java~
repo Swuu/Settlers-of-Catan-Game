@@ -40,7 +40,7 @@ public class DevelopmentCard
  
 	public void displayCard(Location cardLocation)
 	{
-		cardRect = new FilledRect(cardLocation, 50, 65, canvas);
+		cardRect = new FilledRect(cardLocation, 100, 130, canvas);
 		Color cardColor;
 		if (cardValue == 1)
 		{
