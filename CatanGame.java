@@ -265,28 +265,34 @@ public class CatanGame extends WindowController implements ActionListener,
                 }
                 else if (evt.getSource() == buttonTwo)
                 {
-                    if (currentPlayer.buyItem(SETTLEMENT))
+                    if (gameBoard.hasAvailableCoord())
+                    {
+                        currentPlayer.buyItem(SETTLEMENT);
                         gameBoard.selectCoordOn(true);
-                    if (currentPlayer.displayingResourceCards == true)
-                    {
-                        currentPlayer.displayResourceHand();
-                    }
-                    else
-                    {
-                        currentPlayer.displayDevelopmentHand();
+                        if (currentPlayer.displayingResourceCards == true)
+                        {
+                            currentPlayer.displayResourceHand();
+                        }
+                        else
+                        {
+                            currentPlayer.displayDevelopmentHand();
+                        }
                     }
                 }
                 else if (evt.getSource() == buttonThree)
                 {
-                    if (currentPlayer.buyItem(CITY))
+                    if (gameBoard.hasUpgradeableCoord())
+                    {
+                        currentPlayer.buyItem(CITY);
                         gameBoard.selectCoordOn(false);
-                    if (currentPlayer.displayingResourceCards == true)
-                    {
-                        currentPlayer.displayResourceHand();
-                    }
-                    else
-                    {
-                        currentPlayer.displayDevelopmentHand();
+                        if (currentPlayer.displayingResourceCards == true)
+                        {
+                            currentPlayer.displayResourceHand();
+                        }
+                        else
+                        {
+                            currentPlayer.displayDevelopmentHand();
+                        }
                     }
                 }
                 else if(evt.getSource() == buttonFour)
