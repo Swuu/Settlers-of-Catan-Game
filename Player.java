@@ -5,280 +5,280 @@ import javax.swing.JTextArea;
 
 public class Player implements CatanController
 {
- private int player;
- public String playerName;
- private int victoryPoints;
- private int numClay;
- private int numLumber;
- private int numOre;
- private int numSheep;
- private int numWheat;
- private int numKnight;
- private int numBonusPoint;
- private int numMonopoly;
- private int numRoadBuilding;
- private int numYearOfPlenty;
- private int totalCards;
- private int diceScore;
- private DrawingCanvas canvas, canvas2;
- private ArrayList <ResourceCard> hand;
- private boolean rolledThisTurn;
+  private int player;
+  public String playerName;
+  private int victoryPoints;
+  private int numClay;
+  private int numLumber;
+  private int numOre;
+  private int numSheep;
+  private int numWheat;
+  private int numKnight;
+  private int numBonusPoint;
+  private int numMonopoly;
+  private int numRoadBuilding;
+  private int numYearOfPlenty;
+  private int totalCards;
+  private int diceScore;
+  private DrawingCanvas canvas, canvas2;
+  private ArrayList <ResourceCard> hand;
+  private boolean rolledThisTurn;
   public static boolean displayingResourceCards;
- public static JTextArea info;
-    private CatanGame game;
- 
- public Player(int currentPlayer, String currentPlayerName, CatanGame aGame)
- {
-  game = aGame;
-        player = currentPlayer;
-  playerName = currentPlayerName;
-  canvas = aGame.getCanvas();
-  canvas2 = aGame.getCanvasTwo();
-  victoryPoints = 0;
-  info = aGame.getInfo();
-  rolledThisTurn = false;
- }
- 
- public void addCard(int cardNumber)
- {
-  if (cardNumber == 1)
-   {
-   numClay++;
-  }
-  else if (cardNumber == 2)
+  public static JTextArea info;
+  private CatanGame game;
+  
+  public Player(int currentPlayer, String currentPlayerName, CatanGame aGame)
   {
-   numLumber++;
+    game = aGame;
+    player = currentPlayer;
+    playerName = currentPlayerName;
+    canvas = aGame.getCanvas();
+    canvas2 = aGame.getCanvasTwo();
+    victoryPoints = 0;
+    info = aGame.getInfo();
+    rolledThisTurn = false;
   }
-  else if (cardNumber == 3)
+  
+  public void addCard(int cardNumber)
   {
-   numOre++;
+    if (cardNumber == 1)
+    {
+      numClay++;
+    }
+    else if (cardNumber == 2)
+    {
+      numLumber++;
+    }
+    else if (cardNumber == 3)
+    {
+      numOre++;
+    }
+    else if (cardNumber == 4)
+    {
+      numSheep++;
+    }
+    else if (cardNumber == 5)
+    {
+      numWheat++;
+    }
+    totalCards = numClay + numLumber + numOre + numSheep + numWheat;
   }
-  else if (cardNumber == 4)
-  {
-   numSheep++;
-  }
-  else if (cardNumber == 5)
-  {
-   numWheat++;
-  }
-        totalCards = numClay + numLumber + numOre + numSheep + numWheat;
- }
   
   public void addDevelopmentCard()
- {
-  int dCardNumber = (int)(Math.random()*25);
-  if (dCardNumber < 14)
-   {
-   numKnight++;
-  }
-  else if (dCardNumber < 19)
   {
-   numBonusPoint++;
+    int dCardNumber = (int)(Math.random()*25);
+    if (dCardNumber < 14)
+    {
+      numKnight++;
+    }
+    else if (dCardNumber < 19)
+    {
+      numBonusPoint++;
+    }
+    else if (dCardNumber < 21)
+    {
+      numMonopoly++;
+    }
+    else if (dCardNumber < 23)
+    {
+      numRoadBuilding++;
+    }
+    else if (dCardNumber < 25)
+    {
+      numYearOfPlenty++;
+    }
   }
-  else if (dCardNumber < 21)
-  {
-   numMonopoly++;
-  }
-  else if (dCardNumber < 23)
-  {
-   numRoadBuilding++;
-  }
-  else if (dCardNumber < 25)
-  {
-   numYearOfPlenty++;
-  }
- }
   
- public boolean buyItem(Item item)
- {
-  if (numClay >= item.priceClay && numLumber >= item.priceLumber && numOre >= item.priceOre && numSheep >= item.priceSheep && numWheat >= item.priceWheat)
+  public boolean buyItem(Item item)
   {
-   numClay -= item.priceClay;
-   numLumber -= item.priceLumber;
-   numOre -= item.priceOre;
-   numSheep -= item.priceSheep;
-   numWheat -= item.priceWheat;
+    if (numClay >= item.priceClay && numLumber >= item.priceLumber && numOre >= item.priceOre && numSheep >= item.priceSheep && numWheat >= item.priceWheat)
+    {
+      numClay -= item.priceClay;
+      numLumber -= item.priceLumber;
+      numOre -= item.priceOre;
+      numSheep -= item.priceSheep;
+      numWheat -= item.priceWheat;
+    }
+    else
+    {
+      info.append("You've not enough minerals\n");
+      return false;
+    }
+    totalCards = numClay + numLumber + numOre + numSheep + numWheat;
+    displayResourceHand();
+    return true;
   }
-  else
-  {
-   info.append("You've not enough minerals\n");
-            return false;
-  }
-        totalCards = numClay + numLumber + numOre + numSheep + numWheat;
-  displayResourceHand();
-        return true;
- }
- 
- public void buyDevelopmentCard()
- {
-  Item item = DCARD;
-  if (numClay >= item.priceClay && numLumber >= item.priceLumber && numOre >= item.priceOre && numSheep >= item.priceSheep && numWheat >= item.priceWheat)
-  {
-   numClay -= item.priceClay;
-   numLumber -= item.priceLumber;
-   numOre -= item.priceOre;
-   numSheep -= item.priceSheep;
-   numWheat -= item.priceWheat;
-   addDevelopmentCard();
-  }
-  else
-  {
-   info.append("You've not enough minerals\n");
-  }
- }
- 
- public void displayResourceHand()
- {
-  canvas2.clear();
-  int x = 10;
-  int y = 10;
-        int increment;
-        totalCards = numClay + numLumber + numOre + numSheep + numWheat;
-        if (totalCards <= 7)
-            increment = 110;
-        else
-        {
-            increment  = 670/totalCards;
-        }
-  for(int i = 0; i < numClay; i++)
-  {
-   new ResourceCard( 1, canvas2).displayCard(new Location( x, y));
-   x+=increment;
-  }
-  for(int i = 0; i < numLumber; i++)
-  {
-   new ResourceCard( 2, canvas2).displayCard(new Location( x, y));
-   x+=increment;
-  }
-  for(int i = 0; i < numOre; i++)
-  {
-   new ResourceCard( 3, canvas2).displayCard(new Location( x, y));
-   x+=increment;
-  }
-  for(int i = 0; i < numSheep; i++)
-  {
-   new ResourceCard( 4, canvas2).displayCard(new Location( x, y));
-   x+=increment;
-  }
-  for(int i = 0; i < numWheat; i++)
-  {
-   new ResourceCard( 5, canvas2).displayCard(new Location( x, y));
-   x+=increment;
-  }
-  displayingResourceCards = true;
   
- }
- 
- public void displayDevelopmentHand()
- {
-  canvas2.clear();
-  int x = 10;
-  int y = 30;
-      int increment;
-      int totalDevCards = numKnight + numBonusPoint + numMonopoly + numRoadBuilding + numRoadBuilding;
-        if (totalDevCards <= 7)
-            increment = 110;
-        else
-        {
-            increment  = 670/totalDevCards;
-        }
-  for(int i = 0; i < numKnight; i++)
+  public void buyDevelopmentCard()
   {
-   new DevelopmentCard( 1, canvas2).displayCard(new Location( x, y));
-   x+=increment;
+    Item item = DCARD;
+    if (numClay >= item.priceClay && numLumber >= item.priceLumber && numOre >= item.priceOre && numSheep >= item.priceSheep && numWheat >= item.priceWheat)
+    {
+      numClay -= item.priceClay;
+      numLumber -= item.priceLumber;
+      numOre -= item.priceOre;
+      numSheep -= item.priceSheep;
+      numWheat -= item.priceWheat;
+      addDevelopmentCard();
+    }
+    else
+    {
+      info.append("You've not enough minerals\n");
+    }
   }
-  for(int i = 0; i < numBonusPoint; i++)
+  
+  public void displayResourceHand()
   {
-   new DevelopmentCard( 2, canvas2).displayCard(new Location( x, y));
-   x+=increment;
+    canvas2.clear();
+    int x = 10;
+    int y = 10;
+    int increment;
+    totalCards = numClay + numLumber + numOre + numSheep + numWheat;
+    if (totalCards <= 7)
+      increment = 110;
+    else
+    {
+      increment  = 670/totalCards;
+    }
+    for(int i = 0; i < numClay; i++)
+    {
+      new ResourceCard( 1, canvas2).displayCard(new Location( x, y));
+      x+=increment;
+    }
+    for(int i = 0; i < numLumber; i++)
+    {
+      new ResourceCard( 2, canvas2).displayCard(new Location( x, y));
+      x+=increment;
+    }
+    for(int i = 0; i < numOre; i++)
+    {
+      new ResourceCard( 3, canvas2).displayCard(new Location( x, y));
+      x+=increment;
+    }
+    for(int i = 0; i < numSheep; i++)
+    {
+      new ResourceCard( 4, canvas2).displayCard(new Location( x, y));
+      x+=increment;
+    }
+    for(int i = 0; i < numWheat; i++)
+    {
+      new ResourceCard( 5, canvas2).displayCard(new Location( x, y));
+      x+=increment;
+    }
+    displayingResourceCards = true;
+    
   }
-  for(int i = 0; i < numMonopoly; i++)
+  
+  public void displayDevelopmentHand()
   {
-   new DevelopmentCard( 3, canvas2).displayCard(new Location( x, y));
-   x+=increment;
+    canvas2.clear();
+    int x = 10;
+    int y = 30;
+    int increment;
+    int totalDevCards = numKnight + numBonusPoint + numMonopoly + numRoadBuilding + numRoadBuilding;
+    if (totalDevCards <= 7)
+      increment = 110;
+    else
+    {
+      increment  = 670/totalDevCards;
+    }
+    for(int i = 0; i < numKnight; i++)
+    {
+      new DevelopmentCard( 1, canvas2).displayCard(new Location( x, y));
+      x+=increment;
+    }
+    for(int i = 0; i < numBonusPoint; i++)
+    {
+      new DevelopmentCard( 2, canvas2).displayCard(new Location( x, y));
+      x+=increment;
+    }
+    for(int i = 0; i < numMonopoly; i++)
+    {
+      new DevelopmentCard( 3, canvas2).displayCard(new Location( x, y));
+      x+=increment;
+    }
+    for(int i = 0; i < numRoadBuilding; i++)
+    {
+      new DevelopmentCard( 4, canvas2).displayCard(new Location( x, y));
+      x+=increment;
+    }
+    for(int i = 0; i < numYearOfPlenty; i++)
+    {
+      new DevelopmentCard( 5, canvas2).displayCard(new Location( x, y));
+      x+=increment;
+    }
+    displayingResourceCards = false;
   }
-  for(int i = 0; i < numRoadBuilding; i++)
+  
+  public void hideHand()
   {
-   new DevelopmentCard( 4, canvas2).displayCard(new Location( x, y));
-   x+=increment;
+    canvas2.clear();
   }
-  for(int i = 0; i < numYearOfPlenty; i++)
+  
+  /* for trading purposes:
+   1) gives current quantities of resources
+   2) updates after a successful trade
+   */
+  
+  public int getClay() { return numClay; }
+  public int getLumber() { return numLumber; }
+  public int getOre() { return numOre; }
+  public int getSheep() { return numSheep; }
+  public int getWheat() { return numWheat; }
+  
+  public void updateResources(int qtyClay, int qtyLumber, int qtyOre,
+                              int qtySheep, int qtyWheat)
   {
-   new DevelopmentCard( 5, canvas2).displayCard(new Location( x, y));
-   x+=increment;
+    numClay = qtyClay;
+    numLumber = qtyLumber;
+    numOre = qtyOre;
+    numSheep = qtySheep;
+    numWheat = qtyWheat;
   }
-  displayingResourceCards = false;
- }
- 
- public void hideHand()
- {
-     canvas2.clear();
- }
- 
- /* for trading purposes:
-     1) gives current quantities of resources
-     2) updates after a successful trade
- */
- 
- public int getClay() { return numClay; }
- public int getLumber() { return numLumber; }
- public int getOre() { return numOre; }
- public int getSheep() { return numSheep; }
-    public int getWheat() { return numWheat; }
-    
-    public void updateResources(int qtyClay, int qtyLumber, int qtyOre,
-                                int qtySheep, int qtyWheat)
-    {
-        numClay = qtyClay;
-        numLumber = qtyLumber;
-        numOre = qtyOre;
-        numSheep = qtySheep;
-        numWheat = qtyWheat;
-    }
-    
-    public String getName()
-    {
-        return playerName;
-    }
-    
-    public boolean canRoll()
-    {
-        return !rolledThisTurn;
-    }
-    
-    public void hasRolled(boolean status)
-    {
-        rolledThisTurn = status;
-    }
-    
-    public int getScore()
-    {
-        return diceScore;
-    }
-    
-    public void setScore(int score)
-    {
-        diceScore = score;
-    }
-    
-    public int getNum()
-    {
-        return player;
-    }
-    
-    public void addPoints()
-    {
-        victoryPoints++;
-        game.checkVictory();
-    }
-    
-    public void minusPoints()
-    {
-        victoryPoints--;
-    }
-    
-    public int getPoints()
-    {
-        return victoryPoints;
-    }
+  
+  public String getName()
+  {
+    return playerName;
+  }
+  
+  public boolean canRoll()
+  {
+    return !rolledThisTurn;
+  }
+  
+  public void hasRolled(boolean status)
+  {
+    rolledThisTurn = status;
+  }
+  
+  public int getScore()
+  {
+    return diceScore;
+  }
+  
+  public void setScore(int score)
+  {
+    diceScore = score;
+  }
+  
+  public int getNum()
+  {
+    return player;
+  }
+  
+  public void addPoints()
+  {
+    victoryPoints++;
+    game.checkVictory();
+  }
+  
+  public void minusPoints()
+  {
+    victoryPoints--;
+  }
+  
+  public int getPoints()
+  {
+    return victoryPoints;
+  }
 }

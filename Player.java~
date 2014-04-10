@@ -1,8 +1,7 @@
-/*WARNING: Be careful when modifiying this file on Dropbox!! If more than one person is modifiying it at a time and you
- * both save, then there is a chance for data loss and we all lose!*/
 import java.awt.*;
 import java.util.ArrayList;
 import objectdraw.*;
+import javax.swing.JTextArea;
 
 public class Player implements CatanController
 {
@@ -20,16 +19,24 @@ public class Player implements CatanController
 	private int numRoadBuilding;
 	private int numYearOfPlenty;
 	private int totalCards;
-	private DrawingCanvas canvas;
+	private int diceScore;
+	private DrawingCanvas canvas, canvas2;
 	private ArrayList <ResourceCard> hand;
+	private boolean rolledThisTurn;
  	public static boolean displayingResourceCards;
+	public static JTextArea info;
+    private CatanGame game;
  
-	public Player(int currentPlayer, String currentPlayerName, DrawingCanvas aCanvas)
+	public Player(int currentPlayer, String currentPlayerName, CatanGame aGame)
 	{
-		player = currentPlayer;
+		game = aGame;
+        player = currentPlayer;
 		playerName = currentPlayerName;
-		canvas = aCanvas;
+		canvas = aGame.getCanvas();
+		canvas2 = aGame.getCanvasTwo();
 		victoryPoints = 0;
+		info = aGame.getInfo();
+		rolledThisTurn = false;
 	}
  
 	public void addCard(int cardNumber)
@@ -54,7 +61,7 @@ public class Player implements CatanController
 		{
 			numWheat++;
 		}
-		displayResourceHand();
+        totalCards = numClay + numLumber + numOre + numSheep + numWheat;
 	}
  	
  	public void addDevelopmentCard()
@@ -80,10 +87,9 @@ public class Player implements CatanController
 		{
 			numYearOfPlenty++;
 		}
-		//displayDevelopmentHand();
 	}
  	
-	public void buyItem(Item item)
+	public boolean buyItem(Item item)
 	{
 		if (numClay >= item.priceClay && numLumber >= item.priceLumber && numOre >= item.priceOre && numSheep >= item.priceSheep && numWheat >= item.priceWheat)
 		{
@@ -95,9 +101,12 @@ public class Player implements CatanController
 		}
 		else
 		{
-			System.out.println("You've not enough minerals");
+			info.append("You've not enough minerals\n");
+            return false;
 		}
+        totalCards = numClay + numLumber + numOre + numSheep + numWheat;
 		displayResourceHand();
+        return true;
 	}
 	
 	public void buyDevelopmentCard()
@@ -114,40 +123,47 @@ public class Player implements CatanController
 		}
 		else
 		{
-			System.out.println("You've not enough minerals");
+			info.append("You've not enough minerals\n");
 		}
-		//displayResourceHand();
 	}
  
 	public void displayResourceHand()
 	{
-		canvas.clear();
+		canvas2.clear();
 		int x = 10;
-		int y = 30;
+		int y = 10;
+        int increment;
+        totalCards = numClay + numLumber + numOre + numSheep + numWheat;
+        if (totalCards <= 7)
+            increment = 110;
+        else
+        {
+            increment  = 670/totalCards;
+        }
 		for(int i = 0; i < numClay; i++)
 		{
-			new ResourceCard( 1, canvas).displayCard(new Location( x, y));
-			x+=110;
+			new ResourceCard( 1, canvas2).displayCard(new Location( x, y));
+			x+=increment;
 		}
 		for(int i = 0; i < numLumber; i++)
 		{
-			new ResourceCard( 2, canvas).displayCard(new Location( x, y));
-			x+=110;
+			new ResourceCard( 2, canvas2).displayCard(new Location( x, y));
+			x+=increment;
 		}
 		for(int i = 0; i < numOre; i++)
 		{
-			new ResourceCard( 3, canvas).displayCard(new Location( x, y));
-			x+=110;
+			new ResourceCard( 3, canvas2).displayCard(new Location( x, y));
+			x+=increment;
 		}
 		for(int i = 0; i < numSheep; i++)
 		{
-			new ResourceCard( 4, canvas).displayCard(new Location( x, y));
-			x+=110;
+			new ResourceCard( 4, canvas2).displayCard(new Location( x, y));
+			x+=increment;
 		}
 		for(int i = 0; i < numWheat; i++)
 		{
-			new ResourceCard( 5, canvas).displayCard(new Location( x, y));
-			x+=110;
+			new ResourceCard( 5, canvas2).displayCard(new Location( x, y));
+			x+=increment;
 		}
 		displayingResourceCards = true;
 		
@@ -155,35 +171,106 @@ public class Player implements CatanController
 	
 	public void displayDevelopmentHand()
 	{
-		canvas.clear();
+		canvas2.clear();
 		int x = 10;
 		int y = 30;
 		for(int i = 0; i < numKnight; i++)
 		{
-			new DevelopmentCard( 1, canvas).displayCard(new Location( x, y));
+			new DevelopmentCard( 1, canvas2).displayCard(new Location( x, y));
 			x+=110;
 		}
 		for(int i = 0; i < numBonusPoint; i++)
 		{
-			new DevelopmentCard( 2, canvas).displayCard(new Location( x, y));
+			new DevelopmentCard( 2, canvas2).displayCard(new Location( x, y));
 			x+=110;
 		}
 		for(int i = 0; i < numMonopoly; i++)
 		{
-			new DevelopmentCard( 3, canvas).displayCard(new Location( x, y));
+			new DevelopmentCard( 3, canvas2).displayCard(new Location( x, y));
 			x+=110;
 		}
 		for(int i = 0; i < numRoadBuilding; i++)
 		{
-			new DevelopmentCard( 4, canvas).displayCard(new Location( x, y));
+			new DevelopmentCard( 4, canvas2).displayCard(new Location( x, y));
 			x+=110;
 		}
 		for(int i = 0; i < numYearOfPlenty; i++)
 		{
-			new DevelopmentCard( 5, canvas).displayCard(new Location( x, y));
+			new DevelopmentCard( 5, canvas2).displayCard(new Location( x, y));
 			x+=110;
 		}
-			//new Hexagon(80, 80);
 		displayingResourceCards = false;
 	}
+	
+	public void hideHand()
+	{
+	    canvas2.clear();
+	}
+	
+	/* for trading purposes:
+	    1) gives current quantities of resources
+	    2) updates after a successful trade
+	*/
+	
+	public int getClay() { return numClay; }
+	public int getLumber() { return numLumber; }
+	public int getOre() { return numOre; }
+	public int getSheep() { return numSheep; }
+    public int getWheat() { return numWheat; }
+    
+    public void updateResources(int qtyClay, int qtyLumber, int qtyOre,
+                                int qtySheep, int qtyWheat)
+    {
+        numClay = qtyClay;
+        numLumber = qtyLumber;
+        numOre = qtyOre;
+        numSheep = qtySheep;
+        numWheat = qtyWheat;
+    }
+    
+    public String getName()
+    {
+        return playerName;
+    }
+    
+    public boolean canRoll()
+    {
+        return !rolledThisTurn;
+    }
+    
+    public void hasRolled(boolean status)
+    {
+        rolledThisTurn = status;
+    }
+    
+    public int getScore()
+    {
+        return diceScore;
+    }
+    
+    public void setScore(int score)
+    {
+        diceScore = score;
+    }
+    
+    public int getNum()
+    {
+        return player;
+    }
+    
+    public void addPoints()
+    {
+        victoryPoints++;
+        game.checkVictory();
+    }
+    
+    public void minusPoints()
+    {
+        victoryPoints--;
+    }
+    
+    public int getPoints()
+    {
+        return victoryPoints;
+    }
 }
