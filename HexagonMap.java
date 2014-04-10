@@ -165,9 +165,29 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
         buyRoad = false;
     }
     
-    public boolean canEndTurn()
+    public boolean canPushButtons()
     {
         return buyRoad==false && selectCoord == 0;
+    }
+    
+    public boolean hasAvailableCoord()
+    {
+        for (Coord e: coords)
+        {
+            if (e.isAvailable())
+                return true;
+        }
+        return false;
+    }
+    
+    public boolean hasUpgradeableCoord()
+    {
+        for (Coord e: coords)
+        {
+            if (e.isUpgradeable() && e.coordSettlement.getPlayer() == game.currentPlayer())
+                return true;
+        }
+        return false;
     }
     
 	public ArrayList<Coord> getCoords()
