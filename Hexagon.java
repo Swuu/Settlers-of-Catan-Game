@@ -105,6 +105,11 @@ public class Hexagon
         fillHexagons();
 	}
 
+	public hexagonRolled()
+	{
+		System.out.println(rollValue);	    
+	}
+
     //adds Coord objects to the 3 top vertices of the Hexagon
 	public ArrayList<Coord> getTopCoords()
 	{

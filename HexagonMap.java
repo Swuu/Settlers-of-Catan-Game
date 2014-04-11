@@ -18,7 +18,12 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 
     private static Hexagon[] hexagonArray = new Hexagon[19];
 	private ArrayList<Coord> coords;
-    
+   
+    public Hexagon[] getHexagonArray ()
+    {
+	return hexagonArray;
+    }
+ 
     public HexagonMap(DrawingCanvas aCanvas, CatanGame aGame)
     {
         canvas = aCanvas;
