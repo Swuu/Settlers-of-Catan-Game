@@ -19,7 +19,7 @@ public class DiceRoll implements Runnable, ActionListener, KeyListener
 	game = aGame;
         scoreOne = generator.nextInt(6) + 1;
         scoreTwo = generator.nextInt(6) + 1;
-        game.currentPlayer.hasRolled(true);
+        game.currentPlayer().hasRolled(true);
     }
 
     public int getScore ()

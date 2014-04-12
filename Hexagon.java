@@ -105,7 +105,7 @@ public class Hexagon
         fillHexagons();
 	}
 
-	public hexagonRolled()
+	public void hexagonRolled()
 	{
 		System.out.println(rollValue);	    
 	}
@@ -160,6 +160,19 @@ public class Hexagon
 		coords.add(new Coord(new Location(xs[5]-skew, ys[5]+skew), canvas));
 		return coords;
 	}
+
+	public ArrayList<Location> getVerticies()
+	{
+		ArrayList<Location> locs = new ArrayList<Location>();
+		locs.add(new Location(xs[1], ys[1]-skew));
+		locs.add(new Location(xs[2]+skew, ys[2]-skew));	
+		locs.add(new Location(xs[3]+skew, ys[3]+skew));
+		locs.add(new Location(xs[4], ys[4]-skew));
+		locs.add(new Location(xs[5]-skew, ys[5]+skew));
+		locs.add(new Location(xs[6]-skew, ys[6]-skew));
+		return locs;
+	}
+
     
     public void fillHexagons()
     {

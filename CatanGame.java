@@ -378,23 +378,32 @@ public class CatanGame extends WindowController implements ActionListener,
  	
  	public void rollDice()
  	{
-	    Hexagon [] hexArray = GameBoard.getHexagonArray();
+	    Hexagon [] hexagonArray = gameBoard.getHexagonArray();
 
  	    if (currentPlayer.canRoll())
  	    {
- 	        rolling = new DiceRoll(currentPlayer);
+ 	        rolling = new DiceRoll(this);
 	        SwingUtilities.invokeLater(rolling);
-		int rollNumber = rolling.getScore(); // get score from rolling dice
-	    }
+			int rollNumber = rolling.getScore(); // get score from rolling dice
+	    
 
-	    for (int i=0 ; i<hexArray.length ; i++)
-	    {
-		if (rollNumber == hexArray[i].getHexValue)
-		{
-		    hexArray[i].hexagonRolled();
+		    for (int i=0 ; i<hexagonArray.length ; i++)
+		    {
+				if (rollNumber == hexagonArray[i].getRollValue())
+				{
+				    gameBoard.retResource(hexagonArray[i]);
+				}
+	    	}
+			if (currentPlayer.displayingResourceCards == true)
+            {
+                    currentPlayer.displayResourceHand();
+            }
+            else
+            {
+                    currentPlayer.displayDevelopmentHand();
+            }
+	
 		}
-	    }
-
 	    else
 	        JOptionPane.showMessageDialog(frame,
                             currentPlayer.getName() + ", you have already " +
