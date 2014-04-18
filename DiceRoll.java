@@ -12,15 +12,21 @@ public class DiceRoll implements Runnable, ActionListener, KeyListener
     private JDrawingCanvas cnv = new JDrawingCanvas(300, 150);
     private FramedRoundedRect LEFT, RIGHT;
     private JButton CLOSE;
-    
-    public DiceRoll(Player player)
+    private CatanGame game;    
+
+    public DiceRoll(CatanGame aGame)
     {
+	game = aGame;
         scoreOne = generator.nextInt(6) + 1;
         scoreTwo = generator.nextInt(6) + 1;
-        player.setScore(scoreOne + scoreTwo);
-        player.hasRolled(true);
+        game.currentPlayer().hasRolled(true);
     }
-    
+
+    public int getScore ()
+    {
+	return (scoreOne + scoreTwo);
+    }
+
     public void run()
     {
         frame = new JFrame();

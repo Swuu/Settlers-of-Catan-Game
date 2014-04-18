@@ -17,8 +17,15 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
     private DrawingCanvas canvas;
 
     private static Hexagon[] hexagonArray = new Hexagon[19];
-	private static ArrayList<Coord> coords;
+    private static ArrayList<Coord> coords;
     
+	private ArrayList<Coord> coords;
+   
+    public Hexagon[] getHexagonArray ()
+    {
+	return hexagonArray;
+    }
+ 
     public HexagonMap(DrawingCanvas aCanvas, CatanGame aGame)
     {
         canvas = aCanvas;
@@ -165,11 +172,52 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
         buyRoad = false;
     }
     
-	public static ArrayList<Coord> getCoords()
+    public boolean canPushButtons()
+    {
+        return buyRoad==false && selectCoord == 0;
+    }
+    
+    public boolean hasAvailableCoord()
+    {
+        for (Coord e: coords)
+        {
+            if (e.isAvailable())
+                return true;
+        }
+        return false;
+    }
+    
+    public boolean hasUpgradeableCoord()
+    {
+        for (Coord e: coords)
+        {
+            if (e.isUpgradeable() && e.coordSettlement.getPlayer() == game.currentPlayer())
+                return true;
+        }
+        return false;
+    }
+    
+	public ArrayList<Coord> getCoords()
+>>>>>>> 1910615fc569ef480e3f3294e40f794a3b228c9b
 	{
 		return coords;
 	}
-    
+   
+	public void retResource(Hexagon hexagon)
+	{
+			ArrayList<Location> locs = hexagon.getVerticies();
+			for(Location l: locs)
+			{
+				for(Coord e: coords)
+           		{
+                	if(!e.isAvailable()&&e.contains(l))
+                	{
+                    	e.coordSettlement.getPlayer().addCard(hexagon.getHexValue());
+					}
+                }
+            }
+	}
+ 
 	public void mouseDragged(MouseEvent evt) {}
 
 	public void mouseMoved(MouseEvent evt)

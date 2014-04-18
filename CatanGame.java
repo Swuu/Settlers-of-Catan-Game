@@ -155,179 +155,188 @@ public class CatanGame extends WindowController implements ActionListener,
 
 	public void actionPerformed(ActionEvent evt) 
 	{
-	    if (evt.getSource() == rollDice)
-	    {
-	        rollDice();
-	    }
-	    
-		if (menu == 0)
-		{
-        	if (evt.getSource() == buttonOne)
-			{
-				currentPlayer.addCard((int)(Math.random()*5 + 1));
-				if (currentPlayer.displayingResourceCards == true)
-				{
-					currentPlayer.displayResourceHand();
-				}
-				else
-				{
-					currentPlayer.displayDevelopmentHand();
-				}
-			}
-			else if(evt.getSource() == buttonTwo)
-			{
-				buttonOne.setText("Road");
-				buttonTwo.setText("Settlement");
-				buttonThree.setText("City");
-				buttonFour.setText("Development Card");
-				buttonFive.setText("Back");
-				menu = 1;
-			}
-			else if(evt.getSource() == buttonThree)
-			{
-				if (currentPlayer.displayingResourceCards == true)
-				{
-					currentPlayer.displayDevelopmentHand();
-					buttonThree.setText("Show Resources");
-				}
-				else
-				{
-					currentPlayer.displayResourceHand();
-					buttonThree.setText("Show Items");
-				}
-			}
-			else if(evt.getSource() == buttonFour)
-			{
-				buttonOne.setText(playerOne.playerName);
-				buttonTwo.setText(playerTwo.playerName);
-				buttonThree.setText(playerThree.playerName);				
-				if (numPlayers == 4)
-					buttonFour.setText(playerFour.playerName);
-				else
-					buttonFour.setText("");
-					
-				toggleButtons(true);
-				
-				buttonFive.setText("Back");
-				menu = 2;
-			}
-			else if (evt.getSource() == buttonFive)
-			{
-				if (currentTurn == playerList.size() - 1)
-				{
-					currentTurn = 0;
-				}
-				else
-				{
-					currentTurn++;
-				}
-				currentPlayer.hasRolled(false);
-				currentPlayer.setScore(0);
-				currentPlayer = playerList.get(currentTurn);
-				currentPlayer.displayResourceHand();
-				info.append(currentPlayer.getName() + "'s turn.\n");
-                currentName.setText(currentPlayer.getName() + "'s turn.");
-                switch(currentTurn)
+	    if (gameBoard.canPushButtons())
+        {
+            if (evt.getSource() == rollDice)
+            {
+                rollDice();
+            }
+            
+            if (menu == 0)
+            {
+                if (evt.getSource() == buttonOne)
                 {
-                        default:
-                                currentName.setColor(Color.BLUE);
-                                break;
-                        case 1:
-                                currentName.setColor(Color.RED);
-                                break;
-                        case 2:
-                                currentName.setColor(Color.GREEN);
-                                break;
-                        case 3:
-                                currentName.setColor(Color.YELLOW);
-                                break;
+                    currentPlayer.addCard((int)(Math.random()*5 + 1));
+                    if (currentPlayer.displayingResourceCards == true)
+                    {
+                        currentPlayer.displayResourceHand();
+                    }
+                    else
+                    {
+                        currentPlayer.displayDevelopmentHand();
+                    }
                 }
-                checkVictory();
-			}
-		}
-		
-		/* a list of items to buy */
-		else if (menu == 1)
-		{
-			if (evt.getSource() == buttonOne)
-			{
-				currentPlayer.buyItem(ROAD);
-				if (currentPlayer.displayingResourceCards == true)
-				{
-					currentPlayer.displayResourceHand();
-				}
-				else
-				{
-					currentPlayer.displayDevelopmentHand();
-				}
-			}
-			else if (evt.getSource() == buttonTwo)
-			{
-				if (currentPlayer.buyItem(SETTLEMENT))
-                    gameBoard.selectCoordOn(true);
-				if (currentPlayer.displayingResourceCards == true)
-				{
-					currentPlayer.displayResourceHand();
-				}
-				else
-				{
-					currentPlayer.displayDevelopmentHand();
-				}
-			}
-			else if (evt.getSource() == buttonThree)
-			{
-				if (currentPlayer.buyItem(CITY))
-                    gameBoard.selectCoordOn(false);
-				if (currentPlayer.displayingResourceCards == true)
-				{
-					currentPlayer.displayResourceHand();
-				}
-				else
-				{
-					currentPlayer.displayDevelopmentHand();
-				}
-			}
-			else if(evt.getSource() == buttonFour)
-			{
-				currentPlayer.buyDevelopmentCard();
-				if (currentPlayer.displayingResourceCards == true)
-				{
-					currentPlayer.displayResourceHand();
-				}
-				else
-				{
-					currentPlayer.displayDevelopmentHand();
-				}
-			}
-			else if (evt.getSource() == buttonFive)
-			    returnToMainMenu();
-		}
-		
-		/* after clicking on "trade"
-		    a list of players to trade with */ 
-		else if (menu == 2)
-		{
-            Player tradingPlayer = null;
-			if (evt.getSource() == buttonOne)
-			    tradingPlayer = playerOne;
-		    else if (evt.getSource() == buttonTwo)
-			    tradingPlayer = playerTwo;
-			else if (evt.getSource() == buttonThree)
-			    tradingPlayer = playerThree;
-			else if (evt.getSource() == buttonFour)
-			    tradingPlayer = playerFour;
+                else if(evt.getSource() == buttonTwo)
+                {
+                    buttonOne.setText("Road");
+                    buttonTwo.setText("Settlement");
+                    buttonThree.setText("City");
+                    buttonFour.setText("Development Card");
+                    buttonFive.setText("Back");
+                    menu = 1;
+                }
+                else if(evt.getSource() == buttonThree)
+                {
+                    if (currentPlayer.displayingResourceCards == true)
+                    {
+                        currentPlayer.displayDevelopmentHand();
+                        buttonThree.setText("Show Resources");
+                    }
+                    else
+                    {
+                        currentPlayer.displayResourceHand();
+                        buttonThree.setText("Show Items");
+                    }
+                }
+                else if(evt.getSource() == buttonFour)
+                {
+                    buttonOne.setText(playerOne.playerName);
+                    buttonTwo.setText(playerTwo.playerName);
+                    buttonThree.setText(playerThree.playerName);
+                    if (numPlayers == 4)
+                        buttonFour.setText(playerFour.playerName);
+                    else
+                        buttonFour.setText("");
+					
+                    toggleButtons(true);
+                    
+                    buttonFive.setText("Back");
+                    menu = 2;
+                }
+                else if (evt.getSource() == buttonFive)
+                {
+                    if (currentTurn == playerList.size() - 1)
+                    {
+                        currentTurn = 0;
+                    }
+                    else
+                    {
+                        currentTurn++;
+                    }
+                    currentPlayer.hasRolled(false);
+                    currentPlayer.setScore(0);
+                    currentPlayer = playerList.get(currentTurn);
+                    currentPlayer.displayResourceHand();
+                    info.append(currentPlayer.getName() + "'s turn.\n");
+                    currentName.setText(currentPlayer.getName() + "'s turn.");
+                    switch(currentTurn)
+                    {
+                        default:
+                            currentName.setColor(Color.BLUE);
+                            break;
+                        case 1:
+                            currentName.setColor(Color.RED);
+                            break;
+                        case 2:
+                            currentName.setColor(Color.GREEN);
+                            break;
+                        case 3:
+                            currentName.setColor(Color.YELLOW);
+                            break;
+                    }
+                    checkVictory();
+                }
+            }
+            
+            /* a list of items to buy */
+            else if (menu == 1)
+            {
+                if (evt.getSource() == buttonOne)
+                {
+                    if(currentPlayer.buyItem(ROAD))
+                    {
+                        if (currentPlayer.displayingResourceCards == true)
+                        {
+                            currentPlayer.displayResourceHand();
+                        }
+                        else
+                        {
+                            currentPlayer.displayDevelopmentHand();
+                        }
+                    }
+                }
+                else if (evt.getSource() == buttonTwo)
+                {
+                    if (gameBoard.hasAvailableCoord() && currentPlayer.buyItem(SETTLEMENT))
+                    {
+                        gameBoard.selectCoordOn(true);
+                        if (currentPlayer.displayingResourceCards == true)
+                        {
+                            currentPlayer.displayResourceHand();
+                        }
+                        else
+                        {
+                            currentPlayer.displayDevelopmentHand();
+                        }
+                    }
+                }
+                else if (evt.getSource() == buttonThree)
+                {
+                    if (gameBoard.hasUpgradeableCoord() && currentPlayer.buyItem(CITY))
+                    {
+                        gameBoard.selectCoordOn(false);
+                        if (currentPlayer.displayingResourceCards == true)
+                        {
+                            currentPlayer.displayResourceHand();
+                        }
+                        else
+                        {
+                            currentPlayer.displayDevelopmentHand();
+                        }
+                    }
+                }
+                else if(evt.getSource() == buttonFour)
+                {
+                    currentPlayer.buyDevelopmentCard();
+                    if (currentPlayer.displayingResourceCards == true)
+                    {
+                        currentPlayer.displayResourceHand();
+                    }
+                    else
+                    {
+                        currentPlayer.displayDevelopmentHand();
+                    }
+                }
+                else if (evt.getSource() == buttonFive)
+                    returnToMainMenu();
+            }
+            
+            /* after clicking on "trade"
+             a list of players to trade with */ 
+            else if (menu == 2)
+            {
+                Player tradingPlayer = null;
+                if (evt.getSource() == buttonOne)
+                    tradingPlayer = playerOne;
+                else if (evt.getSource() == buttonTwo)
+                    tradingPlayer = playerTwo;
+                else if (evt.getSource() == buttonThree)
+                    tradingPlayer = playerThree;
+                else if (evt.getSource() == buttonFour)
+                    tradingPlayer = playerFour;
 			    
-            if (tradingPlayer != null)
-            {    
-                tradewindow = new OpenTrade(currentPlayer,
-                                                    tradingPlayer, this);
-                SwingUtilities.invokeLater(tradewindow);
-			}
-			else if (evt.getSource() == buttonFive)
-			{
-			    returnToMainMenu();
-			}
-		}
+                if (tradingPlayer != null)
+                {    
+                    tradewindow = new OpenTrade(currentPlayer,
+                                                tradingPlayer, this);
+                    SwingUtilities.invokeLater(tradewindow);
+                }
+                else if (evt.getSource() == buttonFive)
+                {
+                    returnToMainMenu();
+                }
+            }
+        }
     }
  	
  	public void keyPressed(KeyEvent key)
@@ -369,11 +378,32 @@ public class CatanGame extends WindowController implements ActionListener,
  	
  	public void rollDice()
  	{
+	    Hexagon [] hexagonArray = gameBoard.getHexagonArray();
+
  	    if (currentPlayer.canRoll())
  	    {
- 	        rolling = new DiceRoll(currentPlayer);
+ 	        rolling = new DiceRoll(this);
 	        SwingUtilities.invokeLater(rolling);
-	    }
+			int rollNumber = rolling.getScore(); // get score from rolling dice
+	    
+
+		    for (int i=0 ; i<hexagonArray.length ; i++)
+		    {
+				if (rollNumber == hexagonArray[i].getRollValue())
+				{
+				    gameBoard.retResource(hexagonArray[i]);
+				}
+	    	}
+			if (currentPlayer.displayingResourceCards == true)
+            {
+                    currentPlayer.displayResourceHand();
+            }
+            else
+            {
+                    currentPlayer.displayDevelopmentHand();
+            }
+	
+		}
 	    else
 	        JOptionPane.showMessageDialog(frame,
                             currentPlayer.getName() + ", you have already " +
