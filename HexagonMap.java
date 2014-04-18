@@ -17,7 +17,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
     private DrawingCanvas canvas;
 
     private static Hexagon[] hexagonArray = new Hexagon[19];
-	private ArrayList<Coord> coords;
+	private static ArrayList<Coord> coords;
     
     public HexagonMap(DrawingCanvas aCanvas, CatanGame aGame)
     {
@@ -165,7 +165,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
         buyRoad = false;
     }
     
-	public ArrayList<Coord> getCoords()
+	public static ArrayList<Coord> getCoords()
 	{
 		return coords;
 	}
