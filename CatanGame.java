@@ -253,21 +253,22 @@ public class CatanGame extends WindowController implements ActionListener,
             {
                 if (evt.getSource() == buttonOne)
                 {
-                    currentPlayer.buyItem(ROAD);
-                    if (currentPlayer.displayingResourceCards == true)
+                    if(currentPlayer.buyItem(ROAD))
                     {
-                        currentPlayer.displayResourceHand();
-                    }
-                    else
-                    {
-                        currentPlayer.displayDevelopmentHand();
+                        if (currentPlayer.displayingResourceCards == true)
+                        {
+                            currentPlayer.displayResourceHand();
+                        }
+                        else
+                        {
+                            currentPlayer.displayDevelopmentHand();
+                        }
                     }
                 }
                 else if (evt.getSource() == buttonTwo)
                 {
-                    if (gameBoard.hasAvailableCoord())
+                    if (gameBoard.hasAvailableCoord() && currentPlayer.buyItem(SETTLEMENT))
                     {
-                        currentPlayer.buyItem(SETTLEMENT);
                         gameBoard.selectCoordOn(true);
                         if (currentPlayer.displayingResourceCards == true)
                         {
@@ -281,9 +282,8 @@ public class CatanGame extends WindowController implements ActionListener,
                 }
                 else if (evt.getSource() == buttonThree)
                 {
-                    if (gameBoard.hasUpgradeableCoord())
+                    if (gameBoard.hasUpgradeableCoord() && currentPlayer.buyItem(CITY))
                     {
-                        currentPlayer.buyItem(CITY);
                         gameBoard.selectCoordOn(false);
                         if (currentPlayer.displayingResourceCards == true)
                         {
