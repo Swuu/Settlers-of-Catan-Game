@@ -41,6 +41,9 @@ public class CatanGame extends WindowController implements ActionListener,
     private OpenTrade tradewindow;
     private DiceRoll rolling;
     private JFrame frame;
+    
+    private boolean gameStart;
+    private boolean firstRound;
  
 	public void run()
 	{
@@ -126,58 +129,17 @@ public class CatanGame extends WindowController implements ActionListener,
 		rightPanel.add(buttonFive);
 		
 		contentPane.add(rightPanel, BorderLayout.EAST);
+        
+        gameStart = true;
+        firstRound = true;
 
 		validate();
 		frame.pack();
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 		frame.setMinimumSize(frame.getMinimumSize());
-        /*for (int i = 0; i < playerList.size; i++)
-        {
-            currentPlayer = playerList.get(currentTurn);
-            currentPlayer.displayResourceHand();
-            info.append(currentPlayer.getName() + "'s turn.\n");
-            currentName.setText(currentPlayer.getName() + "'s turn.");
-            switch(currentTurn)
-            {
-                default:
-                    currentName.setColor(Color.BLUE);
-                    break;
-                case 1:
-                    currentName.setColor(Color.RED);
-                    break;
-                case 2:
-                    currentName.setColor(Color.GREEN);
-                    break;
-                case 3:
-                    currentName.setColor(Color.YELLOW);
-                    break;
-            }
-            currentTurn++;
-        }
-        for (int i = playerList.size-1; i >= 0; i--)
-        {
-            currentPlayer = playerList.get(currentTurn);
-            currentPlayer.displayResourceHand();
-            info.append(currentPlayer.getName() + "'s turn.\n");
-            currentName.setText(currentPlayer.getName() + "'s turn.");
-            switch(currentTurn)
-            {
-                default:
-                    currentName.setColor(Color.BLUE);
-                    break;
-                case 1:
-                    currentName.setColor(Color.RED);
-                    break;
-                case 2:
-                    currentName.setColor(Color.GREEN);
-                    break;
-                case 3:
-                    currentName.setColor(Color.YELLOW);
-                    break;
-            }
-            currentTurn--;
-        }*/
+        
+        gameBoard.selectCoordOn(true); //allows the first player to start building settlements
 	}
 
 	public static void generateBackground(DrawingCanvas canvas)
@@ -261,36 +223,106 @@ public class CatanGame extends WindowController implements ActionListener,
                 }
                 else if (evt.getSource() == buttonFive)
                 {
-                    if (currentTurn == playerList.size() - 1)
+                    if (gameStart)
                     {
-                        currentTurn = 0;
+                        if (firstRound)
+                        {
+                            if (currentTurn == playerList.size() - 1)
+                            {
+                                firstRound = false;
+                            }
+                            else
+                            {
+                                currentTurn++;
+                            }
+                            currentPlayer.hasRolled(false);
+                            currentPlayer.setScore(0);
+                            currentPlayer = playerList.get(currentTurn);
+                            currentPlayer.displayResourceHand();
+                            info.append(currentPlayer.getName() + "'s turn.\n");
+                            currentName.setText(currentPlayer.getName() + "'s turn.");
+                            switch(currentTurn)
+                            {
+                                default:
+                                    currentName.setColor(Color.BLUE);
+                                    break;
+                                case 1:
+                                    currentName.setColor(Color.RED);
+                                    break;
+                                case 2:
+                                    currentName.setColor(Color.GREEN);
+                                    break;
+                                case 3:
+                                    currentName.setColor(Color.YELLOW);
+                                    break;
+                            }
+                            gameBoard.selectCoordOn(true);
+                        }
+                        else
+                        {
+                            if (currentTurn == 0)
+                            {
+                                gameStart = false;
+                            }
+                            else
+                            {
+                                currentTurn--;
+                                gameBoard.selectCoordOn(true);
+                            }
+                            currentPlayer.setScore(0);
+                            currentPlayer = playerList.get(currentTurn);
+                            currentPlayer.displayResourceHand();
+                            info.append(currentPlayer.getName() + "'s turn.\n");
+                            currentName.setText(currentPlayer.getName() + "'s turn.");
+                            switch(currentTurn)
+                            {
+                                default:
+                                    currentName.setColor(Color.BLUE);
+                                    break;
+                                case 1:
+                                    currentName.setColor(Color.RED);
+                                    break;
+                                case 2:
+                                    currentName.setColor(Color.GREEN);
+                                    break;
+                                case 3:
+                                    currentName.setColor(Color.YELLOW);
+                                    break;
+                            }
+                        }
                     }
                     else
                     {
-                        currentTurn++;
+                        if (currentTurn == playerList.size() - 1)
+                        {
+                            currentTurn = 0;
+                        }
+                        else
+                        {
+                            currentTurn++;
+                        }
+                        currentPlayer.setScore(0);
+                        currentPlayer = playerList.get(currentTurn);
+                        currentPlayer.displayResourceHand();
+                        info.append(currentPlayer.getName() + "'s turn.\n");
+                        currentName.setText(currentPlayer.getName() + "'s turn.");
+                        switch(currentTurn)
+                        {
+                            default:
+                                currentName.setColor(Color.BLUE);
+                                break;
+                            case 1:
+                                currentName.setColor(Color.RED);
+                                break;
+                            case 2:
+                                currentName.setColor(Color.GREEN);
+                                break;
+                            case 3:
+                                currentName.setColor(Color.YELLOW);
+                                break;
+                        }
+                        checkVictory();
                     }
-                    currentPlayer.hasRolled(false);
-                    currentPlayer.setScore(0);
-                    currentPlayer = playerList.get(currentTurn);
-                    currentPlayer.displayResourceHand();
-                    info.append(currentPlayer.getName() + "'s turn.\n");
-                    currentName.setText(currentPlayer.getName() + "'s turn.");
-                    switch(currentTurn)
-                    {
-                        default:
-                            currentName.setColor(Color.BLUE);
-                            break;
-                        case 1:
-                            currentName.setColor(Color.RED);
-                            break;
-                        case 2:
-                            currentName.setColor(Color.GREEN);
-                            break;
-                        case 3:
-                            currentName.setColor(Color.YELLOW);
-                            break;
-                    }
-                    checkVictory();
                 }
             }
             

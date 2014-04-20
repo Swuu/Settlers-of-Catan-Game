@@ -18,8 +18,6 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 
     private static Hexagon[] hexagonArray = new Hexagon[19];
     private static ArrayList<Coord> coords;
-    
-	private ArrayList<Coord> coords;
    
     public Hexagon[] getHexagonArray ()
     {
@@ -198,7 +196,6 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
     }
     
 	public ArrayList<Coord> getCoords()
->>>>>>> 1910615fc569ef480e3f3294e40f794a3b228c9b
 	{
 		return coords;
 	}
