@@ -126,12 +126,58 @@ public class CatanGame extends WindowController implements ActionListener,
 		rightPanel.add(buttonFive);
 		
 		contentPane.add(rightPanel, BorderLayout.EAST);
-		//init();
+
 		validate();
 		frame.pack();
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 		frame.setMinimumSize(frame.getMinimumSize());
+        /*for (int i = 0; i < playerList.size; i++)
+        {
+            currentPlayer = playerList.get(currentTurn);
+            currentPlayer.displayResourceHand();
+            info.append(currentPlayer.getName() + "'s turn.\n");
+            currentName.setText(currentPlayer.getName() + "'s turn.");
+            switch(currentTurn)
+            {
+                default:
+                    currentName.setColor(Color.BLUE);
+                    break;
+                case 1:
+                    currentName.setColor(Color.RED);
+                    break;
+                case 2:
+                    currentName.setColor(Color.GREEN);
+                    break;
+                case 3:
+                    currentName.setColor(Color.YELLOW);
+                    break;
+            }
+            currentTurn++;
+        }
+        for (int i = playerList.size-1; i >= 0; i--)
+        {
+            currentPlayer = playerList.get(currentTurn);
+            currentPlayer.displayResourceHand();
+            info.append(currentPlayer.getName() + "'s turn.\n");
+            currentName.setText(currentPlayer.getName() + "'s turn.");
+            switch(currentTurn)
+            {
+                default:
+                    currentName.setColor(Color.BLUE);
+                    break;
+                case 1:
+                    currentName.setColor(Color.RED);
+                    break;
+                case 2:
+                    currentName.setColor(Color.GREEN);
+                    break;
+                case 3:
+                    currentName.setColor(Color.YELLOW);
+                    break;
+            }
+            currentTurn--;
+        }*/
 	}
 
 	public static void generateBackground(DrawingCanvas canvas)
@@ -140,12 +186,12 @@ public class CatanGame extends WindowController implements ActionListener,
 
                 double horizontalBuf = canvas.getWidth()-10;
                 double verticalBuf = canvas.getHeight()-10;
-		VisibleImage water; 
+		VisibleImage water;
 
 		for(int row = 15; row < 2000; row+=50)
 		{
 			for(int col = 0; col < 2000; col+=50)
-			{ 
+			{
 				water = new VisibleImage(toolkit.getImage("blue.jpg"), col,
 				                                    row, 50, 50, canvas);
                 		water.sendBackward();
