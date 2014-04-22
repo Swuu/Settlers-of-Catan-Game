@@ -1,4 +1,5 @@
 import objectdraw.*;
+
 import java.awt.*;
 
 public class Coord
@@ -36,6 +37,7 @@ public class Coord
 
     public void showSelectionRadius()
     {
+    		isAvailable();
             selectionBubble.show();
     }
 
@@ -58,7 +60,10 @@ public class Coord
     {
             areaTester.setColor(colour);
     }
-
+    public void changeSelcColor(Color colour)
+    {
+    	selectionBubble.setColor(colour);
+    }
 	public boolean contains(Location loc)
 	{
 		return	selectionBubble.contains(loc);
@@ -91,6 +96,10 @@ public class Coord
     
 	public void changeAvailability(boolean isAvailable)
 	{
+		if(isAvailable)
+			selectionBubble.setColor(new Color(0, 145, 11, 125));
+		else
+			selectionBubble.setColor(new Color(145, 0, 11, 125));
 		available=isAvailable;
 	}
 

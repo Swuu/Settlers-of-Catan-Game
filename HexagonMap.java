@@ -1,7 +1,9 @@
 import objectdraw.*; 
+
 import java.awt.*;
 import java.util.*;
 import java.awt.event.*;
+
 import javax.swing.event.*;
 
 public class HexagonMap extends WindowController implements MouseMotionListener, MouseListener
@@ -222,12 +224,13 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 		if (selectCoord != 0)
         {
             mapSettlement.show();
-		canvas.addMouseListener(this);
+            canvas.addMouseListener(this);
             for(Coord e: coords)
             {
                 if(e.contains(new Location(evt.getX(), evt.getY())))
                 {
                     mapSettlement.moveTo(e.location());
+                    canBuildSettlement(evt, false);
                     e.showSelectionRadius();
 					break;	
                 }
@@ -252,24 +255,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
     {
         if (selectCoord == 1)
         {
-            for (Coord e: coords)
-            {
-                if (e.contains(new Location(evt.getX(), evt.getY()))&&e.isAvailable())
-                {
-			for(Coord c: coords)
-			{
-			 	if(c!=e&&!c.isAvailable()&&c.isHabitable(e.location())) 
-				{
-					return;
-				}
-			}
-                    e.coordSettlement = new GameSettlement(e, game.currentPlayer(), canvas);
-                    e.makeUpgradeable();
-                    e.hideSelectionRadius();
-                    e.changeAvailability(false);
-                    selectCoord = 0;
-                }
-            }
+            canBuildSettlement(evt, true);
         }
         else if (selectCoord == 2)
         {
@@ -293,5 +279,29 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
             }
         }
     }
-    
+    public void canBuildSettlement(MouseEvent evt, boolean build)
+    {
+    	for (Coord e: coords)
+        {
+            if (e.contains(new Location(evt.getX(), evt.getY()))&&e.isAvailable())
+            {
+            	for(Coord c: coords)
+            	{
+            		if(c!=e&&!c.isAvailable()&&c.isHabitable(e.location())) 
+            		{
+            			e.changeSelcColor(new Color(145, 0, 11, 125));
+            			return;
+            		}
+            	}
+            	if(build)
+            	{
+            		e.coordSettlement = new GameSettlement(e, game.currentPlayer(), canvas);
+                    e.makeUpgradeable();
+                    e.hideSelectionRadius();
+                    e.changeAvailability(false);
+                    selectCoord = 0;
+            	}
+            }
+        }
+    }
 }
