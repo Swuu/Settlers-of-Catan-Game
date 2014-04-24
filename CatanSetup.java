@@ -25,27 +25,36 @@ public class CatanSetup implements ActionListener
   private JFrame nameFrame = new JFrame();
   private JLabel nameText = new JLabel("Please enter your name: ");
   private int globalI = 0;
+  private boolean hasClosed;
+  private boolean debugMode;
   
   public CatanSetup()
   { 
     done = false;
-    numFrame.setSize(250,200);
+    numFrame.setSize(250,250);
     numFrame.setLayout(new GridLayout(5, 1, 5, 5));
     numFrame.setLocationRelativeTo(null);
     numFrame.add(new JLabel("Please pick the number of players: "));
-    numFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    numFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    //numFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     textField.addActionListener(this);
     button3.setSelected(true);
     confirmButton.addActionListener(this);
-    //group.add(button2);
     group.add(button3);
     group.add(button4);
-    //numFrame.add(button2);
-    
+
+    JButton cancelButton = new JButton("Cancel");
+    cancelButton.addActionListener(new ActionListener(){
+    	public void actionPerformed(ActionEvent e) {
+    		numFrame.setVisible(false);
+    		hasClosed = true;
+    	}
+    });
     numFrame.add(button3);
     numFrame.add(button4);
     numFrame.setResizable(false);
     numFrame.add(confirmButton);
+    numFrame.add(cancelButton);
     numFrame.setVisible(true);
     button3.addKeyListener(new KeyAdapter() {
       @Override
@@ -69,7 +78,18 @@ public class CatanSetup implements ActionListener
     nameFrame.add(confirmButton2);
     confirmButton2.addActionListener(this);
   }
-  
+  public CatanSetup(boolean debug)
+  {
+	  players = 3;
+	  playerNames = new String[3];
+	  for(int i = 1; i < 4; i ++)
+		  playerNames[i-1] = new String("Player " + i);
+	  debugMode = true;
+  }
+  public boolean isDebugMode()
+  {
+	  return debugMode;
+  }
   public void actionPerformed(ActionEvent evt)
   {
     if( evt.getSource() == confirmButton )
@@ -146,5 +166,9 @@ public class CatanSetup implements ActionListener
   public boolean isDone()
   {
     return done;
+  }
+  public boolean hasClosed()
+  {
+	  return hasClosed;
   }
 }

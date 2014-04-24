@@ -75,6 +75,15 @@ public class CatanGame extends WindowController implements ActionListener,
             playerFour = new Player(4, startGame.getName(3), this);
   			playerList.add(playerFour);
   		}
+  		if(startGame.isDebugMode())
+		{
+			System.out.println("Welcome to debug mode.");
+			System.out.println("The three players start with 10,000 of each resource");
+			System.out.println("The resources are in your hand but are invisible. Enjoy!");
+			playerOne.updateResources(10000, 10000, 10000, 10000, 10000);
+			playerTwo.updateResources(10000, 10000, 10000, 10000, 10000);
+			playerThree.updateResources(10000, 10000, 10000, 10000, 10000);
+		}
   		currentTurn = 0;
   		currentPlayer = playerList.get(currentTurn);
 		currentPlayer.displayResourceHand();
@@ -549,14 +558,15 @@ public class CatanGame extends WindowController implements ActionListener,
  	 */
 	public static void main(String[] args)
 	{
-        startGame = new CatanSetup();
-        boolean done = startGame.isDone();
-        while (done == false)
-        {
-            done = startGame.isDone();
-            System.out.print("");
-        }
+		TitleScreen titleScreen = new TitleScreen();
+		while(!titleScreen.isSelectionMade())
+		{
+			int a = 01;
+			System.out.print("");
+		}
+        startGame = titleScreen.getSetup();
         CatanGame settlers = new CatanGame();
         SwingUtilities.invokeLater(settlers);
+	
 	}
 }
