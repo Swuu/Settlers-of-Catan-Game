@@ -23,7 +23,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
    
     public Hexagon[] getHexagonArray ()
     {
-	return hexagonArray;
+        return hexagonArray;
     }
  
     public HexagonMap(DrawingCanvas aCanvas, CatanGame aGame)
@@ -230,7 +230,10 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
                 if(e.contains(new Location(evt.getX(), evt.getY())))
                 {
                     mapSettlement.moveTo(e.location());
-                    canBuildSettlement(evt, false);
+                    if (selectCoord == 1)
+                        canBuildSettlement(evt, false);
+                    else if (selectCoord == 2)
+                        canUpgradeSettlement(evt, false);
                     e.showSelectionRadius();
 					break;	
                 }
@@ -259,26 +262,43 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
         }
         else if (selectCoord == 2)
         {
-            for (Coord e: coords)
+            canUpgradeSettlement(evt, true);
+        }
+    }
+    
+    public void canUpgradeSettlement(MouseEvent evt, boolean build)
+    {
+        for (Coord e: coords)
+        {
+            if (e.contains(new Location(evt.getX(), evt.getY()))&& e.isUpgradeable() && game.currentPlayer()==e.coordSettlement.getPlayer())
             {
-                if (e.contains(new Location(evt.getX(), evt.getY()))&& e.isUpgradeable() && game.currentPlayer()==e.coordSettlement.getPlayer())
+                for(Coord c: coords)
                 {
-                    for(Coord c: coords)
+                    if(c==e && !c.isAvailable() && c.isUpgradeable())
                     {
-                        if(c!=e&&!c.isAvailable()&&c.isUpgradeable())
+                        c.changeSelcColor(new Color(0, 145, 11, 125));
+                        if (build)
                         {
-                            return;
+                            e.coordSettlement.makeCity();
+                            e.makeUnupgradeable();
+                            e.hideSelectionRadius();
+                            e.changeAvailability(false);
+                            selectCoord = 0;
                         }
                     }
-                    e.coordSettlement.makeCity();
-                    e.makeUnupgradeable();
-                    e.hideSelectionRadius();
-                    e.changeAvailability(false);
-                    selectCoord = 0;
+                    else
+                    {
+                        c.changeSelcColor(new Color(145, 0, 11, 125));
+                    }
                 }
+            }
+            else
+            {
+                e.changeSelcColor(new Color(145, 0, 11, 125));
             }
         }
     }
+    
     public void canBuildSettlement(MouseEvent evt, boolean build)
     {
     	for (Coord e: coords)
