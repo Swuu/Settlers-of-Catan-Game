@@ -282,13 +282,8 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
                             e.coordSettlement.makeCity();
                             e.makeUnupgradeable();
                             e.hideSelectionRadius();
-                            e.changeAvailability(false);
                             selectCoord = 0;
                         }
-                    }
-                    else
-                    {
-                        c.changeSelcColor(new Color(145, 0, 11, 125));
                     }
                 }
             }
@@ -305,7 +300,8 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
         {
             if (e.contains(new Location(evt.getX(), evt.getY()))&&e.isAvailable())
             {
-            	for(Coord c: coords)
+            	e.changeSelcColor(new Color(0, 145, 11, 125));
+                for(Coord c: coords)
             	{
             		if(c!=e&&!c.isAvailable()&&c.isHabitable(e.location())) 
             		{
