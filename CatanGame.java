@@ -159,7 +159,7 @@ public class CatanGame extends WindowController implements ActionListener,
                 double verticalBuf = canvas.getHeight()-10;
 		VisibleImage water;
 
-		for(int row = 15; row < 2000; row+=50)
+		/*for(int row = 15; row < 2000; row+=50)
 		{
 			for(int col = 0; col < 2000; col+=50)
 			{
@@ -167,7 +167,10 @@ public class CatanGame extends WindowController implements ActionListener,
 				                                    row, 50, 50, canvas);
                 		water.sendBackward();
 			}
-		}
+		}*/
+        
+        water = new VisibleImage(toolkit.getImage("image/NewSpaceBackground.png"), 0, 0, 1300, 700, canvas);
+        water.sendBackward();
 	}
 
 	public void actionPerformed(ActionEvent evt) 
