@@ -503,7 +503,7 @@ public class CatanGame extends WindowController implements ActionListener,
  	 */
  	public static void returnToMainMenu()
  	{
- 		buttonOne.setText("Add Resource Card");
+ 		buttonOne.setText("Roll Dice");
 		buttonTwo.setText("Buy Item");
 		buttonThree.setText("Swap Displays");
 		buttonFour.setText("Trade Resources");
