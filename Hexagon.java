@@ -19,14 +19,17 @@ public class Hexagon
     
     private Location centerLoc;
     private Location belowLoc;
+    private Location moreBelowLoc;
     
     private int hexValue;
     private int rollValue;
+    private int rollPossiblity;
     
     private DrawingCanvas canvas;
     
     private Text cardText;
     private Text cardNum;
+    private Text cardNumPossibility;
     
     private FilledOval selectionBubble;
     
@@ -65,6 +68,7 @@ public class Hexagon
 		
         centerLoc = new Location(a1, b0);
         belowLoc = new Location(a1, b0 + 20);
+        moreBelowLoc = new Location(a1, b0 + 40);
 		//end and start points
 		
 		//puts points in array to send to constructor
@@ -277,8 +281,34 @@ public class Hexagon
     public void setRollValue(int aNumber)
     {
         rollValue = aNumber;
+        switch (rollValue)
+        {
+            case 2: rollPossiblity = 1;
+                break;
+            case 3: rollPossiblity = 2;
+                break;
+            case 4: rollPossiblity = 3;
+                break;
+            case 5: rollPossiblity = 4;
+                break;
+            case 6: rollPossiblity = 5;
+                break;
+            case 8: rollPossiblity = 5;
+                break;
+            case 9: rollPossiblity = 4;
+                break;
+            case 10: rollPossiblity = 3;
+                break;
+            case 11: rollPossiblity = 2;
+                break;
+            case 12: rollPossiblity = 1;
+                break;
+        }
         cardNum = new Text(rollValue, belowLoc, canvas);
+        cardNumPossibility = new Text(rollPossiblity, moreBelowLoc, canvas);
         cardNum.setColor(Color.WHITE);
+        cardNumPossibility.setColor(Color.WHITE);
         cardNum.move(-(int)((Math.log10(rollValue))+1)*8/2, 0);
+        cardNumPossibility.move(-(int)((Math.log10(rollValue))+1)*8/2, 0);
     }
 }
