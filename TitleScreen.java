@@ -13,6 +13,7 @@ public class TitleScreen extends JFrame
 	private JPanel buttonPanel;
 	private JPanel main;
 	private CatanSetup setup;
+	private NetworkFrame network;
 	private boolean buttonSelected;
 	private boolean selectionMade;
 	private Thread hasClosedChecker;
@@ -21,7 +22,7 @@ public class TitleScreen extends JFrame
 		super("Enceladus");
 		ImageIcon backgroundIcon = new ImageIcon("image/Titlescreen.png");
 		JLabel background = new JLabel(backgroundIcon);
-		setSize(new Dimension(800,600));
+		setSize(new Dimension(950,639));
 		main = new JPanel(new BorderLayout());
 		main.add(background, BorderLayout.CENTER);
 		add(main);
@@ -29,6 +30,7 @@ public class TitleScreen extends JFrame
 		main.add(buttonPanel, BorderLayout.EAST);
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
+		setResizable(false);
 		setLocationRelativeTo(null);
 		
 	}
@@ -74,7 +76,10 @@ public class TitleScreen extends JFrame
 	{
 		return setup;
 	}
-
+	public void printDimensions()
+	{
+		System.out.println(getWidth() +" " + getHeight());
+	}
 	public static void main(String[] args) {
 		TitleScreen title = new TitleScreen();
 	}
@@ -98,15 +103,48 @@ public class TitleScreen extends JFrame
 			{
 				buttonSelected = true;
 				setup = new CatanSetup();
-				hasClosedChecker = (new Thread(new WindowManager()));
+				hasClosedChecker = (new Thread(new WindowManager(WindowManager.NEWGAME)));
 				hasClosedChecker.start();
 				
+			}
+			//Action for Network Button
+			if((button.getIcon()).toString().equals("image/NetworkButton.png"))
+			{
+				buttonSelected = true;
+				network = new NetworkFrame();
+				hasClosedChecker = (new Thread(new WindowManager(WindowManager.NETWORK)));
+				hasClosedChecker.start();
+			}
+			if((button.getIcon()).toString().equals("image/OptionsButton.png"))
+			{
+				printDimensions();
+				return;
 			}
 		}
 	}
 	class WindowManager implements Runnable {
 		/**This thread prevents a player from clicking more than one button at a time */
+		private int type;
+		public static final int NEWGAME = 1;
+		public static final int LOADGAME = 2;
+		public static final int NETWORK = 3;
+		public static final int OPTIONS = 4;
+		public WindowManager(int type)
+		{
+			this.type = type;
+		}
 		public void run()
+		{
+			switch(type)
+			{
+			case NEWGAME: handleNewGame();
+				break;
+			case NETWORK: handleNetwork();
+				break;
+			}
+			
+		}
+		private void handleNewGame()
 		{
 			while(!setup.isDone())
 			{
@@ -126,6 +164,25 @@ public class TitleScreen extends JFrame
 			selectionMade = true;
 			setVisible(false);
 		}
+		private void handleNetwork()
+		{
+			while(!network.isDone())
+			{
+				try
+				{
+					Thread.sleep(1000);
+				}
+				catch(InterruptedException ex)
+				{	
+				}
+				if(network.hasClosed())
+				{
+					buttonSelected = false;
+					return;
+				}
+			}
+			selectionMade = true;
+			setVisible(false);
+		}
 	}
-
 }
