@@ -34,7 +34,7 @@ public class CatanGame extends WindowController implements ActionListener,
  	private static JButton buttonThree;
  	private static JButton buttonFour;
  	private static JButton buttonFive;
- 	private static JButton rollDice;
+ 	/*private static JButton rollDice;*/
 	
     private static JDrawingCanvas canvas;
     private static JDrawingCanvas canvas2;
@@ -108,16 +108,16 @@ public class CatanGame extends WindowController implements ActionListener,
 		
 		JPanel bottomPanel = new JPanel();
 				
-		rollDice = new JButton("(R)oll Dice");
+		/*rollDice = new JButton("(R)oll Dice");
 		rollDice.addActionListener(this);
 		rollDice.addKeyListener(this);
-		bottomPanel.add(rollDice, BorderLayout.NORTH);
+		bottomPanel.add(rollDice, BorderLayout.NORTH);*/
 		
         bottomPanel.add(canvas2, BorderLayout.SOUTH);
         contentPane.add(bottomPanel, BorderLayout.SOUTH);
 		contentPane.add(new JScrollPane(info), BorderLayout.NORTH);
 		JPanel rightPanel = new JPanel(new GridLayout(6, 1));
-		buttonOne  = new JButton("Add Resource Card");
+		buttonOne  = new JButton("Roll Dice");
 		buttonOne.addActionListener(this);
 		buttonTwo  = new JButton("Buy Item");
 		buttonTwo.addActionListener(this);
@@ -167,16 +167,16 @@ public class CatanGame extends WindowController implements ActionListener,
 	{
 	    if (gameBoard.canPushButtons())
         {
-            if (evt.getSource() == rollDice)
+            /*if (evt.getSource() == rollDice)
             {
                 rollDice();
-            }
+            }*/
             
             if (menu == 0)
             {
                 if (evt.getSource() == buttonOne)
                 {
-                    currentPlayer.addCard((int)(Math.random()*5 + 1));
+                    /*currentPlayer.addCard((int)(Math.random()*5 + 1));
                     if (currentPlayer.displayingResourceCards == true)
                     {
                         currentPlayer.displayResourceHand();
@@ -184,7 +184,8 @@ public class CatanGame extends WindowController implements ActionListener,
                     else
                     {
                         currentPlayer.displayDevelopmentHand();
-                    }
+                    }*/
+                    rollDice();
                 }
                 else if(evt.getSource() == buttonTwo)
                 {
@@ -438,7 +439,7 @@ public class CatanGame extends WindowController implements ActionListener,
  	    buttonThree.setEnabled(bln);
  	    buttonFour.setEnabled(bln);
  	    buttonFive.setEnabled(bln);
- 	    rollDice.setEnabled(bln);
+ 	    /*rollDice.setEnabled(bln);*/
  	    
  	    if (numPlayers == 3)
             buttonFour.setEnabled(false);
