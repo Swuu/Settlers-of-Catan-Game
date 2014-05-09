@@ -80,9 +80,10 @@ public class CatanGame extends WindowController implements ActionListener,
 			System.out.println("Welcome to debug mode.");
 			System.out.println("The three players start with 10,000 of each resource");
 			System.out.println("The resources are in your hand but are invisible. Enjoy!");
-			playerOne.updateResources(10000, 10000, 10000, 10000, 10000);
-			playerTwo.updateResources(10000, 10000, 10000, 10000, 10000);
-			playerThree.updateResources(10000, 10000, 10000, 10000, 10000);
+            ROAD.changePrice(0,0,0,0,0);
+            SETTLEMENT.changePrice(0,0,0,0,0);
+            CITY.changePrice(0,0,0,0,0);
+            DCARD.changePrice(0,0,0,0,0);
 		}
   		currentTurn = 0;
   		currentPlayer = playerList.get(currentTurn);
@@ -158,17 +159,6 @@ public class CatanGame extends WindowController implements ActionListener,
                 double horizontalBuf = canvas.getWidth()-10;
                 double verticalBuf = canvas.getHeight()-10;
 		VisibleImage water;
-
-		/*for(int row = 15; row < 2000; row+=50)
-		{
-			for(int col = 0; col < 2000; col+=50)
-			{
-				water = new VisibleImage(toolkit.getImage("blue.jpg"), col,
-				                                    row, 50, 50, canvas);
-                		water.sendBackward();
-			}
-		}*/
-        
         water = new VisibleImage(toolkit.getImage("image/NewSpaceBackground.png"), 0, 0, 1300, 700, canvas);
         water.sendBackward();
 	}

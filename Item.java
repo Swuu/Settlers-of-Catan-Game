@@ -14,4 +14,13 @@ public class Item
 		priceSheep = pSheep;
 		priceWheat = pWheat;
 	}
+    
+    public void changePrice(int pClay, int pLumber, int pOre, int pSheep, int pWheat)
+    {
+        priceClay = pClay;
+		priceLumber = pLumber;
+		priceOre = pOre;
+		priceSheep = pSheep;
+		priceWheat = pWheat;
+    }
 }
