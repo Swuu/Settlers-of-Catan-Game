@@ -10,7 +10,7 @@ public class Road{
 		player = p;
 	}
 	//returns owner of the Road
-	public Player getOwner()
+	public Player getOwner(){
 		return player;
 	}
 	//returns Path that this road is on.

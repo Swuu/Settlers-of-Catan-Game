@@ -1,5 +1,7 @@
 import objectdraw.*;
 import java.awt.*;
+import java.util.ArrayList;
+
 public class PathMap{
 	private ArrayList<Coord> coords=HexagonMap.getCoords();
 	private int length_hex=64;
@@ -26,10 +28,10 @@ public class PathMap{
 
 	public double getDistance(Coord p, Coord q){
 
-		double x1=p.getXcoord(); //x coordinate of q
-		double y1=p.getYcoord(); //y coordinate of p
-		double x2=q.getXcoord(); //x coordinate of q
-		double y2=q.getYcoord(); //y coordinate of q
+		double x1=p.location().getX(); //x coordinate of q
+		double y1=p.location().getY(); //y coordinate of p
+		double x2=q.location().getX(); //x coordinate of q
+		double y2=q.location().getY(); //y coordinate of q
 
 		double distance = Math.sqrt((x2-x1)*(x2-x1) + 
 							(y2-y1)*(y2-y1));
