@@ -266,6 +266,11 @@ public class CatanGame extends WindowController implements ActionListener,
                             if (currentTurn == 0)
                             {
                                 gameStart = false;
+                                Hexagon [] hexagonArray = gameBoard.getHexagonArray();
+                                for (int i=0 ; i<hexagonArray.length ; i++)
+                                {
+                                    gameBoard.retResource(hexagonArray[i]);
+                                }
                             }
                             else
                             {
