@@ -141,17 +141,20 @@ public class NetworkFrame extends JFrame
 	  }
 	  public void startNetwork()
 	  {
-		  if(hostButton.isSelected())
+		  if(!nameField.getText().equals(""))
 			{
-				if(!nameField.getText().equals(""))
-				{
-					int numOfPlayers = Integer.parseInt((String)numDropDown.getSelectedItem());
-					controller = new HostController(numOfPlayers, nameField.getText());
-					System.out.println("Tried to create the controller");
-				}
-				else
-					JOptionPane.showMessageDialog(null, "You must enter a name");
+			  if(hostButton.isSelected())
+			  {
+				int numOfPlayers = Integer.parseInt((String)numDropDown.getSelectedItem());
+				controller = new HostController(numOfPlayers, nameField.getText());
+			  }
+			  else if(clientButton.isSelected() && !ipTextField.getText().equals(""))
+				  controller = new ClientController(ipTextField.getText(), nameField.getText());
+			  else
+				  JOptionPane.showMessageDialog(null, "You must enter an IP");
 			}
+		  else
+				JOptionPane.showMessageDialog(null, "You must enter a name");
 	  }
 	public static void main(String[] args) {
 		NetworkFrame frame = new NetworkFrame();

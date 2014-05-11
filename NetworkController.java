@@ -1,6 +1,6 @@
 import java.io.*;
 import java.net.*;
-public abstract class NetworkController 
+public abstract class NetworkController implements Runnable
 {
 	protected static final int SENDMESSAGE = 1;
 	protected int numberOfPlayers;
@@ -20,5 +20,6 @@ public abstract class NetworkController
 	{
 		return name;
 	}
+	public abstract void run();
 	
 }

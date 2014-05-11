@@ -32,6 +32,8 @@ public class WaitingRoom extends JFrame
 		panel.add(startPanel, BorderLayout.SOUTH);
 		revalidate();
 		repaint();
+		Thread control = new Thread(controller);
+		control.start();
 	}
 	public void makeChatPanel()
 	{

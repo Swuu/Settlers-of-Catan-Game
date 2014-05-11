@@ -1,7 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.util.*;
-public class HostController extends NetworkController
+public class HostController extends NetworkController implements Runnable
 {
 	private LinkedList<HandleAClient> clientList;
 	private Deque<TaskDequeElement> taskDeque;
@@ -17,34 +17,7 @@ public class HostController extends NetworkController
 	}
 	public void start()
 	{
-		try
-		{
-			ServerSocket statusSSocket = new ServerSocket(8000); //Double SS means Server Socket
-			ServerSocket stringSSocket = new ServerSocket(8001);
-			ServerSocket objectSSocket = new ServerSocket(8002);
-			while(true)
-			{
-				Socket statusSocket = statusSSocket.accept();
-				if (numberOfPlayers > numberOfConnected)
-				{
-					Socket stringSocket = stringSSocket.accept();
-					Socket objectSocket = objectSSocket.accept();
-					HandleAClient task = new HandleAClient(statusSocket, stringSocket, objectSocket);
-					new Thread(task).start();
-					clientList.add(task);
-					numberOfConnected++;
-				}
-				else
-				{
-					sendCommand(SENDMESSAGE, "Error: This room is full");
-					statusSocket.close();
-				}
-			}
-		}
-		catch(IOException ex)
-		{
-			
-		}
+		
 	}
 	class TaskDequeManager implements Runnable
 	{
@@ -92,6 +65,7 @@ public class HostController extends NetworkController
 		private DataOutputStream statusOutput;
 		private PrintWriter stringOutput;
 		private ObjectOutputStream objectOutput;
+		private int playerNumber;
 		public HandleAClient(Socket statusSocket, Socket stringSocket, Socket objectSocket)
 		{
 			try
@@ -102,12 +76,19 @@ public class HostController extends NetworkController
 				statusOutput = new DataOutputStream(statusSocket.getOutputStream());
 				stringOutput = new PrintWriter(stringSocket.getOutputStream(), true);
 				objectOutput = new ObjectOutputStream(objectSocket.getOutputStream());
-				statusOutput.writeInt(numberOfConnected);
+				setup();
 			} 
 			catch (IOException e) 
 			{
 				e.printStackTrace();
 			}
+		}
+		private void setup() throws IOException
+		{
+			playerNumber = numberOfConnected;
+			statusOutput.writeInt(numberOfConnected);
+			playerNames[playerNumber-1] = stringInput.readLine();
+			objectOutput.writeObject(playerNames);
 		}
 		public void run()
 		{
@@ -118,5 +99,37 @@ public class HostController extends NetworkController
 	public void handleChat(String message) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		try
+		{
+			ServerSocket statusSSocket = new ServerSocket(8000); //Double SS means Server Socket
+			ServerSocket stringSSocket = new ServerSocket(8001);
+			ServerSocket objectSSocket = new ServerSocket(8002);
+			while(true)
+			{
+				Socket statusSocket = statusSSocket.accept();
+				if (numberOfPlayers > numberOfConnected)
+				{
+					Socket stringSocket = stringSSocket.accept();
+					Socket objectSocket = objectSSocket.accept();
+					HandleAClient task = new HandleAClient(statusSocket, stringSocket, objectSocket);
+					new Thread(task).start();
+					clientList.add(task);
+					numberOfConnected++;
+				}
+				else
+				{
+					sendCommand(SENDMESSAGE, "Error: This room is full");
+					statusSocket.close();
+				}
+			}
+		}
+		catch(IOException ex)
+		{
+			
+		}
 	}
 }
