@@ -15,6 +15,8 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
     private int selectCoord = 0;
     private boolean buyRoad = false;
     private static SettlementShape mapSettlement;
+    private static SettlementShape mapCity;
+
     private CatanGame game;
     private DrawingCanvas canvas;
 
@@ -31,6 +33,10 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
         canvas = aCanvas;
         game = aGame;
         mapSettlement = new SettlementShape(0, 0, 0, canvas);
+        mapCity = new SettlementShape(0, 0, 0, canvas);
+        mapCity.makeCity();
+        mapCity.sendToFront();
+        mapCity.hide();
         mapSettlement.sendToFront();
         mapSettlement.hide();
         numHex[1] = 3; //Clay
@@ -223,13 +229,25 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 	{
 		if (selectCoord != 0)
         {
-            mapSettlement.show();
+            if (selectCoord == 1)
+            {
+                mapSettlement.show();
+                mapCity.hide();
+            }
+            if (selectCoord == 2)
+            {
+                mapCity.show();
+                mapSettlement.hide();
+            }
             canvas.addMouseListener(this);
             for(Coord e: coords)
             {
                 if(e.contains(new Location(evt.getX(), evt.getY())))
                 {
-                    mapSettlement.moveTo(e.location());
+                    if (selectCoord == 1)
+                        mapSettlement.moveTo(e.location());
+                    if (selectCoord == 2)
+                        mapCity.moveTo(e.location());
                     if (selectCoord == 1)
                         canBuildSettlement(evt, false);
                     else if (selectCoord == 2)
@@ -239,7 +257,10 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
                 }
                 else
                 {
-                    mapSettlement.moveTo(evt.getX(), evt.getY());
+                    if (selectCoord == 1)
+                        mapSettlement.moveTo(evt.getX(), evt.getY());
+                    if (selectCoord == 2)
+                        mapCity.moveTo(evt.getX(), evt.getY());
                     e.hideSelectionRadius();
                 }
             }
