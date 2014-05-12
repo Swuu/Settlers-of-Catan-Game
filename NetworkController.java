@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.*;
 public abstract class NetworkController implements Runnable
 {
-	protected static final int SENDMESSAGE = 1;
+	protected static final int MESSAGE = 1;
 	protected int numberOfPlayers;
 	protected int playerNumber;
 	protected int numberOfConnected;
@@ -11,11 +11,8 @@ public abstract class NetworkController implements Runnable
 	protected PrintWriter output;
 	protected BufferedReader input;
 	protected WaitingRoom room;
-	public abstract void handleChat(String message);
-	protected void sendCommand(int messageType, String content)
-	{
-		
-	}
+	protected abstract void sendMessage(String message) throws IOException;
+	//protected abstract void receieveMessage();
 	protected String getName()
 	{
 		return name;

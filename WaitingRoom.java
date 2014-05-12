@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
@@ -11,12 +12,16 @@ public class WaitingRoom extends JFrame
 	private JPanel startPanel;
 	private JTextArea chatTextArea;
 	private JTextField chatTextField;
-	private HostController host;
+	private JLabel[] playerNames;
 	private NetworkController controller;
-	public WaitingRoom(NetworkController controller)
+	private int roomSize;
+	public WaitingRoom(NetworkController controller, int size)
 	{
 		super("Waiting Room");
 		this.controller = controller;
+		Thread control = new Thread(controller);
+		control.start();
+		roomSize = size;
 		setSize(600,400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -32,8 +37,6 @@ public class WaitingRoom extends JFrame
 		panel.add(startPanel, BorderLayout.SOUTH);
 		revalidate();
 		repaint();
-		Thread control = new Thread(controller);
-		control.start();
 	}
 	public void makeChatPanel()
 	{
@@ -70,6 +73,14 @@ public class WaitingRoom extends JFrame
 	{
 		playerPanel = new JPanel(new BorderLayout());
 		playerPanel.add(new JLabel("Players"), BorderLayout.NORTH);
+		playerNames = new JLabel[roomSize];
+		JPanel namePanel = new JPanel(new GridLayout(10,1));
+		for(int i = 0; i < roomSize; i++)
+		{
+			playerNames[i] = new JLabel();
+			namePanel.add(playerNames[i]);
+		}
+		playerPanel.add(namePanel, BorderLayout.CENTER);
 	}
 	public void makeStartPanel()
 	{
@@ -81,12 +92,30 @@ public class WaitingRoom extends JFrame
 	}
 	public void sendMessage()
 	{
-		chatTextArea.append(controller.getName() + ": " + chatTextField.getText() + "\n");
+		try 
+		{
+			controller.sendMessage(chatTextField.getText());
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		chatTextField.setText("");
 	}
-	public void updateChat()
+	public void updateChat(String message)
 	{
-		
+		chatTextArea.append(message + "\n");
+	}
+	public void refreshPlayers(String[] players)
+	{
+		for(int i = 0; i < players.length; i++)
+		{
+			playerNames[i].setText("Player " + (i+1) + ": " + players[i]);
+			System.out.println(players[i]);
+		}
+		//for(int i = players.length; i < roomSize; i++)
+			//playerNames[i].setText("Player " + (i+1) + ": ");
 	}
 	public static void main(String[] args) {
 		//WaitingRoom main = new WaitingRoom();

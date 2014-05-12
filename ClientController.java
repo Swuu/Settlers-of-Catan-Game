@@ -26,7 +26,8 @@ public class ClientController extends NetworkController
 			stringOutput = new PrintWriter(stringSocket.getOutputStream(), true);
 			objectOutput = new ObjectOutputStream(objectSocket.getOutputStream());
 			setup();
-			room = new WaitingRoom(this);
+			room = new WaitingRoom(this, numberOfPlayers);
+			room.refreshPlayers(playerNames);
 		}
 		catch (UnknownHostException e)
 		{
@@ -41,27 +42,53 @@ public class ClientController extends NetworkController
 			e.printStackTrace();
 		}
 	}
+	@Override
+	public void run()
+	{
+		while(true)
+		{
+			try {
+				switch(statusInput.readInt())
+				{
+					case MESSAGE: receieveMessage();
+				}
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
 	private void setup() throws IOException
 	{
+		System.out.println("Trying to get playerNumber");
 		playerNumber = statusInput.readInt();
+		System.out.println("playerNumber is " + playerNumber);
+		numberOfPlayers = statusInput.readInt();
+		System.out.println("Trying to send name: " + name);
 		stringOutput.println(name);
+		System.out.println("Sent name");
 		try 
 		{
+			System.out.println("Trying to recieve array of names");
 			playerNames = (String[]) objectInput.readObject();
+			System.out.println("Recieved array of names");
 		} 
 		catch (ClassNotFoundException e) 
 		{
 			e.printStackTrace();
 		}
 	}
-	@Override
-	public void handleChat(String message) {
-		// TODO Auto-generated method stub
-		
+	private void receieveMessage() throws IOException
+	{
+		String message = stringInput.readLine();
+		room.updateChat(message);
 	}
 	@Override
-	public void run() {
-		// TODO Auto-generated method stub
+	protected void sendMessage(String message) throws IOException 
+	{
+		statusOutput.writeInt(MESSAGE);
+		stringOutput.println(message);
 		
 	}
 
