@@ -61,7 +61,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
         numNum[12] = 1;
 
 		coords = new ArrayList<Coord>();
-
+        
         hexagonArray[0] = new Hexagon(200, 70, 0, 0, canvas);
         hexagonArray[1] = new Hexagon(hexagonArray[0].getXCoord() + 2,hexagonArray[0].getYCoord(), 1, 0, canvas);
         hexagonArray[2] = new Hexagon(hexagonArray[1].getXCoord() + 2,hexagonArray[1].getYCoord(), 2, 0, canvas);
@@ -117,6 +117,12 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 		coords.addAll(hexagonArray[16].getBottomCoords());
 		coords.addAll(hexagonArray[17].getBottomRightCoords());
 		coords.addAll(hexagonArray[18].getBottomRightCoords());
+        
+        /*new Port(hexagonArray[0].getXCoord() + 1,hexagonArray[0].getYCoord() - 1, 0, 2, canvas);
+                new Port(hexagonArray[0].getXCoord() + 1,hexagonArray[0].getYCoord() - 1, 2, 4, canvas);
+                new Port(hexagonArray[0].getXCoord() + 1,hexagonArray[0].getYCoord() - 1, 2, 6, canvas);
+                new Port(hexagonArray[0].getXCoord() + 1,hexagonArray[0].getYCoord() - 1, 2, 8, canvas);
+                new Port(hexagonArray[0].getXCoord() + 1,hexagonArray[0].getYCoord() - 1, 2, 10, canvas);*/
         
         for (int i = 0; i < 19; i++)
         {

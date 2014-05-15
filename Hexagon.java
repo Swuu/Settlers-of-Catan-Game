@@ -40,56 +40,56 @@ public class Hexagon
     public static final double LENGTH = 64;
 	
 	//constuctor that will be called
-	public Hexagon(double a, double b, int type, int number, DrawingCanvas aCanvas)
+	public Hexagon(double x, double y, int type, int number, DrawingCanvas aCanvas)
     {
         
         canvas = aCanvas;
         hexValue = type;
         rollValue = number;
 		//start points
-		double a0 = a; //a is x axis
-		double b0 = b; //b is y axis
+		double x0 = x; //x0is x axis
+		double y0 = y; //y0 is y axis
 		
         //connect the dot points
-		double a1 = (a + ((Math.sqrt(3.0)/2.0)*LENGTH));
-		double b1 = (b - (LENGTH/2.0));
+		double x1 = (x0 + ((Math.sqrt(3.0)/2.0)*LENGTH));
+		double y1 = (y0 - (LENGTH/2.0));
         
-		double a2 = (a + (Math.sqrt(3.0)*LENGTH));
-		double b2 = b0;
+		double x2 = (x0 + (Math.sqrt(3.0)*LENGTH));
+		double y2 = y0;
         
-		double a3 = (a + (Math.sqrt(3.0)*LENGTH));
-		double b3 = (b + LENGTH);
+		double x3 = (x0 + (Math.sqrt(3.0)*LENGTH));
+		double y3 = (y0 + LENGTH);
         
-		double a4 = (a + ((Math.sqrt(3.0)/2.0)*LENGTH));
-		double b4 = (b3 + (LENGTH/2.0));
+		double x4 = (x0 + ((Math.sqrt(3.0)/2.0)*LENGTH));
+		double y4 = (y3 + (LENGTH/2.0));
         
-		double a5 = a0;
-		double b5 = b3;
+		double x5 = x0;
+		double y5 = y3;
 		
-        centerLoc = new Location(a1, b0);
-        belowLoc = new Location(a1, b0 + 20);
-        moreBelowLoc = new Location(a1, b0 + 40);
+        centerLoc = new Location(x1, y0);
+        belowLoc = new Location(x1, y0 + 20);
+        moreBelowLoc = new Location(x1, y0 + 40);
 		//end and start points
 		
 		//puts points in array to send to constructor
 		xs = new double[7];
 		ys = new double[7];
 		
-		xs[0] = a0;
-		xs[1] = a1;
-		xs[2] = a2;
-		xs[3] = a3;
-		xs[4] = a4;
-		xs[5] = a5;
-        xs[6] = a0;
+		xs[0] = x0;
+		xs[1] = x1;
+		xs[2] = x2;
+		xs[3] = x3;
+		xs[4] = x4;
+		xs[5] = x5;
+        xs[6] = x0;
 		
-		ys[0] = b0;
-		ys[1] = b1;
-		ys[2] = b2;
-		ys[3] = b3;
-		ys[4] = b4;
-		ys[5] = b5;
-        ys[6] = b0;
+		ys[0] = y0;
+		ys[1] = y1;
+		ys[2] = y2;
+		ys[3] = y3;
+		ys[4] = y4;
+		ys[5] = y5;
+        ys[6] = y0;
 		
 		for (int i = 0; i < 6; i++)
         {
@@ -106,7 +106,6 @@ public class Hexagon
         }
 		//calls actual constructor
 		polygon = new Polygon(intxs, intys,SEVEN);
-        fillHexagons();
 	}
 
 	public void hexagonRolled()
@@ -176,16 +175,6 @@ public class Hexagon
 		locs.add(new Location(xs[6]-skew, ys[6]-skew));
 		return locs;
 	}
-
-    
-    public void fillHexagons()
-    {
-    }
-    
-    public void printType()
-    {
-        
-    }
     
     public boolean contains(double x, double y)
     {
@@ -197,7 +186,7 @@ public class Hexagon
         return polygon.contains(c.getX(), c.getY());
     }
     
-    //returns the X coord for the initial location of a next row Hexagon
+    //returns the X coord for the initial location of x0next row Hexagon
     public double jumpBackX()
     {
         
@@ -205,7 +194,7 @@ public class Hexagon
         return initX;
     }
     
-    //returns the Y coord for the initial location of a next row Hexagon
+    //returns the Y coord for the initial location of x0next row Hexagon
     public double jumpBackY()
     {
         return (0.5*LENGTH + ys[5]);
@@ -229,46 +218,44 @@ public class Hexagon
     //sets the Hexagon's type
     public void setValue(int aType)
     {
-        this.hexValue = aType;
+        hexValue = aType;
         Color hexColor;
-        //for loop to set all the lines colors
-        for (int i = 0; i < 6; i ++)
+        if (hexValue == 1)
         {
-            if (hexValue == 1)
-            {
-                cardType = "Clay";
-                hexColor = new Color(210, 105, 30);
-            }
-            else if (hexValue == 2)
-            {
-                cardType = "Lumber";
-                hexColor = new Color(0, 100, 0);
-            }
-            else if (hexValue == 3)
-            {
-                cardType = "Ore";
-                hexColor = new Color(105, 105, 105);
-            }
-            else if (hexValue == 4)
-            {
-                cardType = "Sheep";
-                hexColor = new Color(220, 220, 220);
-            }
-            else if (hexValue == 5)
-            {
-                cardType = "Wheat";
-                hexColor = new Color(255, 215, 0);
-            }
-            else
-            {
-                cardType = "Desert";
-                hexColor = new Color(0, 0, 0);
-            }
-            lineArray[i].setColor(hexColor);
-            cardText = new Text(cardType, centerLoc, canvas);
-			cardText.setColor(Color.WHITE);
-            cardText.move(-(cardType.length()*8)/2, 0);
+            cardType = "Clay";
+            hexColor = new Color(210, 105, 30);
         }
+        else if (hexValue == 2)
+        {
+            cardType = "Lumber";
+            hexColor = new Color(0, 100, 0);
+        }
+        else if (hexValue == 3)
+        {
+            cardType = "Ore";
+            hexColor = new Color(105, 105, 105);
+        }
+        else if (hexValue == 4)
+        {
+            cardType = "Sheep";
+            hexColor = new Color(220, 220, 220);
+        }
+        else if (hexValue == 5)
+        {
+            cardType = "Wheat";
+            hexColor = new Color(255, 215, 0);
+        }
+        else
+        {
+            cardType = "Desert";
+            hexColor = new Color(0, 0, 0);
+        }
+        for (int i = 0; i < 6; i++)
+            lineArray[i].setColor(hexColor);
+        cardText = new Text(cardType, centerLoc, canvas);
+        cardText.setColor(Color.WHITE);
+        cardText.move(-(cardType.length()*8)/2, 0);
+        
     }
     
     //get method to get rollValue
