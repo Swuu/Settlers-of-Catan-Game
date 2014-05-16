@@ -64,22 +64,23 @@ public class SettlementShape
     {
         double x = xCoord - width/2;
         double y = yCoord - height/2;
+        base.hide();
         switch (playerNum)
         {
             case 0:
                 base = new VisibleImage(toolkit.getImage("image/SpaceStationNeutral.png"), x, y, 41, 41, canvas);
                 break;
             case 1:
-                base = new VisibleImage(toolkit.getImage("image/SpaceStationRed.png"), x, y, 41, 41, canvas);
+                base = new VisibleImage(toolkit.getImage("image/SpaceStationRedColony.png"), x, y, 41, 41, canvas);
                 break;
             case 2:
-                base = new VisibleImage(toolkit.getImage("image/SpaceStationBlue.png"), x, y, 41, 41, canvas);
+                base = new VisibleImage(toolkit.getImage("image/SpaceStationBlueColony.png"), x, y, 41, 41, canvas);
                 break;
             case 3:
-                base = new VisibleImage(toolkit.getImage("image/SpaceStationOrange.png"), x, y, 41, 41, canvas);
+                base = new VisibleImage(toolkit.getImage("image/SpaceStationOrangeColony.png"), x, y, 41, 41, canvas);
                 break;
             case 4:
-                base = new VisibleImage(toolkit.getImage("image/SpaceStationPurple.png"), x, y, 41, 41, canvas);
+                base = new VisibleImage(toolkit.getImage("image/SpaceStationPurpleColony.png"), x, y, 41, 41, canvas);
                 break;
         }
     }

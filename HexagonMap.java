@@ -21,6 +21,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
     private DrawingCanvas canvas;
 
     private static Hexagon[] hexagonArray = new Hexagon[19];
+    private static Port[] portArray = new Port[12];
     private static ArrayList<Coord> coords;
    
     public Hexagon[] getHexagonArray ()
@@ -63,8 +64,8 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 		coords = new ArrayList<Coord>();
         
         hexagonArray[0] = new Hexagon(200, 70, 0, 0, canvas);
-        hexagonArray[1] = new Hexagon(hexagonArray[0].getXCoord() + 2,hexagonArray[0].getYCoord(), 1, 0, canvas);
-        hexagonArray[2] = new Hexagon(hexagonArray[1].getXCoord() + 2,hexagonArray[1].getYCoord(), 2, 0, canvas);
+        hexagonArray[1] = new Hexagon(hexagonArray[0].getXCoord(2) + 2,hexagonArray[0].getYCoord(2), 1, 0, canvas);
+        hexagonArray[2] = new Hexagon(hexagonArray[1].getXCoord(2) + 2,hexagonArray[1].getYCoord(2), 2, 0, canvas);
        
 		coords.addAll(hexagonArray[0].getTopCoords());
 		coords.addAll(hexagonArray[1].getTopRightCoords());
@@ -72,9 +73,9 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 
  
         hexagonArray[3] = new Hexagon(hexagonArray[0].jumpBackX() - 1,hexagonArray[0].jumpBackY() + 2, 3, 0, canvas);
-        hexagonArray[4] = new Hexagon(hexagonArray[3].getXCoord() + 2,hexagonArray[3].getYCoord(), 1, 0, canvas);
-        hexagonArray[5] = new Hexagon(hexagonArray[4].getXCoord() + 2,hexagonArray[4].getYCoord(), 1, 0, canvas);
-        hexagonArray[6] = new Hexagon(hexagonArray[5].getXCoord() + 2,hexagonArray[5].getYCoord(), 1, 0, canvas);
+        hexagonArray[4] = new Hexagon(hexagonArray[3].getXCoord(2) + 2,hexagonArray[3].getYCoord(2), 1, 0, canvas);
+        hexagonArray[5] = new Hexagon(hexagonArray[4].getXCoord(2) + 2,hexagonArray[4].getYCoord(2), 1, 0, canvas);
+        hexagonArray[6] = new Hexagon(hexagonArray[5].getXCoord(2) + 2,hexagonArray[5].getYCoord(2), 1, 0, canvas);
 
 		coords.addAll(hexagonArray[3].getTopCoords());
 		coords.addAll(hexagonArray[4].getTopRightCoords());
@@ -82,10 +83,10 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 		coords.addAll(hexagonArray[6].getTopRightCoords());
         
         hexagonArray[7] = new Hexagon(hexagonArray[3].jumpBackX() - 1,hexagonArray[3].jumpBackY() + 2, 1, 0, canvas);
-        hexagonArray[8] = new Hexagon(hexagonArray[7].getXCoord() + 2,hexagonArray[7].getYCoord(), 1, 0, canvas);
-        hexagonArray[9] = new Hexagon(hexagonArray[8].getXCoord() + 2,hexagonArray[8].getYCoord(), 1, 0, canvas);
-        hexagonArray[10] = new Hexagon(hexagonArray[9].getXCoord() + 2,hexagonArray[9].getYCoord(), 1, 0, canvas);
-        hexagonArray[11] = new Hexagon(hexagonArray[10].getXCoord() + 2,hexagonArray[10].getYCoord(), 1, 0, canvas);
+        hexagonArray[8] = new Hexagon(hexagonArray[7].getXCoord(2) + 2,hexagonArray[7].getYCoord(2), 1, 0, canvas);
+        hexagonArray[9] = new Hexagon(hexagonArray[8].getXCoord(2) + 2,hexagonArray[8].getYCoord(2), 1, 0, canvas);
+        hexagonArray[10] = new Hexagon(hexagonArray[9].getXCoord(2) + 2,hexagonArray[9].getYCoord(2), 1, 0, canvas);
+        hexagonArray[11] = new Hexagon(hexagonArray[10].getXCoord(2) + 2,hexagonArray[10].getYCoord(2), 1, 0, canvas);
      
 		coords.addAll(hexagonArray[7].getTopCoords());
 		coords.addAll(hexagonArray[8].getTopRightCoords());
@@ -101,9 +102,9 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 
 	  
         hexagonArray[12] = new Hexagon(hexagonArray[8].jumpBackX() - 1,hexagonArray[8].jumpBackY() + 2, 3, 0, canvas);
-        hexagonArray[13] = new Hexagon(hexagonArray[12].getXCoord() + 2,hexagonArray[12].getYCoord(), 1, 0, canvas);
-        hexagonArray[14] = new Hexagon(hexagonArray[13].getXCoord() + 2,hexagonArray[13].getYCoord(), 1, 0, canvas);
-        hexagonArray[15] = new Hexagon(hexagonArray[14].getXCoord() + 2,hexagonArray[14].getYCoord(), 1, 0, canvas);
+        hexagonArray[13] = new Hexagon(hexagonArray[12].getXCoord(2) + 2,hexagonArray[12].getYCoord(2), 1, 0, canvas);
+        hexagonArray[14] = new Hexagon(hexagonArray[13].getXCoord(2) + 2,hexagonArray[13].getYCoord(2), 1, 0, canvas);
+        hexagonArray[15] = new Hexagon(hexagonArray[14].getXCoord(2) + 2,hexagonArray[14].getYCoord(2), 1, 0, canvas);
    
 		coords.addAll(hexagonArray[12].getBottomCoords());
 		coords.addAll(hexagonArray[13].getBottomRightCoords());
@@ -111,18 +112,30 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 		coords.addAll(hexagonArray[15].getBottomRightCoords());
      
         hexagonArray[16] = new Hexagon(hexagonArray[13].jumpBackX() - 1,hexagonArray[13].jumpBackY() + 2, 3, 0, canvas);
-        hexagonArray[17] = new Hexagon(hexagonArray[16].getXCoord() + 2,hexagonArray[16].getYCoord(), 1, 0, canvas);
-        hexagonArray[18] = new Hexagon(hexagonArray[17].getXCoord() + 2,hexagonArray[17].getYCoord(), 2, 0, canvas);
+        hexagonArray[17] = new Hexagon(hexagonArray[16].getXCoord(2) + 2,hexagonArray[16].getYCoord(2), 1, 0, canvas);
+        hexagonArray[18] = new Hexagon(hexagonArray[17].getXCoord(2) + 2,hexagonArray[17].getYCoord(2), 2, 0, canvas);
 
 		coords.addAll(hexagonArray[16].getBottomCoords());
 		coords.addAll(hexagonArray[17].getBottomRightCoords());
 		coords.addAll(hexagonArray[18].getBottomRightCoords());
         
-        /*new Port(hexagonArray[0].getXCoord() + 1,hexagonArray[0].getYCoord() - 1, 0, 2, canvas);
-                new Port(hexagonArray[0].getXCoord() + 1,hexagonArray[0].getYCoord() - 1, 2, 4, canvas);
-                new Port(hexagonArray[0].getXCoord() + 1,hexagonArray[0].getYCoord() - 1, 2, 6, canvas);
-                new Port(hexagonArray[0].getXCoord() + 1,hexagonArray[0].getYCoord() - 1, 2, 8, canvas);
-                new Port(hexagonArray[0].getXCoord() + 1,hexagonArray[0].getYCoord() - 1, 2, 10, canvas);*/
+        portArray[0] = new Port(hexagonArray[0].getXCoord(1) + 1,hexagonArray[0].getYCoord(1) - 2, 4, 0, canvas);
+        portArray[1] = new Port(hexagonArray[1].getXCoord(1) + 1,hexagonArray[1].getYCoord(1) - 2, 4, 0, canvas);
+        
+        portArray[2] = new Port(hexagonArray[2].getXCoord(2) + 2,hexagonArray[2].getYCoord(2), 4, 2, canvas);
+        portArray[3] = new Port(hexagonArray[6].getXCoord(2) + 2,hexagonArray[6].getYCoord(2), 4, 2, canvas);
+        
+        portArray[4] = new Port(hexagonArray[15].getXCoord(3) + 2,hexagonArray[15].getYCoord(3), 4, 4, canvas);
+        portArray[5] = new Port(hexagonArray[18].getXCoord(3) + 2,hexagonArray[18].getYCoord(3), 4, 4, canvas);
+        
+        portArray[6] = new Port(hexagonArray[17].getXCoord(4) + 1,hexagonArray[17].getYCoord(4) + 2, 4, 6, canvas);
+        portArray[7] = new Port(hexagonArray[16].getXCoord(4) + 1,hexagonArray[16].getYCoord(4) + 2, 4, 6, canvas);
+        
+        portArray[8] = new Port(hexagonArray[16].getXCoord(5) - 2,hexagonArray[16].getYCoord(5), 4, 8, canvas);
+        portArray[9] = new Port(hexagonArray[12].getXCoord(5) - 2,hexagonArray[12].getYCoord(5), 4, 8, canvas);
+
+        portArray[10] = new Port(hexagonArray[3].getXCoord(0) - 2,hexagonArray[3].getYCoord(0), 4, 10, canvas);
+        portArray[11] = new Port(hexagonArray[0].getXCoord(0) - 2,hexagonArray[0].getYCoord(0), 4, 10, canvas);
         
         for (int i = 0; i < 19; i++)
         {
@@ -309,6 +322,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
                             e.coordSettlement.makeCity();
                             e.makeUnupgradeable();
                             e.hideSelectionRadius();
+                            mapCity.hide();
                             selectCoord = 0;
                         }
                     }
@@ -342,6 +356,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
                     e.makeUpgradeable();
                     e.hideSelectionRadius();
                     e.changeAvailability(false);
+                    mapSettlement.hide();
                     selectCoord = 0;
             	}
             }

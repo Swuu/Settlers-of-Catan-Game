@@ -200,14 +200,14 @@ public class Hexagon
         return (0.5*LENGTH + ys[5]);
     }
     
-    public double getXCoord()
+    public double getXCoord(int i)
     {
-        return xs[2];
+        return xs[i];
     }
     
-    public double getYCoord()
+    public double getYCoord(int i)
     {
-        return ys[2];
+        return ys[i];
     }
     
     public int getHexValue()
