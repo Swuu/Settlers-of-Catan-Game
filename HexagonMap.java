@@ -180,11 +180,13 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
             selectCoord = 1;
         else
             selectCoord = 2;
+        game.toggleButtons(false);
     }
 
     public void selectCoordOff()
     {
         selectCoord = 0;
+        game.toggleButtons(true);
     }
     
     public void buyRoadOn()
@@ -323,7 +325,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
                             e.makeUnupgradeable();
                             e.hideSelectionRadius();
                             mapCity.hide();
-                            selectCoord = 0;
+                            selectCoordOff();
                         }
                     }
                 }
@@ -357,7 +359,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
                     e.hideSelectionRadius();
                     e.changeAvailability(false);
                     mapSettlement.hide();
-                    selectCoord = 0;
+                    selectCoordOff();
             	}
             }
         }
