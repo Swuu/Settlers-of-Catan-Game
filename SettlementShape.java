@@ -68,7 +68,7 @@ public class SettlementShape
         switch (playerNum)
         {
             case 0:
-                base = new VisibleImage(toolkit.getImage("image/SpaceStationNeutral.png"), x, y, 41, 41, canvas);
+                base = new VisibleImage(toolkit.getImage("image/SpaceStationNeutralColony.png"), x, y, 41, 41, canvas);
                 break;
             case 1:
                 base = new VisibleImage(toolkit.getImage("image/SpaceStationRedColony.png"), x, y, 41, 41, canvas);

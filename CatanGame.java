@@ -149,7 +149,7 @@ public class CatanGame extends WindowController implements ActionListener,
 		frame.setLocationRelativeTo(null);
 		frame.setMinimumSize(frame.getMinimumSize());
         
-        gameBoard.selectCoordOn(true); //allows the first player to start building settlements
+        gameBoard.selectCoordOn(1); //allows the first player to start building settlements
 	}
 
 	public static void generateBackground(DrawingCanvas canvas)
@@ -259,7 +259,7 @@ public class CatanGame extends WindowController implements ActionListener,
                                     currentName.setColor(Color.YELLOW);
                                     break;
                             }
-                            gameBoard.selectCoordOn(true);
+                            gameBoard.selectCoordOn(1);
                         }
                         else
                         {
@@ -275,7 +275,7 @@ public class CatanGame extends WindowController implements ActionListener,
                             else
                             {
                                 currentTurn--;
-                                gameBoard.selectCoordOn(true);
+                                gameBoard.selectCoordOn(1);
                             }
                             currentPlayer.setScore(0);
                             currentPlayer = playerList.get(currentTurn);
@@ -355,7 +355,7 @@ public class CatanGame extends WindowController implements ActionListener,
                 {
                     if (gameBoard.hasAvailableCoord() && currentPlayer.buyItem(SETTLEMENT))
                     {
-                        gameBoard.selectCoordOn(true);
+                        gameBoard.selectCoordOn(1);
                         if (currentPlayer.displayingResourceCards == true)
                         {
                             currentPlayer.displayResourceHand();
@@ -370,7 +370,7 @@ public class CatanGame extends WindowController implements ActionListener,
                 {
                     if (gameBoard.hasUpgradeableCoord() && currentPlayer.buyItem(CITY))
                     {
-                        gameBoard.selectCoordOn(false);
+                        gameBoard.selectCoordOn(2);
                         if (currentPlayer.displayingResourceCards == true)
                         {
                             currentPlayer.displayResourceHand();

@@ -174,12 +174,14 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
     }
     
     //newSettlement determines if selectCoordOn is for creating a new Settlement or upgrading a Settlement into a City
-    public void selectCoordOn(boolean newSettlement)
+    public void selectCoordOn(int newSettlement)
     {
-        if (newSettlement)
+        if (newSettlement == 1)
             selectCoord = 1;
-        else
+        else if (newSettlement == 2)
             selectCoord = 2;
+        else if (newSettlement == 3)
+            selectCoord = 3;
         game.toggleButtons(false);
     }
 
