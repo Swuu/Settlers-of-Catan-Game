@@ -40,6 +40,8 @@ public class Hexagon
     
     //define the length of side of polygon
     public static final double LENGTH = 64;
+    
+    private boolean isEmbargo;
 	
 	//constuctor that will be called
 	public Hexagon(double x, double y, int type, int number, DrawingCanvas aCanvas)
@@ -112,6 +114,8 @@ public class Hexagon
         }
 		//calls actual constructor
 		polygon = new Polygon(intxs, intys,SEVEN);
+        
+        isEmbargo = false;
 	}
 
 	public void hexagonRolled()
@@ -190,6 +194,11 @@ public class Hexagon
     public boolean contains(Location c)
     {
         return polygon.contains(c.getX(), c.getY());
+    }
+    
+    public boolean bubbleContains(Location loc)
+    {
+        return selectionBubble.contains(loc);
     }
     
     //returns the X coord for the initial location of x0next row Hexagon
@@ -313,5 +322,20 @@ public class Hexagon
     public void hideSelectionBubble()
     {
         selectionBubble.hide();
+    }
+    
+    public void embargoOn()
+    {
+        isEmbargo = true;
+    }
+    
+    public void embargoOff()
+    {
+        isEmbargo = false;
+    }
+    
+    public boolean embargoStatus()
+    {
+        return isEmbargo;
     }
 }

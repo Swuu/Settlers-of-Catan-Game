@@ -238,7 +238,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 			{
 				for(Coord e: coords)
            		{
-                	if(!e.isAvailable()&&e.contains(l))
+                	if(!e.isAvailable()&&e.contains(l)&&!hexagon.embargoStatus())
                 	{
                     	e.coordSettlement.getPlayer().addCard(hexagon.getHexValue());
 					}
@@ -250,7 +250,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 
 	public void mouseMoved(MouseEvent evt)
 	{
-		if (selectCoord != 0)
+		if (selectCoord == 1 || selectCoord == 2)
         {
             if (selectCoord == 1)
             {
@@ -288,6 +288,20 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
                 }
             }
         }
+        if (selectCoord == 3)
+        {
+            for(int i = 0; i < 19; i++)
+            {
+                if(hexagonArray[i].bubbleContains(new Location(evt.getX(), evt.getY())))
+                {
+                    hexagonArray[i].showSelectionBubble();
+                }
+                else
+                {
+                    hexagonArray[i].hideSelectionBubble();
+                }
+            }
+        }
     }
 
 	public void mouseEntered(MouseEvent evt) {}
@@ -307,6 +321,27 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
         else if (selectCoord == 2)
         {
             canUpgradeSettlement(evt, true);
+        }
+        else if (selectCoord == 3)
+        {
+            moveEmbargo(evt);
+        }
+    }
+    
+    public void moveEmbargo(MouseEvent evt)
+    {
+        for(int i = 0; i < 19; i++)
+        {
+            if(hexagonArray[i].bubbleContains(new Location(evt.getX(), evt.getY())))
+            {
+                hexagonArray[i].embargoOn();
+                selectCoordOff();
+                hexagonArray[i].hideSelectionBubble();
+            }
+            else
+            {
+                hexagonArray[i].embargoOff();
+            }
         }
     }
     

@@ -167,24 +167,11 @@ public class CatanGame extends WindowController implements ActionListener,
 	{
 	    if (gameBoard.canPushButtons())
         {
-            /*if (evt.getSource() == rollDice)
-            {
-                rollDice();
-            }*/
             
             if (menu == 0)
             {
                 if (evt.getSource() == buttonOne)
                 {
-                    /*currentPlayer.addCard((int)(Math.random()*5 + 1));
-                    if (currentPlayer.displayingResourceCards == true)
-                    {
-                        currentPlayer.displayResourceHand();
-                    }
-                    else
-                    {
-                        currentPlayer.displayDevelopmentHand();
-                    }*/
                     rollDice();
                 }
                 else if(evt.getSource() == buttonTwo)
@@ -311,6 +298,7 @@ public class CatanGame extends WindowController implements ActionListener,
                         }
                         currentPlayer.setScore(0);
                         currentPlayer = playerList.get(currentTurn);
+                        currentPlayer.hasRolled(false);
                         currentPlayer.displayResourceHand();
                         info.append(currentPlayer.getName() + "'s turn.\n");
                         currentName.setText(currentPlayer.getName() + "'s turn.");
@@ -472,7 +460,10 @@ public class CatanGame extends WindowController implements ActionListener,
 	        SwingUtilities.invokeLater(rolling);
 			int rollNumber = rolling.getScore(); // get score from rolling dice
 	    
-
+            if (rollNumber == 7)
+            {
+                gameBoard.selectCoordOn(3);
+            }
 		    for (int i=0 ; i<hexagonArray.length ; i++)
 		    {
 				if (rollNumber == hexagonArray[i].getRollValue())
@@ -521,7 +512,7 @@ public class CatanGame extends WindowController implements ActionListener,
 		buttonFour.setEnabled(true);
  	}
 
-    //checks if current player has one, if he does then game ends
+    //checks if current player has won, if he does then game ends
     public void checkVictory()
     {
         if (currentPlayer.getPoints() >= 10)
