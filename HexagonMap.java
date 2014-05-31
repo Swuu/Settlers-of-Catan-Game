@@ -292,7 +292,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
         {
             for(int i = 0; i < 19; i++)
             {
-                if(hexagonArray[i].bubbleContains(new Location(evt.getX(), evt.getY())))
+                if(hexagonArray[i].bubbleContains(new Location(evt.getX(), evt.getY())) && !hexagonArray[i].embargoStatus())
                 {
                     hexagonArray[i].showSelectionBubble();
                 }
@@ -332,15 +332,16 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
     {
         for(int i = 0; i < 19; i++)
         {
-            if(hexagonArray[i].bubbleContains(new Location(evt.getX(), evt.getY())))
+            if(hexagonArray[i].bubbleContains(new Location(evt.getX(), evt.getY())) && !hexagonArray[i].embargoStatus())
             {
+                for (int j = 0; j < 19; j++)
+                {
+                    if (hexagonArray[j].embargoStatus())
+                        hexagonArray[j].embargoOff();
+                }
                 hexagonArray[i].embargoOn();
                 selectCoordOff();
                 hexagonArray[i].hideSelectionBubble();
-            }
-            else
-            {
-                hexagonArray[i].embargoOff();
             }
         }
     }
