@@ -42,6 +42,7 @@ public class Hexagon
     public static final double LENGTH = 64;
     
     private boolean isEmbargo;
+    private FilledOval embargoBubble;
 	
 	//constuctor that will be called
 	public Hexagon(double x, double y, int type, int number, DrawingCanvas aCanvas)
@@ -78,6 +79,9 @@ public class Hexagon
         selectionBubble = new FilledOval(hexagonCenter, 60, 60, canvas);
         selectionBubble.setColor(new Color(0, 145, 11, 125));
         selectionBubble.hide();
+        embargoBubble = new FilledOval(hexagonCenter, 60, 60, canvas);
+        embargoBubble.setColor(new Color(145, 0, 11, 125));
+        embargoBubble.hide();
 		
 		//puts points in array to send to constructor
 		xs = new double[7];
@@ -264,6 +268,7 @@ public class Hexagon
         {
             cardType = "Desert";
             hexColor = new Color(0, 0, 0);
+            embargoOn();
         }
         for (int i = 0; i < 6; i++)
             lineArray[i].setColor(hexColor);
@@ -327,11 +332,13 @@ public class Hexagon
     public void embargoOn()
     {
         isEmbargo = true;
+        embargoBubble.show();
     }
     
     public void embargoOff()
     {
         isEmbargo = false;
+        embargoBubble.hide();
     }
     
     public boolean embargoStatus()
