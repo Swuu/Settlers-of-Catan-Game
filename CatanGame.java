@@ -206,7 +206,7 @@ public class CatanGame extends WindowController implements ActionListener,
                     else
                         buttonFour.setText("");
 					
-                    toggleButtons(true);
+                    toggleButtons(true, "OpenTrade");
                     
                     buttonFive.setText("Back");
                     menu = 2;
@@ -253,6 +253,7 @@ public class CatanGame extends WindowController implements ActionListener,
                             if (currentTurn == 0)
                             {
                                 gameStart = false;
+                                toggleButtons(true, "--std");
                                 Hexagon [] hexagonArray = gameBoard.getHexagonArray();
                                 for (int i=0 ; i<hexagonArray.length ; i++)
                                 {
@@ -288,6 +289,7 @@ public class CatanGame extends WindowController implements ActionListener,
                     }
                     else
                     {
+                        
                         if (currentTurn == playerList.size() - 1)
                         {
                             currentTurn = 0;
@@ -425,31 +427,56 @@ public class CatanGame extends WindowController implements ActionListener,
  	 * It is used from OpenTrade.java to deactivate buttons upon start of
  	 * trading and to activate them back when the trade is completed
  	 */
- 	public void toggleButtons(boolean bln)
+ 	public void toggleButtons(boolean bln, String currentState)
  	{
- 	    buttonOne.setEnabled(bln);
- 	    buttonTwo.setEnabled(bln);
- 	    buttonThree.setEnabled(bln);
- 	    buttonFour.setEnabled(bln);
- 	    buttonFive.setEnabled(bln);
- 	    /*rollDice.setEnabled(bln);*/
- 	    
- 	    if (numPlayers == 3)
-            buttonFour.setEnabled(false);
-            
- 	    if (bln)
- 	    {
-            if (currentTurn == 0)
-                buttonOne.setEnabled(!bln);
-            else if (currentTurn == 1)
-                buttonTwo.setEnabled(!bln);
-            else if (currentTurn == 2)
-                buttonThree.setEnabled(!bln);
-            else if (currentTurn == 3)
-                buttonFour.setEnabled(!bln);
+        if (!bln)
+        {
+            buttonOne.setEnabled(bln);
+            buttonTwo.setEnabled(bln);
+            buttonThree.setEnabled(bln);
+            buttonFour.setEnabled(bln);
+            buttonFive.setEnabled(bln);
+            /*rollDice.setEnabled(bln);*/
         }
- 	}
+        
+        else
+        {
+            if (currentState.equals("--start"))
+            {
+                buttonFive.setEnabled(bln);
+            }
+            
+            if (currentState.equals("--std"))
+            {
+                buttonOne.setEnabled(bln);
+                buttonTwo.setEnabled(bln);
+                buttonThree.setEnabled(bln);
+                buttonFour.setEnabled(bln);
+                buttonFive.setEnabled(bln);
+            }
+            
+            if (currentState.equals("--trade"))
+            {
+                if (currentTurn == 0)
+                    buttonOne.setEnabled(!bln);
+                else if (currentTurn == 1)
+                    buttonTwo.setEnabled(!bln);
+                else if (currentTurn == 2)
+                    buttonThree.setEnabled(!bln);
+                else if (currentTurn == 3)
+                    buttonFour.setEnabled(!bln);
+                if (numPlayers == 3)
+                    buttonFour.setEnabled(false);
+            }   
+        }
+    }
  	
+    /* return whether the game is at the state of initial start */
+    public boolean ifStart()
+    {
+        return gameStart;
+    }
+    
  	public void rollDice()
  	{
 	    Hexagon [] hexagonArray = gameBoard.getHexagonArray();

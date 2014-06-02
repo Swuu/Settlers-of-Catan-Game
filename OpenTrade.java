@@ -49,6 +49,8 @@ public class OpenTrade implements ActionListener, Runnable
     
     private String[] resName = {"Clay", "Lumber", "Ore", "Sheep", "Wheat"};
     private String tradeLog = " to trade: \n";
+    private String configOpt = "--trade";
+    private String stdOpt = "--std";
     private int step = 0; /* stage of trading */
     private int curRes = -1; /* which resource to trade */
     private Player playerOne, playerTwo;
@@ -80,7 +82,7 @@ public class OpenTrade implements ActionListener, Runnable
         }
         
         playerOne.hideHand();
-        master.toggleButtons(false);
+        master.toggleButtons(false, configOpt);
     }
     
     /* INTERFACE BUILD */
@@ -107,7 +109,7 @@ public class OpenTrade implements ActionListener, Runnable
                 if (result == JOptionPane.YES_OPTION)
                 {
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    master.toggleButtons(true);
+                    master.toggleButtons(true, stdOpt);
                     playerOne.displayResourceHand();
                 }
             }
@@ -322,7 +324,7 @@ public class OpenTrade implements ActionListener, Runnable
         if (evt.getSource() == cancelTrade)
         {
             theFrame.dispose();
-            master.toggleButtons(true);
+            master.toggleButtons(true, stdOpt);
             playerOne.displayResourceHand();
         }
     /* OFFER - EXCHANGE mechanics */        
@@ -396,7 +398,7 @@ public class OpenTrade implements ActionListener, Runnable
                                               finalResTwo[4]);
                     
                     playerOne.displayResourceHand();
-                    master.toggleButtons(true);
+                    master.toggleButtons(true, stdOpt);
                     theFrame.dispose();
                 }
                 if (n == JOptionPane.NO_OPTION)
