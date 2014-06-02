@@ -42,19 +42,19 @@ public class SettlementShape
         switch (playerNum)
         {
             case 0:
-                base = new VisibleImage(toolkit.getImage("image/SpaceStationNeutralBase.png"), x, y, 41, 41, canvas);
+                base = new VisibleImage(toolkit.getImage("../image/SpaceStationNeutralBase.png"), x, y, 41, 41, canvas);
                 break;
             case 1:
-                base = new VisibleImage(toolkit.getImage("image/SpaceStationRedBase.png"), x, y, 41, 41, canvas);
+                base = new VisibleImage(toolkit.getImage("../image/SpaceStationRedBase.png"), x, y, 41, 41, canvas);
                 break;
             case 2:
-                base = new VisibleImage(toolkit.getImage("image/SpaceStationBlueBase.png"), x, y, 41, 41, canvas);
+                base = new VisibleImage(toolkit.getImage("../image/SpaceStationBlueBase.png"), x, y, 41, 41, canvas);
                 break;
             case 3:
-                base = new VisibleImage(toolkit.getImage("image/SpaceStationOrangeBase.png"), x, y, 41, 41, canvas);
+                base = new VisibleImage(toolkit.getImage("../image/SpaceStationOrangeBase.png"), x, y, 41, 41, canvas);
                 break;
             case 4:
-                base = new VisibleImage(toolkit.getImage("image/SpaceStationPurpleBase.png"), x, y, 41, 41, canvas);
+                base = new VisibleImage(toolkit.getImage("../image/SpaceStationPurpleBase.png"), x, y, 41, 41, canvas);
                 break;
         }
 
@@ -68,19 +68,19 @@ public class SettlementShape
         switch (playerNum)
         {
             case 0:
-                base = new VisibleImage(toolkit.getImage("image/SpaceStationNeutralColony.png"), x, y, 41, 41, canvas);
+                base = new VisibleImage(toolkit.getImage("../image/SpaceStationNeutralColony.png"), x, y, 41, 41, canvas);
                 break;
             case 1:
-                base = new VisibleImage(toolkit.getImage("image/SpaceStationRedColony.png"), x, y, 41, 41, canvas);
+                base = new VisibleImage(toolkit.getImage("../image/SpaceStationRedColony.png"), x, y, 41, 41, canvas);
                 break;
             case 2:
-                base = new VisibleImage(toolkit.getImage("image/SpaceStationBlueColony.png"), x, y, 41, 41, canvas);
+                base = new VisibleImage(toolkit.getImage("../image/SpaceStationBlueColony.png"), x, y, 41, 41, canvas);
                 break;
             case 3:
-                base = new VisibleImage(toolkit.getImage("image/SpaceStationOrangeColony.png"), x, y, 41, 41, canvas);
+                base = new VisibleImage(toolkit.getImage("../image/SpaceStationOrangeColony.png"), x, y, 41, 41, canvas);
                 break;
             case 4:
-                base = new VisibleImage(toolkit.getImage("image/SpaceStationPurpleColony.png"), x, y, 41, 41, canvas);
+                base = new VisibleImage(toolkit.getImage("../image/SpaceStationPurpleColony.png"), x, y, 41, 41, canvas);
                 break;
         }
     }

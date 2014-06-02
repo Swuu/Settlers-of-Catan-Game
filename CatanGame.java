@@ -159,7 +159,9 @@ public class CatanGame extends WindowController implements ActionListener,
                 double horizontalBuf = canvas.getWidth()-10;
                 double verticalBuf = canvas.getHeight()-10;
 		VisibleImage water;
-        water = new VisibleImage(toolkit.getImage("image/NewSpaceBackground.png"), 0, 0, 1300, 700, canvas);
+        water = new VisibleImage(toolkit.getImage(
+                                "../image/NewSpaceBackground.png"), 
+                                 0, 0, 1300, 700, canvas);
         water.sendBackward();
 	}
 
