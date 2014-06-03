@@ -213,12 +213,6 @@ public class OpenTrade implements ActionListener, Runnable
     /* BOTTOM */
         JP_SOUTH = new JPanel();
         JP_SOUTH.setLayout(new GridLayout(1, 2));
-        //JPanel botAux1 = new JPanel();
-        //JPanel botAux2 = new JPanel();
-        
-        //JP_SOUTH.setLayout(new BorderLayout());
-        //botAux1.setLayout(new GridLayout(1, 2));
-        //botAux2.setLayout(new FlowLayout());
         
         //playerOneName = new JLabel("\"" + playerOne.getName() + "\"");
         //playerTwoName = new JLabel("\"" + playerTwo.getName() + "\"");
@@ -229,11 +223,6 @@ public class OpenTrade implements ActionListener, Runnable
         
         finishTrade = new JButton (" Offer  ");
         cancelTrade = new JButton (" Cancel ");
-        //botAux2.add(finishTrade);
-        //botAux2.add(cancelTrade);
-        
-        //JP_SOUTH.add(botAux1, BorderLayout.NORTH);
-        //JP_SOUTH.add(botAux2, BorderLayout.SOUTH);
         
         JP_SOUTH.add(finishTrade);
         JP_SOUTH.add(cancelTrade);
