@@ -98,7 +98,6 @@ public class WaitingRoom extends JFrame
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		chatTextField.setText("");
@@ -111,8 +110,12 @@ public class WaitingRoom extends JFrame
 	{
 		for(int i = 0; i < players.length; i++)
 		{
-			playerNames[i].setText("Player " + (i+1) + ": " + players[i]);
-			System.out.println(players[i]);
+			if(i == 0)
+				playerNames[i].setText("Player " + (i+1) + ": " + players[i] + " (Host)");
+			else if(players[i] != null)
+				playerNames[i].setText("Player " + (i+1) + ": " + players[i]);
+			else
+				playerNames[i].setText("Player " + (i+1) + ":");
 		}
 		//for(int i = players.length; i < roomSize; i++)
 			//playerNames[i].setText("Player " + (i+1) + ": ");

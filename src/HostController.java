@@ -23,6 +23,12 @@ public class HostController extends NetworkController implements Runnable
 	{
 		
 	}
+	/**This inner class handles all incoming and outgoing requests on the host
+	 * controller. It takes the actions received by the clients and the host 
+	 * player and adds them to the deck based on priority. If the action
+	 * recieved action is not a client disconnecting, then the action is placed
+	 * at the back of the deck.
+	 **/
 	class TaskDequeManager implements Runnable
 	{
 		private Deque<TaskDequeElement> taskDeque;
@@ -44,7 +50,6 @@ public class HostController extends NetworkController implements Runnable
 					} 
 					catch (IOException e) 
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -53,6 +58,13 @@ public class HostController extends NetworkController implements Runnable
 		}
 		
 	}
+	/**This inner class represents an action to be placed on the 
+	 * TaskDeckManager. Each element contains information on how the actions
+	 * should be executed across the network.
+	 * @param num The player number of the action to be executed
+	 * @param flag The flag header of the action to be executed
+	 * @param data The data to be processed by the action
+	 **/
 	class TaskDequeElement
 	{
 		private int playerNum;
@@ -72,6 +84,11 @@ public class HostController extends NetworkController implements Runnable
 			switch(actionFlag)
 			{
 				case MESSAGE: sendMessage();
+				break;
+				case SYSMESSAGE: sendSystemMessage();
+				break;
+				case REFRESH: sendRefresh();
+				break;
 			}
 		}
 		private void sendMessage() throws IOException
@@ -80,6 +97,18 @@ public class HostController extends NetworkController implements Runnable
 			room.updateChat(message);
 			for(int i = 0; i < clientList.size(); i++)
 				clientList.get(i).sendMessage(message);
+		}
+		private void sendSystemMessage() throws IOException
+		{
+			room.updateChat((String) data);
+			for(int i = 0; i < clientList.size(); i++)
+				clientList.get(i).sendMessage((String) data);
+		}
+		private void sendRefresh() throws IOException
+		{
+			room.refreshPlayers(playerNames);
+			for(int i = 0; i < clientList.size(); i++)
+				clientList.get(i).sendRefresh();
 		}
 	}
 	class HandleAClient implements Runnable
@@ -91,11 +120,14 @@ public class HostController extends NetworkController implements Runnable
 		private PrintWriter stringOutput;
 		private ObjectOutputStream objectOutput;
 		private int playerNumber;
+		private String playerName;
+		private boolean connected;
 		public HandleAClient(Socket statusSocket, Socket stringSocket, Socket objectSocket)
 		{
 			System.out.println("Trying to construct HandleAClient");
 			try
 			{
+				connected = true;
 				System.out.println("Trying to make data streams");
 				System.out.println("Trying to make statusInput");
 				statusInput = new DataInputStream(statusSocket.getInputStream());
@@ -112,15 +144,14 @@ public class HostController extends NetworkController implements Runnable
 				System.out.println("Trying to setup");
 				setup();
 			} 
-			catch (IOException e) 
+			catch (IOException | InterruptedException e) 
 			{
 				e.printStackTrace();
 			}
 		}
-		
 		public void run()
 		{
-			while(true)
+			while(connected)
 			{
 				try {
 					switch(statusInput.readInt())
@@ -130,10 +161,15 @@ public class HostController extends NetworkController implements Runnable
 				}
 				catch (IOException e)
 				{
-					e.printStackTrace();
+					String message = "Player " + playerNumber +" (" + playerNames[playerNumber-1] + ") has disconnected.";
+					taskDeque.add(new TaskDequeElement(0, SYSMESSAGE, message));
+					disconnect(playerNumber);
+					connected = false;
 				}
 			}
 		}
+		
+
 		private void receieveMessage() throws IOException
 		{
 			String message = stringInput.readLine();
@@ -145,24 +181,41 @@ public class HostController extends NetworkController implements Runnable
 			statusOutput.writeInt(MESSAGE);
 			stringOutput.println(message);
 		}
-		private void setup() throws IOException
+		private void sendFlag(int flag) throws IOException
 		{
-			System.out.println("Running setup");
-			playerNumber = numberOfConnected+1;
-			System.out.println("Trying to send client playerNumber");
-			statusOutput.writeInt(playerNumber);
-			statusOutput.writeInt(numberOfPlayers);
-			System.out.println("playerNumber recieved.\nTrying to recieve playerName");
-			playerNames[playerNumber-1] = stringInput.readLine();
-			System.out.println("playerName recieved.\nTrying to send other playerNames");
-			objectOutput.writeObject(playerNames);
-			System.out.println("Sent playerNames");
-			room.refreshPlayers(playerNames);
+			statusOutput.writeInt(flag);
 		}
+		private void sendRefresh() throws IOException
+		{
+			objectOutput.writeObject(playerNames);
+			statusOutput.writeInt(playerNumber);
+		}
+		private void setup() throws IOException, InterruptedException
+		{
+			
+			playerNumber = numberOfConnected+1;
+			statusOutput.writeInt(numberOfPlayers);
+			playerName = stringInput.readLine();
+			playerNames[playerNumber-1] = playerName;
+			sendRefresh();
+			room.refreshPlayers(playerNames);
+			Thread.sleep(500);
+			String message = playerNames[playerNumber - 1] + " has logged on.";
+			taskDeque.add(new TaskDequeElement(playerNumber, SYSMESSAGE, message));
+		}
+		public void setPlayerNumber(int num)
+		{
+			playerNumber = num;
+		}
+		public void setName(String name)
+		{
+			playerName = name;
+		}
+		public String getName() { return playerName; }
+		public int getPlayerNumber() { return playerNumber; }
 	}
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		try
 		{
 			ServerSocket statusSSocket = new ServerSocket(8000); //Double SS means Server Socket
@@ -171,7 +224,7 @@ public class HostController extends NetworkController implements Runnable
 			while(true)
 			{
 				Socket statusSocket = statusSSocket.accept();
-				System.out.println("Client connected #" + numberOfPlayers);
+				System.out.println("Client connected #" + numberOfConnected);
 				if (numberOfPlayers > numberOfConnected)
 				{
 					System.out.println("Trying to connect String Socket");
@@ -195,6 +248,26 @@ public class HostController extends NetworkController implements Runnable
 		{
 			
 		}
+	}
+	public void disconnect(int player) 
+	{
+		clientList.remove(player-2);
+		for(int i = 1; i < clientList.size()+1; i++)
+		{
+			playerNames[i] = clientList.get(i).getName();
+			clientList.get(i).setPlayerNumber(i+1);
+		}
+		for(int i = clientList.size() + 1; i < playerNames.length; i++)
+			playerNames[i] = "";
+		room.refreshPlayers(playerNames);
+		sendRefresh();
+		numberOfConnected--;
+	}
+	private void sendRefresh() 
+	{
+		TaskDequeElement task = new TaskDequeElement(0, REFRESH, null);
+		taskDeque.addFirst(task);
+		
 	}
 	@Override
 	protected void sendMessage(String message) 

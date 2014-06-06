@@ -41,6 +41,10 @@ public class ClientController extends NetworkController
 		{
 			e.printStackTrace();
 		}
+		catch (ClassNotFoundException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public void run()
@@ -51,38 +55,34 @@ public class ClientController extends NetworkController
 				switch(statusInput.readInt())
 				{
 					case MESSAGE: receieveMessage();
+					break;
+					case REFRESH: recieveRefresh();
+					break;
 				}
 			}
-			catch (IOException e)
+			catch (IOException | ClassNotFoundException e)
 			{
 				e.printStackTrace();
 			}
 		}
 	}
-	private void setup() throws IOException
+	private void setup() throws IOException, ClassNotFoundException
 	{
-		System.out.println("Trying to get playerNumber");
-		playerNumber = statusInput.readInt();
-		System.out.println("playerNumber is " + playerNumber);
 		numberOfPlayers = statusInput.readInt();
-		System.out.println("Trying to send name: " + name);
 		stringOutput.println(name);
-		System.out.println("Sent name");
-		try 
-		{
-			System.out.println("Trying to recieve array of names");
-			playerNames = (String[]) objectInput.readObject();
-			System.out.println("Recieved array of names");
-		} 
-		catch (ClassNotFoundException e) 
-		{
-			e.printStackTrace();
-		}
+		recieveRefresh();
 	}
 	private void receieveMessage() throws IOException
 	{
 		String message = stringInput.readLine();
 		room.updateChat(message);
+	}
+	private void recieveRefresh() throws IOException, ClassNotFoundException
+	{
+		playerNames = (String[]) objectInput.readObject();
+		playerNumber = statusInput.readInt();
+		if(room != null)
+			room.refreshPlayers(playerNames);
 	}
 	@Override
 	protected void sendMessage(String message) throws IOException 
@@ -91,5 +91,6 @@ public class ClientController extends NetworkController
 		stringOutput.println(message);
 		
 	}
+	
 
 }
