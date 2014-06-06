@@ -12,6 +12,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
     private static int height = 500;
     private int[] numHex = new int[6];
     private int[] numNum = new int[13];
+    private int[] numPort = new int [6];
     private int selectCoord = 0;
     private boolean buyRoad = false;
     private static SettlementShape mapSettlement;
@@ -46,6 +47,13 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
         numHex[4] = 4; //Sheep
         numHex[5] = 4; //Wheat
         numHex[0] = 1; //Desert
+        
+        numPort[1] = 2;
+        numPort[2] = 2;
+        numPort[3] = 2;
+        numPort[4] = 2;
+        numPort[5] = 2;
+        numPort[0] = 2;
         
         numNum[0] = 0;
         numNum[1] = 0;
@@ -167,8 +175,23 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
                     validNum = true;
                 }
             }
-            
         }
+        
+        for (int k = 0; k < 12; k++)
+        {
+            boolean validPortType = false;
+            while (validPortType == false)
+            {
+                int portTypeValue = (int)(Math.random()*6);
+                if (numPort[portTypeValue] > 0)
+                {
+                    portArray[k].setValue(portTypeValue);
+                    numPort[portTypeValue]--;
+                    validPortType = true;
+                }
+            }
+        }
+        
 		canvas.addMouseMotionListener(this);
 		begin();
     }
