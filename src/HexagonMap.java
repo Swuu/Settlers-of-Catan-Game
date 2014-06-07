@@ -13,8 +13,15 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
     private int[] numHex = new int[6];
     private int[] numNum = new int[13];
     private int[] numPort = new int [6];
+    
+    /*this determines what can be created on the map at the time*/
+    /*0 is default nothing is being created*/
+    /*1 is create Settlement*/
+    /*2 is create City*/
+    /*3 is select Hexagon*/
+    /*4 is select Road*/
     private int selectCoord = 0;
-    private boolean buyRoad = false;
+    
     private static SettlementShape mapSettlement;
     private static SettlementShape mapCity;
 
@@ -198,16 +205,17 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
     
     /* newSettlement determines if selectCoordOn is for creating a new 
      * Settlement or upgrading a Settlement into a City */
-    public void selectCoordOn(int newSettlement)
+    public void selectCoordOn(int modeType)
     {
-        if (newSettlement == 1)
+        if (modeType == 1)
             selectCoord = 1;
-        else if (newSettlement == 2)
+        else if (modeType == 2)
             selectCoord = 2;
-        else if (newSettlement == 3)
+        else if (modeType == 3)
             selectCoord = 3;
+        else if (modeType == 4)
+            selectCoord = 4;
         
-
         game.toggleButtons(false, null);
 
     }
@@ -222,19 +230,9 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
             game.toggleButtons(true, "--std");
     }
     
-    public void buyRoadOn()
-    {
-        buyRoad = true;
-    }
-    
-    public void buyRoadOff()
-    {
-        buyRoad = false;
-    }
-    
     public boolean canPushButtons()
     {
-        return buyRoad==false && selectCoord == 0;
+        return selectCoord == 0;
     }
     
     public boolean hasAvailableCoord()

@@ -568,6 +568,11 @@ public class CatanGame extends WindowController implements ActionListener,
         return canvas2;
     }
     
+    public HexagonMap getGameBoard()
+    {
+        return gameBoard;
+    }
+    
     public JTextArea getInfo()
     {
         return info;
