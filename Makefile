@@ -20,4 +20,10 @@ bin/%.class: ./src/%.java
 run: main
 	make -C bin/ run
 
+jar: main
+	cp bin/*.class jar/
+	make -C jar/ new
+	make -C jar/ clean
+	
+
 
