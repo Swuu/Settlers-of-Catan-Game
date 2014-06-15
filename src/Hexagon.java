@@ -15,7 +15,6 @@ public class Hexagon
     private double[] ys;
     
     private Line[] lineArray = new Line[6];
-    private FilledArc[] arcArray = new FilledArc[6];
     
     private Location centerLoc;
     private Location belowLoc;
@@ -43,6 +42,8 @@ public class Hexagon
     
     private boolean isEmbargo;
     private FilledOval embargoBubble;
+    
+    private boolean LateralFlag = false;
 	
 	//constuctor that will be called
 	public Hexagon(double x, double y, int type, int number, DrawingCanvas aCanvas)
@@ -344,5 +345,15 @@ public class Hexagon
     public boolean embargoStatus()
     {
         return isEmbargo;
+    }
+    
+    public void setLateral()
+    {
+        LateralFlag = true;
+    }
+    
+    public boolean isLateral()
+    {
+        return LateralFlag;
     }
 }

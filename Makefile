@@ -4,7 +4,7 @@ SOURCE=./src/
 .java.class:
 	javac $<
 
-main: map ./bin/CatanGame.class
+main: map trade ./bin/CatanGame.class
 
 map: settlement player ./bin/Hexagon.class ./bin/Coord.class ./bin/Port.class ./bin/HexagonMap.class
 
@@ -13,6 +13,8 @@ settlement: ./bin/SettlementShape.class ./bin/GameSettlement.class
 player: cards ./bin/Player.class
 
 cards: ./bin/DevelopmentCard.class ./bin/ResourceCard.class 
+
+trade: ./bin/OpenTrade.class
 
 bin/%.class: ./src/%.java
 	javac -cp .:lib/objectdraw.jar:./src -d ./bin $^

@@ -208,7 +208,7 @@ public class CatanGame extends WindowController implements ActionListener,
                     else
                         buttonFour.setText("");
 					
-                    toggleButtons(true, "OpenTrade");
+                    toggleButtons(true, "--trade");
                     
                     buttonFive.setText("Back");
                     menu = 2;

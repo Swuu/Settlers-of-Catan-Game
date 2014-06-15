@@ -49,7 +49,6 @@ public class OpenTrade implements ActionListener, Runnable
     
     private String[] resName = {"Clay", "Lumber", "Ore", "Sheep", "Wheat"};
     private String tradeLog = " to trade: \n";
-    private String configOpt = "--trade";
     private String stdOpt = "--std";
     private int step = 0; /* stage of trading */
     private int curRes = -1; /* which resource to trade */
@@ -82,7 +81,7 @@ public class OpenTrade implements ActionListener, Runnable
         }
         
         playerOne.hideHand();
-        master.toggleButtons(false, configOpt);
+        master.toggleButtons(false, null);
     }
     
     /* INTERFACE BUILD */
