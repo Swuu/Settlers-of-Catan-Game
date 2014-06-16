@@ -4,11 +4,15 @@ SOURCE=./src/
 .java.class:
 	javac $<
 
-main: map ./bin/CatanGame.class
+main: gui network map ./bin/CatanGame.class
 
 map: settlement player ./bin/Hexagon.class ./bin/Coord.class ./bin/Port.class ./bin/HexagonMap.class
 
 settlement: ./bin/SettlementShape.class ./bin/GameSettlement.class
+
+gui: ./bin/CatanSetup.class ./bin/NetworkFrame.class ./bin/WaitingRoom.class ./bin/TitleScreen.class
+
+network: ./bin/NetworkController.class ./bin/HostController.class ./bin/ClientController.class
 
 player: cards ./bin/Player.class
 
