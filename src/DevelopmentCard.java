@@ -71,4 +71,9 @@ public class DevelopmentCard
 		cardRect.setColor(cardColor);
 		cardText = new Text(cardType, cardLocation, canvas);
 	}
+    
+    public int type()
+    {
+        return cardValue;
+    }
 }

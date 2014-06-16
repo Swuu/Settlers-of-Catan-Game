@@ -6,15 +6,23 @@ import java.awt.event.*;
 
 import javax.swing.event.*;
 
-public class HexagonMap extends WindowController implements MouseMotionListener, MouseListener
+public class HexagonMap extends WindowController implements MouseMotionListener,
+                                                            MouseListener
 {
     private static int width = 1000;
     private static int height = 500;
     private int[] numHex = new int[6];
     private int[] numNum = new int[13];
     private int[] numPort = new int [6];
+    
+    /*this determines what can be created on the map at the time*/
+    /*0 is default nothing is being created*/
+    /*1 is create Settlement*/
+    /*2 is create City*/
+    /*3 is select Hexagon*/
+    /*4 is select Road*/
     private int selectCoord = 0;
-    private boolean buyRoad = false;
+    
     private static SettlementShape mapSettlement;
     private static SettlementShape mapCity;
 
@@ -72,29 +80,57 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 		coords = new ArrayList<Coord>();
         
         hexagonArray[0] = new Hexagon(200, 70, 0, 0, canvas);
-        hexagonArray[1] = new Hexagon(hexagonArray[0].getXCoord(2) + 2,hexagonArray[0].getYCoord(2), 1, 0, canvas);
-        hexagonArray[2] = new Hexagon(hexagonArray[1].getXCoord(2) + 2,hexagonArray[1].getYCoord(2), 2, 0, canvas);
+        hexagonArray[1] = new Hexagon(hexagonArray[0].getXCoord(2) + 2,
+                                      hexagonArray[0].getYCoord(2), 1, 0, 
+                                      canvas);
+        hexagonArray[2] = new Hexagon(hexagonArray[1].getXCoord(2) + 2,
+                                      hexagonArray[1].getYCoord(2), 2, 0,
+                                      canvas);
        
 		coords.addAll(hexagonArray[0].getTopCoords());
 		coords.addAll(hexagonArray[1].getTopRightCoords());
 		coords.addAll(hexagonArray[2].getTopRightCoords());
+        
+        for (int idx = 0; idx < 3; idx++)
+            hexagonArray[idx].setLateral();
 
  
-        hexagonArray[3] = new Hexagon(hexagonArray[0].jumpBackX() - 1,hexagonArray[0].jumpBackY() + 2, 3, 0, canvas);
-        hexagonArray[4] = new Hexagon(hexagonArray[3].getXCoord(2) + 2,hexagonArray[3].getYCoord(2), 1, 0, canvas);
-        hexagonArray[5] = new Hexagon(hexagonArray[4].getXCoord(2) + 2,hexagonArray[4].getYCoord(2), 1, 0, canvas);
-        hexagonArray[6] = new Hexagon(hexagonArray[5].getXCoord(2) + 2,hexagonArray[5].getYCoord(2), 1, 0, canvas);
+        hexagonArray[3] = new Hexagon(hexagonArray[0].jumpBackX() - 1,
+                                      hexagonArray[0].jumpBackY() + 2, 3, 0,
+                                      canvas);
+        hexagonArray[4] = new Hexagon(hexagonArray[3].getXCoord(2) + 2,
+                                      hexagonArray[3].getYCoord(2), 1, 0, 
+                                      canvas);
+        hexagonArray[5] = new Hexagon(hexagonArray[4].getXCoord(2) + 2,
+                                      hexagonArray[4].getYCoord(2), 1, 0, 
+                                      canvas);
+        hexagonArray[6] = new Hexagon(hexagonArray[5].getXCoord(2) + 2,
+                                      hexagonArray[5].getYCoord(2), 1, 0, 
+                                      canvas);
 
 		coords.addAll(hexagonArray[3].getTopCoords());
 		coords.addAll(hexagonArray[4].getTopRightCoords());
 		coords.addAll(hexagonArray[5].getTopRightCoords());
 		coords.addAll(hexagonArray[6].getTopRightCoords());
         
-        hexagonArray[7] = new Hexagon(hexagonArray[3].jumpBackX() - 1,hexagonArray[3].jumpBackY() + 2, 1, 0, canvas);
-        hexagonArray[8] = new Hexagon(hexagonArray[7].getXCoord(2) + 2,hexagonArray[7].getYCoord(2), 1, 0, canvas);
-        hexagonArray[9] = new Hexagon(hexagonArray[8].getXCoord(2) + 2,hexagonArray[8].getYCoord(2), 1, 0, canvas);
-        hexagonArray[10] = new Hexagon(hexagonArray[9].getXCoord(2) + 2,hexagonArray[9].getYCoord(2), 1, 0, canvas);
-        hexagonArray[11] = new Hexagon(hexagonArray[10].getXCoord(2) + 2,hexagonArray[10].getYCoord(2), 1, 0, canvas);
+        hexagonArray[3].setLateral();
+        hexagonArray[6].setLateral();
+        
+        hexagonArray[7] = new Hexagon(hexagonArray[3].jumpBackX() - 1,
+                                      hexagonArray[3].jumpBackY() + 2, 1, 0, 
+                                      canvas);
+        hexagonArray[8] = new Hexagon(hexagonArray[7].getXCoord(2) + 2,
+                                      hexagonArray[7].getYCoord(2), 1, 0, 
+                                      canvas);
+        hexagonArray[9] = new Hexagon(hexagonArray[8].getXCoord(2) + 2,
+                                      hexagonArray[8].getYCoord(2), 1, 0, 
+                                      canvas);
+        hexagonArray[10] = new Hexagon(hexagonArray[9].getXCoord(2) + 2,
+                                       hexagonArray[9].getYCoord(2), 1, 0, 
+                                       canvas);
+        hexagonArray[11] = new Hexagon(hexagonArray[10].getXCoord(2) + 2,
+                                       hexagonArray[10].getYCoord(2), 1, 0, 
+                                       canvas);
      
 		coords.addAll(hexagonArray[7].getTopCoords());
 		coords.addAll(hexagonArray[8].getTopRightCoords());
@@ -107,43 +143,82 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 		coords.addAll(hexagonArray[9].getBottomRightCoords());
 		coords.addAll(hexagonArray[10].getBottomRightCoords());
 		coords.addAll(hexagonArray[11].getBottomRightCoords());
+        
+        hexagonArray[7].setLateral();
+        hexagonArray[11].setLateral();
 
 	  
-        hexagonArray[12] = new Hexagon(hexagonArray[8].jumpBackX() - 1,hexagonArray[8].jumpBackY() + 2, 3, 0, canvas);
-        hexagonArray[13] = new Hexagon(hexagonArray[12].getXCoord(2) + 2,hexagonArray[12].getYCoord(2), 1, 0, canvas);
-        hexagonArray[14] = new Hexagon(hexagonArray[13].getXCoord(2) + 2,hexagonArray[13].getYCoord(2), 1, 0, canvas);
-        hexagonArray[15] = new Hexagon(hexagonArray[14].getXCoord(2) + 2,hexagonArray[14].getYCoord(2), 1, 0, canvas);
+        hexagonArray[12] = new Hexagon(hexagonArray[8].jumpBackX() - 1,
+                                       hexagonArray[8].jumpBackY() + 2, 3, 0, 
+                                       canvas);
+        hexagonArray[13] = new Hexagon(hexagonArray[12].getXCoord(2) + 2,
+                                       hexagonArray[12].getYCoord(2), 1, 0, 
+                                       canvas);
+        hexagonArray[14] = new Hexagon(hexagonArray[13].getXCoord(2) + 2,
+                                       hexagonArray[13].getYCoord(2), 1, 0, 
+                                       canvas);
+        hexagonArray[15] = new Hexagon(hexagonArray[14].getXCoord(2) + 2,
+                                       hexagonArray[14].getYCoord(2), 1, 0, 
+                                       canvas);
    
 		coords.addAll(hexagonArray[12].getBottomCoords());
 		coords.addAll(hexagonArray[13].getBottomRightCoords());
 		coords.addAll(hexagonArray[14].getBottomRightCoords());
 		coords.addAll(hexagonArray[15].getBottomRightCoords());
+        
+        hexagonArray[12].setLateral();
+        hexagonArray[15].setLateral();
      
-        hexagonArray[16] = new Hexagon(hexagonArray[13].jumpBackX() - 1,hexagonArray[13].jumpBackY() + 2, 3, 0, canvas);
-        hexagonArray[17] = new Hexagon(hexagonArray[16].getXCoord(2) + 2,hexagonArray[16].getYCoord(2), 1, 0, canvas);
-        hexagonArray[18] = new Hexagon(hexagonArray[17].getXCoord(2) + 2,hexagonArray[17].getYCoord(2), 2, 0, canvas);
+        hexagonArray[16] = new Hexagon(hexagonArray[13].jumpBackX() - 1,
+                                       hexagonArray[13].jumpBackY() + 2, 3, 0, 
+                                       canvas);
+        hexagonArray[17] = new Hexagon(hexagonArray[16].getXCoord(2) + 2,
+                                       hexagonArray[16].getYCoord(2), 1, 0, 
+                                       canvas);
+        hexagonArray[18] = new Hexagon(hexagonArray[17].getXCoord(2) + 2,
+                                       hexagonArray[17].getYCoord(2), 2, 0, 
+                                       canvas);
 
 		coords.addAll(hexagonArray[16].getBottomCoords());
 		coords.addAll(hexagonArray[17].getBottomRightCoords());
 		coords.addAll(hexagonArray[18].getBottomRightCoords());
         
-        portArray[0] = new Port(hexagonArray[0].getXCoord(1) + 1,hexagonArray[0].getYCoord(1) - 2, 4, 0, canvas);
-        portArray[1] = new Port(hexagonArray[1].getXCoord(1) + 1,hexagonArray[1].getYCoord(1) - 2, 4, 0, canvas);
-        
-        portArray[2] = new Port(hexagonArray[2].getXCoord(2) + 2,hexagonArray[2].getYCoord(2), 4, 2, canvas);
-        portArray[3] = new Port(hexagonArray[6].getXCoord(2) + 2,hexagonArray[6].getYCoord(2), 4, 2, canvas);
-        
-        portArray[4] = new Port(hexagonArray[15].getXCoord(3) + 2,hexagonArray[15].getYCoord(3), 4, 4, canvas);
-        portArray[5] = new Port(hexagonArray[18].getXCoord(3) + 2,hexagonArray[18].getYCoord(3), 4, 4, canvas);
-        
-        portArray[6] = new Port(hexagonArray[17].getXCoord(4) + 1,hexagonArray[17].getYCoord(4) + 2, 4, 6, canvas);
-        portArray[7] = new Port(hexagonArray[16].getXCoord(4) + 1,hexagonArray[16].getYCoord(4) + 2, 4, 6, canvas);
-        
-        portArray[8] = new Port(hexagonArray[16].getXCoord(5) - 2,hexagonArray[16].getYCoord(5), 4, 8, canvas);
-        portArray[9] = new Port(hexagonArray[12].getXCoord(5) - 2,hexagonArray[12].getYCoord(5), 4, 8, canvas);
+        for (int idx = 16; idx < 19; idx++)
+            hexagonArray[idx].setLateral();
 
-        portArray[10] = new Port(hexagonArray[3].getXCoord(0) - 2,hexagonArray[3].getYCoord(0), 4, 10, canvas);
-        portArray[11] = new Port(hexagonArray[0].getXCoord(0) - 2,hexagonArray[0].getYCoord(0), 4, 10, canvas);
+        /* 
+         *** PORT CONFIGRATION ***
+         */
+        
+        portArray[0] = new Port(hexagonArray[0].getXCoord(1) + 1,
+                                hexagonArray[0].getYCoord(1) - 2, 4, 0, canvas);
+        portArray[1] = new Port(hexagonArray[1].getXCoord(1) + 1,
+                                hexagonArray[1].getYCoord(1) - 2, 4, 0, canvas);
+        
+        portArray[2] = new Port(hexagonArray[2].getXCoord(2) + 2,
+                                hexagonArray[2].getYCoord(2), 4, 2, canvas);
+        portArray[3] = new Port(hexagonArray[6].getXCoord(2) + 2,
+                                hexagonArray[6].getYCoord(2), 4, 2, canvas);
+        
+        portArray[4] = new Port(hexagonArray[15].getXCoord(3) + 2,
+                                hexagonArray[15].getYCoord(3), 4, 4, canvas);
+        portArray[5] = new Port(hexagonArray[18].getXCoord(3) + 2,
+                                hexagonArray[18].getYCoord(3), 4, 4, canvas);
+        
+        portArray[6] = new Port(hexagonArray[17].getXCoord(4) + 1,
+                                hexagonArray[17].getYCoord(4) + 2, 4, 6, canvas);
+        portArray[7] = new Port(hexagonArray[16].getXCoord(4) + 1,
+                                hexagonArray[16].getYCoord(4) + 2, 4, 6, canvas);
+        
+        portArray[8] = new Port(hexagonArray[16].getXCoord(5) - 2,
+                                hexagonArray[16].getYCoord(5), 4, 8, canvas);
+        portArray[9] = new Port(hexagonArray[12].getXCoord(5) - 2,
+                                hexagonArray[12].getYCoord(5), 4, 8, canvas);
+
+        portArray[10] = new Port(hexagonArray[3].getXCoord(0) - 2,
+                                 hexagonArray[3].getYCoord(0), 4, 10, canvas);
+        portArray[11] = new Port(hexagonArray[0].getXCoord(0) - 2,
+                                 hexagonArray[0].getYCoord(0), 4, 10, canvas);
         
         for (int i = 0; i < 19; i++)
         {
@@ -153,6 +228,9 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
                 int typeValue = (int)(Math.random()*6);
                 if (numHex[typeValue] > 0)
                 {
+                    /* desert shouldn't initially be at lateral hexagon */ 
+                    if (typeValue == 0 && hexagonArray[i].isLateral() )
+                        continue;
                     hexagonArray[i].setValue(typeValue);
                     numHex[typeValue]--;
                     validType = true;
@@ -198,16 +276,17 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
     
     /* newSettlement determines if selectCoordOn is for creating a new 
      * Settlement or upgrading a Settlement into a City */
-    public void selectCoordOn(int newSettlement)
+    public void selectCoordOn(int modeType)
     {
-        if (newSettlement == 1)
+        if (modeType == 1)
             selectCoord = 1;
-        else if (newSettlement == 2)
+        else if (modeType == 2)
             selectCoord = 2;
-        else if (newSettlement == 3)
+        else if (modeType == 3)
             selectCoord = 3;
+        else if (modeType == 4)
+            selectCoord = 4;
         
-
         game.toggleButtons(false, null);
 
     }
@@ -222,19 +301,9 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
             game.toggleButtons(true, "--std");
     }
     
-    public void buyRoadOn()
-    {
-        buyRoad = true;
-    }
-    
-    public void buyRoadOff()
-    {
-        buyRoad = false;
-    }
-    
     public boolean canPushButtons()
     {
-        return buyRoad==false && selectCoord == 0;
+        return selectCoord == 0;
     }
     
     public boolean hasAvailableCoord()
@@ -251,7 +320,8 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
     {
         for (Coord e: coords)
         {
-            if (e.isUpgradeable() && e.coordSettlement.getPlayer() == game.currentPlayer())
+            if (e.isUpgradeable() && 
+                e.coordSettlement.getPlayer() == game.currentPlayer())
                 return true;
         }
         return false;
@@ -269,9 +339,11 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
 			{
 				for(Coord e: coords)
            		{
-                	if(!e.isAvailable()&&e.contains(l)&&!hexagon.embargoStatus())
+                	if(!e.isAvailable()&&e.contains(l) && 
+                       !hexagon.embargoStatus())
                 	{
-                    	e.coordSettlement.getPlayer().addCard(hexagon.getHexValue());
+                    	e.coordSettlement.getPlayer().addCard(
+                                                        hexagon.getHexValue());
 					}
                 }
             }
@@ -323,7 +395,9 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
         {
             for(int i = 0; i < 19; i++)
             {
-                if(hexagonArray[i].bubbleContains(new Location(evt.getX(), evt.getY())) && !hexagonArray[i].embargoStatus())
+                if(hexagonArray[i].bubbleContains(new Location(evt.getX(), 
+                                                               evt.getY()) ) &&
+                   !hexagonArray[i].embargoStatus())
                 {
                     hexagonArray[i].showSelectionBubble();
                 }
@@ -381,7 +455,9 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
     {
         for (Coord e: coords)
         {
-            if (e.contains(new Location(evt.getX(), evt.getY()))&& e.isUpgradeable() && game.currentPlayer()==e.coordSettlement.getPlayer())
+            if (e.contains(new Location(evt.getX(), evt.getY())) && 
+                e.isUpgradeable() && 
+                game.currentPlayer()==e.coordSettlement.getPlayer())
             {
                 for(Coord c: coords)
                 {
@@ -410,7 +486,8 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
     {
     	for (Coord e: coords)
         {
-            if (e.contains(new Location(evt.getX(), evt.getY()))&&e.isAvailable())
+            if (e.contains(new Location(evt.getX(), evt.getY())) && 
+                e.isAvailable())
             {
             	e.changeSelcColor(new Color(0, 145, 11, 125));
                 for(Coord c: coords)
@@ -423,7 +500,8 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
             	}
             	if(build)
             	{
-            		e.coordSettlement = new GameSettlement(e, game.currentPlayer(), canvas);
+            		e.coordSettlement = new GameSettlement(e, 
+                                                game.currentPlayer(), canvas);
                     e.makeUpgradeable();
                     e.hideSelectionRadius();
                     e.changeAvailability(false);
