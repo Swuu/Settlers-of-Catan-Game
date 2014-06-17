@@ -334,19 +334,25 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
    
 	public void retResource(Hexagon hexagon)
 	{
-			ArrayList<Location> locs = hexagon.getVerticies();
-			for(Location l: locs)
-			{
-				for(Coord e: coords)
+		ArrayList<Location> locs = hexagon.getVerticies();
+		for(Location l: locs)
+		{
+			for(Coord e: coords)
            		{
-                	if(!e.isAvailable()&&e.contains(l) && 
-                       !hexagon.embargoStatus())
-                	{
-                    	e.coordSettlement.getPlayer().addCard(
+                		if(!e.isAvailable()&&e.contains(l) && 
+               			       !hexagon.embargoStatus())
+                		{
+                    			e.coordSettlement.getPlayer().addCard(
                                                         hexagon.getHexValue());
-					}
-                }
-            }
+				   if(!e.isUpgradeable())
+				   {
+				      e.coordSettlement.getPlayer().addCard(
+                                                      hexagon.getHexValue());
+
+				   }
+				}
+        	        }
+            	}
 	}
  
 	public void mouseDragged(MouseEvent evt) {}
