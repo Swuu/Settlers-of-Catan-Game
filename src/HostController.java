@@ -42,6 +42,14 @@ public class HostController extends NetworkController implements Runnable
 		{
 			while(true)
 			{
+				try
+				{
+					Thread.sleep(100);
+				} catch (InterruptedException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				if(taskDeque.size() != 0 )
 				{
 					elem = taskDeque.removeFirst();
@@ -153,13 +161,15 @@ public class HostController extends NetworkController implements Runnable
 		{
 			while(connected)
 			{
+				
 				try {
+					Thread.sleep(100);
 					switch(statusInput.readInt())
 					{
 						case MESSAGE: receieveMessage();
 					}
 				}
-				catch (IOException e)
+				catch (IOException | InterruptedException e)
 				{
 					String message = "Player " + playerNumber +" (" + playerNames[playerNumber-1] + ") has disconnected.";
 					taskDeque.add(new TaskDequeElement(0, SYSMESSAGE, message));
