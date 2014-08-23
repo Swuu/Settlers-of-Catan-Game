@@ -453,6 +453,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
                 hexagonArray[i].embargoOn();
                 selectCoordOff();
                 hexagonArray[i].hideThiefBubble();
+                //hexagonArray[i].
             }
         }
     }

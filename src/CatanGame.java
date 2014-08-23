@@ -92,7 +92,7 @@ public class CatanGame extends WindowController implements ActionListener,
 		currentPlayer.displayResourceHand();
 		currentName = new Text(currentPlayer.getName() + "'s turn.", 
 		                canvas.getWidth()/2+700, canvas.getHeight()/2, canvas);
-                currentName.setColor(Color.BLUE);
+                currentName.setColor(Color.RED);
                 info.append(currentPlayer.getName() + "'s turn.\n");
 		
 
@@ -243,21 +243,7 @@ public class CatanGame extends WindowController implements ActionListener,
                             currentPlayer.displayResourceHand();
                             info.append(currentPlayer.getName() + "'s turn.\n");
                             currentName.setText(currentPlayer.getName() + "'s turn.");
-                            switch(currentTurn)
-                            {
-                                default:
-                                    currentName.setColor(Color.BLUE);
-                                    break;
-                                case 1:
-                                    currentName.setColor(Color.RED);
-                                    break;
-                                case 2:
-                                    currentName.setColor(Color.GREEN);
-                                    break;
-                                case 3:
-                                    currentName.setColor(Color.YELLOW);
-                                    break;
-                            }
+                            setActivePlayerColor(currentTurn);
                             gameBoard.selectCoordOn(1);
                         }
                         else
@@ -282,21 +268,7 @@ public class CatanGame extends WindowController implements ActionListener,
                             currentPlayer.displayResourceHand();
                             info.append(currentPlayer.getName() + "'s turn.\n");
                             currentName.setText(currentPlayer.getName() + "'s turn.");
-                            switch(currentTurn)
-                            {
-                                default:
-                                    currentName.setColor(Color.BLUE);
-                                    break;
-                                case 1:
-                                    currentName.setColor(Color.RED);
-                                    break;
-                                case 2:
-                                    currentName.setColor(Color.GREEN);
-                                    break;
-                                case 3:
-                                    currentName.setColor(Color.YELLOW);
-                                    break;
-                            }
+                            setActivePlayerColor(currentTurn);
                         }
                     }
                     else
@@ -316,21 +288,7 @@ public class CatanGame extends WindowController implements ActionListener,
                         currentPlayer.displayResourceHand();
                         info.append(currentPlayer.getName() + "'s turn.\n");
                         currentName.setText(currentPlayer.getName() + "'s turn.");
-                        switch(currentTurn)
-                        {
-                            default:
-                                currentName.setColor(Color.BLUE);
-                                break;
-                            case 1:
-                                currentName.setColor(Color.RED);
-                                break;
-                            case 2:
-                                currentName.setColor(Color.GREEN);
-                                break;
-                            case 3:
-                                currentName.setColor(Color.YELLOW);
-                                break;
-                        }
+                        setActivePlayerColor(currentTurn);
                         checkVictory();
                     }
                 }
@@ -604,6 +562,25 @@ public class CatanGame extends WindowController implements ActionListener,
     	return panel;
     }
     
+    
+    private void setActivePlayerColor(int player)
+    {
+    	switch(player)
+        {
+            default:
+                currentName.setColor(Color.RED);
+                break;
+            case 1:
+                currentName.setColor(Color.BLUE);
+                break;
+            case 2:
+                currentName.setColor(Color.ORANGE);
+                break;
+            case 3:
+                currentName.setColor(Color.MAGENTA);
+                break;
+        }
+    }
     
     
  	/*
