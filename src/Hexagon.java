@@ -32,7 +32,7 @@ public class Hexagon
     private Text cardNum;
     private Text cardNumPossibility;
     
-    private FilledOval selectionBubble;
+    private FilledOval thiefBubble;
     
     public String cardType = "";
 	public static final int skew = 1;
@@ -77,9 +77,9 @@ public class Hexagon
         moreBelowLoc = new Location(x1, y0 + 40);
 		
         hexagonCenter = new Location(x1-30, y0+2);
-        selectionBubble = new FilledOval(hexagonCenter, 60, 60, canvas);
-        selectionBubble.setColor(new Color(0, 145, 11, 125));
-        selectionBubble.hide();
+        thiefBubble = new FilledOval(hexagonCenter, 60, 60, canvas);
+        thiefBubble.setColor(new Color(0, 145, 11, 125));
+        thiefBubble.hide();
         embargoBubble = new FilledOval(hexagonCenter, 60, 60, canvas);
         embargoBubble.setColor(new Color(145, 0, 11, 125));
         embargoBubble.hide();
@@ -121,6 +121,7 @@ public class Hexagon
 		polygon = new Polygon(intxs, intys,SEVEN);
         
         isEmbargo = false;
+        showThiefBubble();
 	}
 
 	public void hexagonRolled()
@@ -203,7 +204,7 @@ public class Hexagon
     
     public boolean bubbleContains(Location loc)
     {
-        return selectionBubble.contains(loc);
+        return thiefBubble.contains(loc);
     }
     
     //returns the X coord for the initial location of x0next row Hexagon
@@ -320,14 +321,14 @@ public class Hexagon
         cardNumPossibility.move(-(int)((Math.log10(rollValue))+1)*8/2, 0);
     }
     
-    public void showSelectionBubble()
+    public void showThiefBubble()
     {
-        selectionBubble.show();
+        thiefBubble.show();
     }
     
-    public void hideSelectionBubble()
+    public void hideThiefBubble()
     {
-        selectionBubble.hide();
+        thiefBubble.hide();
     }
     
     public void embargoOn()

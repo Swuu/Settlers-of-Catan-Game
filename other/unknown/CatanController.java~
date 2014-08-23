@@ -1,8 +1,0 @@
-public interface CatanController
-{
-	public final Item ROAD = new Item(1, 1, 0, 0, 0);
-	public final Item SETTLEMENT = new Item(1, 1, 0, 1, 1);
-	public final Item CITY = new Item(0, 0, 3, 0, 2);
-	//public final Item DCARD = new Item(0, 0, 1, 1, 1);
-	
-}

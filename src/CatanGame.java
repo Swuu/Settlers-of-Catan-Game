@@ -1,10 +1,12 @@
 import objectdraw.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.JTextArea;
@@ -94,7 +96,7 @@ public class CatanGame extends WindowController implements ActionListener,
                 info.append(currentPlayer.getName() + "'s turn.\n");
 		
 
-		frame = new JFrame("The Settlers of Catan");	
+		frame = new JFrame("Enceladus");	
 		//(JFrame) SwingUtilities.getWindowAncestor(this);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(getContentPane());		
@@ -106,14 +108,22 @@ public class CatanGame extends WindowController implements ActionListener,
 		//topPanel.add(new JScrollPane(info));
 		contentPane.add(topPanel, BorderLayout.NORTH);
 		
-		JPanel bottomPanel = new JPanel();
-				
+		JPanel bottomPanel = new JPanel(new BorderLayout());	
 		/*rollDice = new JButton("(R)oll Dice");
 		rollDice.addActionListener(this);
 		rollDice.addKeyListener(this);
 		bottomPanel.add(rollDice, BorderLayout.NORTH);*/
 		
-        bottomPanel.add(canvas2, BorderLayout.SOUTH);
+		
+		
+		
+		
+		
+        bottomPanel.add(canvas2, BorderLayout.CENTER);
+        bottomPanel.add(setupDicePanel(), BorderLayout.EAST);
+        
+        
+        
         contentPane.add(bottomPanel, BorderLayout.SOUTH);
 		contentPane.add(new JScrollPane(info), BorderLayout.NORTH);
 		JPanel rightPanel = new JPanel(new GridLayout(6, 1));
@@ -160,7 +170,7 @@ public class CatanGame extends WindowController implements ActionListener,
                 double verticalBuf = canvas.getHeight()-10;
 		VisibleImage water;
         water = new VisibleImage(toolkit.getImage(
-                                "../image/NewSpaceBackground.png"), 
+                                "res/image/NewSpaceBackground.png"), 
                                  0, 0, 1300, 700, canvas);
         water.sendBackward();
 	}
@@ -485,8 +495,9 @@ public class CatanGame extends WindowController implements ActionListener,
 
  	    if (currentPlayer.canRoll())
  	    {
- 	        rolling = new DiceRoll(this);
-	        SwingUtilities.invokeLater(rolling);
+ 	        rolling.roll();
+ 	        repaint();
+	        //SwingUtilities.invokeLater(rolling);
 			int rollNumber = rolling.getScore(); // get score from rolling dice
 	    
             if (rollNumber == 7)
@@ -577,6 +588,23 @@ public class CatanGame extends WindowController implements ActionListener,
     {
         return info;
     }
+    
+    private JPanel setupDicePanel()
+    {
+    	JPanel panel = new JPanel(new GridLayout(1,2));
+    	JLabel label1 = new JLabel(new ImageIcon("res/roll1.png"));
+    	JLabel label2 = new JLabel(new ImageIcon("blank"));
+    	
+    	panel.add(label1);
+    	panel.add(label2);
+    	
+    	rolling = new DiceRoll(this, label1, label2);
+    	
+    	return panel;
+    }
+    
+    
+    
  	/*
  	    *** MAIN METHOD ***
  	 */
@@ -585,8 +613,14 @@ public class CatanGame extends WindowController implements ActionListener,
 		TitleScreen titleScreen = new TitleScreen();
 		while(!titleScreen.isSelectionMade())
 		{
-			int a = 01;
-			System.out.print("");
+			try
+			{
+				Thread.sleep(1000);
+			} catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
         startGame = titleScreen.getSetup();
         CatanGame settlers = new CatanGame();

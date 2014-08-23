@@ -20,7 +20,7 @@ public class TitleScreen extends JFrame
 	public TitleScreen()
 	{
 		super("Enceladus");
-		ImageIcon backgroundIcon = new ImageIcon("../image/Titlescreen.png");
+		ImageIcon backgroundIcon = new ImageIcon("res/image/Titlescreen.png");
 		JLabel background = new JLabel(backgroundIcon);
 		setSize(new Dimension(950,639));
 		main = new JPanel(new BorderLayout());
@@ -38,10 +38,10 @@ public class TitleScreen extends JFrame
 	{
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(5,1,15,15));
-		ImageIcon newIcon = new ImageIcon("../image/NewGameButton.png");
-		ImageIcon loadIcon = new ImageIcon("../image/LoadGameButton.png");
-		ImageIcon networkIcon = new ImageIcon("../image/NetworkButton.png");
-		ImageIcon optionsIcon = new ImageIcon("../image/OptionsButton.png");
+		ImageIcon newIcon = new ImageIcon("res/image/NewGameButton.png");
+		ImageIcon loadIcon = new ImageIcon("res/image/LoadGameButton.png");
+		ImageIcon networkIcon = new ImageIcon("res/image/NetworkButton.png");
+		ImageIcon optionsIcon = new ImageIcon("res/image/OptionsButton.png");
 		JButton newButton = new JButton(newIcon);
 		JButton loadButton = new JButton(loadIcon);
 		JButton networkButton = new JButton(networkIcon);
@@ -99,7 +99,7 @@ public class TitleScreen extends JFrame
 				return; //Stops the debug button from checking for an icon it doesn't have
 			}
 			//Action for New Button
-			if((button.getIcon()).toString().equals("../image/NewGameButton.png"))
+			if((button.getIcon()).toString().equals("res/image/NewGameButton.png"))
 			{
 				buttonSelected = true;
 				setup = new CatanSetup();
@@ -108,14 +108,14 @@ public class TitleScreen extends JFrame
 				
 			}
 			//Action for Network Button
-			if((button.getIcon()).toString().equals("../image/NetworkButton.png"))
+			if((button.getIcon()).toString().equals("res/image/NetworkButton.png"))
 			{
 				buttonSelected = true;
 				network = new NetworkFrame();
 				hasClosedChecker = (new Thread(new WindowManager(WindowManager.NETWORK)));
 				hasClosedChecker.start();
 			}
-			if((button.getIcon()).toString().equals("../image/OptionsButton.png"))
+			if((button.getIcon()).toString().equals("res/image/OptionsButton.png"))
 			{
 				printDimensions();
 				return;

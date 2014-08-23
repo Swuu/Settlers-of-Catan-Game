@@ -13,13 +13,14 @@ public class DiceRoll implements Runnable, ActionListener, KeyListener
     private FramedRoundedRect LEFT, RIGHT;
     private JButton CLOSE;
     private CatanGame game;    
+    private JLabel dice1;
+    private JLabel dice2;
 
-    public DiceRoll(CatanGame aGame)
+    public DiceRoll(CatanGame aGame, JLabel dice1, JLabel dice2)
     {
-	game = aGame;
-        scoreOne = generator.nextInt(6) + 1;
-        scoreTwo = generator.nextInt(6) + 1;
-        game.currentPlayer().hasRolled(true);
+    	game = aGame;
+        this.dice1 = dice1;
+        this.dice2 = dice2;
     }
 
     public int getScore ()
@@ -75,10 +76,6 @@ public class DiceRoll implements Runnable, ActionListener, KeyListener
         
         dicePlacement(one, 1);
         dicePlacement(two, 2);
-        if (one == two)
-            JOptionPane.showMessageDialog(frame,
-                        "DOUBLES!", "Congratulations!",
-                        JOptionPane.WARNING_MESSAGE);
     }   
                                      
     private void dicePlacement(int pts, int whichDice)
@@ -160,5 +157,40 @@ public class DiceRoll implements Runnable, ActionListener, KeyListener
     }
     public void keyReleased(KeyEvent key) {}
     public void keyTyped(KeyEvent key) {}
+
+	public void roll()
+	{
+		scoreOne = generator.nextInt(6) + 1;
+        scoreTwo = generator.nextInt(6) + 1;
+        game.currentPlayer().hasRolled(true);
+        updateDice(dice1, scoreOne);
+        updateDice(dice2, scoreTwo);
+		
+	}
+
+	private void updateDice(JLabel dice, int diceNum)
+	{
+		switch(diceNum) {
+			case 1: dice.setIcon(new ImageIcon("res/image/roll1.png"));
+					System.out.println("Rolled " + diceNum);
+					break;
+			case 2: dice.setIcon(new ImageIcon("res/image/roll2.png"));
+					System.out.println("Rolled " + diceNum);
+					break;
+			case 3: dice.setIcon(new ImageIcon("res/image/roll3.png"));
+					System.out.println("Rolled " + diceNum);
+					break;
+			case 4: dice.setIcon(new ImageIcon("res/image/roll4.png"));
+					System.out.println("Rolled " + diceNum);
+					break;
+			case 5: dice.setIcon(new ImageIcon("res/image/roll5.png"));
+					break;
+			case 6: dice.setIcon(new ImageIcon("res/image/roll6.png"));
+					break;
+		}
+		dice.repaint();
+		dice.validate();
+		
+	}
 }
         

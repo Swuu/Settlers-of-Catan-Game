@@ -405,11 +405,11 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
                                                                evt.getY()) ) &&
                    !hexagonArray[i].embargoStatus())
                 {
-                    hexagonArray[i].showSelectionBubble();
+                    hexagonArray[i].showThiefBubble();
                 }
                 else
                 {
-                    hexagonArray[i].hideSelectionBubble();
+                    hexagonArray[i].hideThiefBubble();
                 }
             }
         }
@@ -452,7 +452,7 @@ public class HexagonMap extends WindowController implements MouseMotionListener,
                 }
                 hexagonArray[i].embargoOn();
                 selectCoordOff();
-                hexagonArray[i].hideSelectionBubble();
+                hexagonArray[i].hideThiefBubble();
             }
         }
     }

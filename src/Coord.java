@@ -1,8 +1,9 @@
 import objectdraw.*;
 
 import java.awt.*;
+import java.awt.event.*;
 
-public class Coord
+public class Coord extends MouseAdapter 
 {
     private boolean available;
     private FilledOval areaTester;
@@ -34,7 +35,10 @@ public class Coord
     {
         return new Location(xCoord, yCoord);
     }
-
+    public void mouseEntered(MouseEvent e)
+    {
+    	System.out.println("Entered " + xCoord + " , " + yCoord);
+    }
     public void showSelectionRadius()
     {
     		isAvailable();
