@@ -502,6 +502,7 @@ public class CatanGame extends WindowController implements ActionListener,
 	    
             if (rollNumber == 7)
             {
+            	JOptionPane.showMessageDialog(null, "You have come under the control of a massive embargo pirate fleet.\nPlease pick a hexagon which you would like to halt production\nand claim resources from its occupants.", "Event: Embargo Fleet", JOptionPane.WARNING_MESSAGE);
                 gameBoard.selectCoordOn(3);
             }
 		    for (int i=0 ; i<hexagonArray.length ; i++)

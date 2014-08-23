@@ -121,7 +121,6 @@ public class Hexagon
 		polygon = new Polygon(intxs, intys,SEVEN);
         
         isEmbargo = false;
-        showThiefBubble();
 	}
 
 	public void hexagonRolled()

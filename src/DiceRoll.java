@@ -172,16 +172,16 @@ public class DiceRoll implements Runnable, ActionListener, KeyListener
 	{
 		switch(diceNum) {
 			case 1: dice.setIcon(new ImageIcon("res/image/roll1.png"));
-					System.out.println("Rolled " + diceNum);
+					//System.out.println("Rolled " + diceNum);
 					break;
 			case 2: dice.setIcon(new ImageIcon("res/image/roll2.png"));
-					System.out.println("Rolled " + diceNum);
+					//System.out.println("Rolled " + diceNum);
 					break;
 			case 3: dice.setIcon(new ImageIcon("res/image/roll3.png"));
-					System.out.println("Rolled " + diceNum);
+					//System.out.println("Rolled " + diceNum);
 					break;
 			case 4: dice.setIcon(new ImageIcon("res/image/roll4.png"));
-					System.out.println("Rolled " + diceNum);
+					//System.out.println("Rolled " + diceNum);
 					break;
 			case 5: dice.setIcon(new ImageIcon("res/image/roll5.png"));
 					break;
